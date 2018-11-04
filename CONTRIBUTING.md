@@ -5,7 +5,6 @@ Kalooh is a location-based social media app that lets users post “notes” bas
 ---
 ### Features:
 - Dynamic Maps/Geolocation
-- 
 - Authentication with email and OAuth providers
 - Real-time messaging
 - Push notifications
@@ -37,7 +36,7 @@ To install Vagrant, [click this link](https://www.vagrantup.com/downloads.html) 
 ### Installation
 Clone git repository using the following commands:
 ```
-git clone https://github.com/Motel-California-Dev/Kalooh.git \n
+git clone https://github.com/Motel-California-Dev/Kalooh.git
 cd Kalooh
 ```
 Then, run the following commands:
@@ -65,4 +64,4 @@ Before submitting a pull request, make sure you:
 Your code will be reviewed and either returned for further work before being approved, or merged!
 
 #### How to get in touch
-E-Mail: Motel_California@Gmail.com
+E-Mail: dev.kalooh@gmail.com
