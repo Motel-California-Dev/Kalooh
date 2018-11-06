@@ -33,6 +33,7 @@ As per Docker's minimum requirements:
 - 2 GB RAM
 - Static IP address
 - VirtualBox v4.3.31 and higher
+
 Minimum size requirements for the app are currently unknown.
 ### Dependencies
 You must have Git and Docker installed. 
