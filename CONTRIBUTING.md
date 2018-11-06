@@ -11,20 +11,19 @@ Kalooh is a location-based social media app that lets users post “notes” bas
 ---
 ### Technologies
 ##### Development Stack
-- Yarn *(Package Manager)*
-- React Native *(Cross-Platform Mobile Component Library)*
-- FlowJS *(Static Type Checking)*
-- React Navigation *(Front-End Navigation/Router)*
-- Mobx *(State Manager)*
-- RealM *(Local storage database)*
-- MongoDB *(NoSQL Database)*
-- Jest *(Testing Framework)*
-- Amazon Web Services *(Cloud Provider)*
+- [Yarn](https://yarnpkg.com/en/) *(Package Manager)*
+- [React Native](https://facebook.github.io/react-native/) *(Cross-Platform Mobile Component Library)*
+- [Flow](https://flow.org/) *(Static Type Checking)*
+- [React Navigation](https://reactnavigation.org/) *(Front-End Navigation/Router)*
+- [Mobx](https://mobx.js.org/) *(State Manager)*
+- [RealM](https://realm.io/products/realm-database) *(Local storage database)*
+- [MongoDB](https://www.mongodb.com/) *(NoSQL Database)*
+- [Jest](https://jestjs.io/) *(Testing Framework)*
+- [Amazon Web Services](https://aws.amazon.com/) *(Cloud Provider)*
 ##### Operations Stack
-- Vagrant *(Virtual Machine)*
-- Docker *(Container System)*
-- Travis CI *(Continuous Integration Tool)*
-- Github *(Source Control)*
+- [Docker](https://www.docker.com) *(Container System)*
+- [Travis CI](https://travis-ci.org/) *(Continuous Integration Tool)*
+- [Github](https://github.com/) *(Source Control)*
 ---
 ---
 ### Minimum System Requirements
