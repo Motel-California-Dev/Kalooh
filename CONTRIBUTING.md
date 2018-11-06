@@ -19,10 +19,10 @@ Kalooh is a location-based social media app that lets users post “notes” bas
 - [RealM](https://realm.io/products/realm-database) *(Local storage database)*
 - [MongoDB](https://www.mongodb.com/) *(NoSQL Database)*
 - [Jest](https://jestjs.io/) *(Testing Framework)*
-- [Amazon Web Services](https://aws.amazon.com/) *(Cloud Provider)*
 ##### Operations Stack
 - [Docker](https://www.docker.com) *(Container System)*
 - [Travis CI](https://travis-ci.org/) *(Continuous Integration Tool)*
+- [Amazon Web Services](https://aws.amazon.com/) *(Cloud Provider)*
 - [Github](https://github.com/) *(Source Control)*
 ---
 ---
