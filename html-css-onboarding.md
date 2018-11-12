@@ -4,7 +4,7 @@
 ---
 ---
 
-### inb4: * "This is long, look at the scroll bar, holy crap why should I read this"*
+### inb4: *"This is long, look at the scroll bar, holy crap why should I read this"*
 Because this will include important concepts that will be necessary to know and be intimately familiar with to properly develop any application that has a user interface and that communicates with a backend.
 
 It is by no means exhaustive (or even necessarily a in-depth explanation of anything), but it's mostly meant to at least introduce some of the terms and briefly describe their importance. Most everything in this little guide...thing merits a deeper dive with a Google search or two.
