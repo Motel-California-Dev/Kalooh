@@ -1,5 +1,5 @@
 # HTML/CSS/JS Fundamentals
-### i.e. Core concepts to make you more gooder at understanding the underlying principles and best practices of HTML/CSS/JS.
+### Core concepts to make you more gooder at understanding the underlying principles and best practices of HTML/CSS/JS.
 
 ---
 ---
@@ -9,7 +9,7 @@ Because this will include important concepts that will be necessary to know and 
 
 It is by no means exhaustive (or even necessarily a in-depth explanation of anything), but it's mostly meant to at least introduce some of the terms and briefly describe their importance. Most everything in this little guide...thing merits a deeper dive with a Google search or two.
 
-If you had to focus on ANYTHING in this document, I would focus the most on:
+If you had to focus on ANYTHING mentiond in this document, I would focus the most on:
 - DOM/DOM Manipulation
 - CSS Flexbox/Grid
 - CSS naming/BEM
@@ -32,6 +32,8 @@ Great general resources include:
     - Again, Mozilla Developer Network
 - HTML
     - Look no further than: W3Schools.
+    
+Again, the main purpose of this whole document is just to get you familiar with some of the terms and practices so that you can "know what you don't know", so to speak. It's up to you to learn what you need to (or want to) in depth.
 
 ## HTML(5)
 
