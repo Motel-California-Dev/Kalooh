@@ -116,6 +116,8 @@ Drawing out the parent-child relationships, we end up with a tree data structure
 
 This is *VERY* important, because it is the basis of all interactions in JavaScript with the HTML webpage itself. I'll cover this more in the JavaScript section under DOM Manipulation.
 
+**Read this article!** It goes over the DOM very well, including JS methods that manipulate the DOM --> [link to article](https://medium.freecodecamp.org/whats-the-document-object-model-and-why-you-should-know-how-to-use-it-1a2d0bc5429d)
+
 ---
 
 ## CSS
