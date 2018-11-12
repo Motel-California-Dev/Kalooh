@@ -1,7 +1,10 @@
 # HTML/CSS/JS Fundamentals
 ### i.e. Core concepts to make you more gooder at understanding the underlying principles and best practices of HTML/CSS/JS.
 
-### This is long, look at the scroll bar, holy crap why should I read/skim this
+---
+---
+
+### inb4: * "This is long, look at the scroll bar, holy crap why should I read this"*
 Because this will include important concepts that will be necessary to know and be intimately familiar with to properly develop any application that has a user interface and that communicates with a backend.
 
 It is by no means exhaustive (or even necessarily a in-depth explanation of anything), but it's mostly meant to at least introduce some of the terms and briefly describe their importance. Most everything in this little guide...thing merits a deeper dive with a Google search or two.
@@ -72,7 +75,9 @@ HTML is a less strict way of organizing data. In the case of HTML, it is a way o
 
 One of the main differences between HTML and XML is that HTML is less strict. Browsers can generally self-error-correct things like unclosed tags (i.e. ```<p>Woops```). But, close your goddamn tags.
 
-HTML5 brings a bunch of new tags aimed at helping improve the semantic organization of HTML documents, such as ```
+HTML5 brings a bunch of new tags aimed at helping improve the semantic organization of HTML documents, such as 
+
+```html
 <header>
 <nav>
 <section>
@@ -137,6 +142,7 @@ I'm going to try to cover:
 Generally speaking, always choose the *least* specific selector that accurately selects what you're trying to...well, select.
 
 ```html
+<!-- HTML -->
 <section>
   <h1>Header</h1>
   <p class="paragraph-red" name="my-par">My paragraph</p>
@@ -144,6 +150,7 @@ Generally speaking, always choose the *least* specific selector that accurately 
 ```
 
 ```css
+/* CSS */
 p {
   color: red;
 }
@@ -265,9 +272,11 @@ Think of naming CSS classes as naming variables in regular code. A good name goe
 CSS class names generally work best when they describe what sort of style is being added, rather than what the element actually is.
 
 ```html
+<!-- HTML -->
 <p class="important-paragraph">THIS IS IMPORTANT</p>
 ```
 ```css
+/* CSS */
 .important-paragraph {
   color: red;
 }
@@ -276,9 +285,11 @@ CSS class names generally work best when they describe what sort of style is bei
 Does the class name "important-paragraph" actually tell you how the content is supposed to look? It certainly doesn't tell you that the paragraph is going to be colored red. It might even lead on that the paragraph might have a large font, which the style does not add.
 
 ```html
+<!-- HTML -->
 <p class="color-red">THIS IS IMPORTANT</p>
 ```
 ```css
+/* CSS */
 .color-red {
   color: red;
 }
@@ -301,12 +312,14 @@ BEM involves three parts:
 Example:
 
 ```html
+<!-- HTML -->
 <form class="form form--theme-material">
   <input class="form__input" type="text" />
   <input class="form__submit form__submit--disabled" type="submit" />
 </form>
 ```
 ```css
+/* CSS */
 /* Just making stuff up here */
 .form {
   display: flex;
