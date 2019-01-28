@@ -6,7 +6,8 @@ import {
   Text,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
-  Keyboard
+  Keyboard,
+  Image
 } from "react-native";
 import LoginForm from "./LoginForm";
 
@@ -21,9 +22,7 @@ export default class LoginScreen extends React.Component {
           >
             <View style={styles.container}>
               <View style={styles.logoContainer}>
-                <Text styles={{ color: "white", fontSize: 20 }}>
-                  Insert Kalooh Logo Here!
-                </Text>
+                <Image source={require("../../../assets/logo.png")} />
               </View>
               <View style={styles.formContainer}>
                 <LoginForm />
