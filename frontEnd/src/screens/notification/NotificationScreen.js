@@ -5,7 +5,7 @@ export default class LoginScreen extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <Text>Home Screen</Text>
+        <Text>NOTIFICATION SCREEN</Text>
       </SafeAreaView>
     );
   }
