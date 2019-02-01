@@ -12,17 +12,9 @@ export default class SwitchNavigator extends React.Component {
   }
 }
 
-const AppSwitchNavigator = createSwitchNavigator(
-  {
-    Login: LoginScreen,
-    MainApp: TabNavigator
-  },
-  {
-    headerMode: "none",
-    navigationOptions: {
-      headerVisible: false
-    }
-  }
-);
+const AppSwitchNavigator = createSwitchNavigator({
+  Login: LoginScreen,
+  TabNavigator: TabNavigator
+});
 
 const AppContainer = createAppContainer(AppSwitchNavigator);

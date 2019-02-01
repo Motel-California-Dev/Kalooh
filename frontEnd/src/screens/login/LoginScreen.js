@@ -13,6 +13,7 @@ import {
   View
 } from "react-native";
 import { login } from "../../controllers/UserController";
+import TabNavigator from "../navigator/TabNavigator";
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -30,6 +31,7 @@ export default class LoginScreen extends React.Component {
       password
     });
     Alert.alert(data.welcomeMessage);
+    this.props.navigation.navigate("TabNavigator");
   };
 
   render() {

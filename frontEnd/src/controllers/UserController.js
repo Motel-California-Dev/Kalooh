@@ -2,7 +2,7 @@
 
 export function login(credentials) {
   test = {
-    welcomeMessage: "Hello User"
+    welcomeMessage: "Hello " + credentials.username
   };
   return test;
 }
