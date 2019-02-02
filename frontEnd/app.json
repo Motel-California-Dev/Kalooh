@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "frontEnd",
+    "name": "Kalooh",
     "slug": "frontEnd",
     "privacy": "public",
     "sdkVersion": "32.0.0",
@@ -9,9 +9,9 @@
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logoTransparent.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#629FE7"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

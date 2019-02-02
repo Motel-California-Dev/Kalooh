@@ -13,7 +13,6 @@ import {
   View
 } from "react-native";
 import { login } from "../../controllers/UserController";
-import TabNavigator from "../navigator/TabNavigator";
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -31,7 +30,7 @@ export default class LoginScreen extends React.Component {
       password
     });
     Alert.alert(data.welcomeMessage);
-    this.props.navigation.navigate("TabNavigator");
+    this.props.navigation.navigate("Main"); //Navigates to the Main App
   };
 
   render() {
@@ -44,11 +43,15 @@ export default class LoginScreen extends React.Component {
           >
             <View style={styles.container}>
               <View style={styles.logoContainer}>
-                <Image source={require("../../../assets/logo.png")} />
+                <Image
+                  source={require("../../../assets/logoFull.png")}
+                  resizeMode="contain"
+                  style={styles.logo}
+                />
               </View>
               <View style={styles.formContainer}>
                 <TextInput
-                  placeholder="username or emails"
+                  placeholder="username or email"
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"
                   onSubmitEditing={() => this.passwordInput.focus()}
@@ -85,12 +88,16 @@ export default class LoginScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#3498db"
+    backgroundColor: "#629FE7"
   },
   logoContainer: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center"
+  },
+  logo: {
+    width: "50%",
+    height: "80%"
   },
   formContainer: {
     padding: 20
@@ -103,7 +110,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10
   },
   buttonContainer: {
-    backgroundColor: "#2980b9",
+    backgroundColor: "rgba(0,0,0,.5)",
     paddingVertical: 15
   },
   buttonText: {
