@@ -12,7 +12,7 @@ Change into the directory of the project (./frontEnd) and install the rest of th
 
 ### Starting up the Application
 Run the following command in the directory of the project.
-'npm start' or 'expo start'
+`npm start` or `expo start`
 
 This will run the local development server of Expo CLI. This will allow you to test the app in your mobile phone or simulator. Use the QR code to test the app on your mobile device (make sure you have the Expo app installed in your device).
 
