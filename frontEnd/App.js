@@ -1,17 +1,20 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Router from "./src/screens/navigator/Router";
+import Navigation from "./src/screens/navigator/Navigation";
+import { Font, AppLoading } from "expo";
 export default class App extends React.Component {
+  state = {
+    isReady: false
+  };
+  async componentDidMount() {
+    await Font.loadAsync({
+      "montserrat-light": require("./assets/fonts/Montserrat-Light.ttf")
+    });
+    this.setState({ isReady: true });
+  }
   render() {
-    return <Router />;
+    if (!this.state.isReady) {
+      return <AppLoading />;
+    }
+    return <Navigation />;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#629FE7",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});

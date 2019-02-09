@@ -13,6 +13,7 @@ import {
   View
 } from "react-native";
 import { login } from "../../controllers/UserController";
+import GlobalStyles from "../../components/GlobalStyles";
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -36,6 +37,7 @@ export default class LoginScreen extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
+        <View style={GlobalStyles.statusBarBlue} />
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
           <TouchableWithoutFeedback
             style={styles.container}
@@ -49,6 +51,7 @@ export default class LoginScreen extends React.Component {
                   style={styles.logo}
                 />
               </View>
+
               <View style={styles.formContainer}>
                 <TextInput
                   placeholder="username or email"
@@ -71,11 +74,26 @@ export default class LoginScreen extends React.Component {
                   onChangeText={password => this.setState({ password })}
                 />
                 <TouchableOpacity
-                  style={styles.buttonContainer}
+                  style={styles.button}
                   onPress={this._loginOnClick}
                 >
-                  <Text style={styles.buttonText}>LOGIN</Text>
+                  <Text style={styles.buttonText}>Log In</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => this.props.navigation.navigate("SignUp")}
+                >
+                  <Text style={styles.buttonText}>Create an Account</Text>
+                </TouchableOpacity>
+                <View style={styles.horizontalLine} />
+                <View style={styles.otherLogins}>
+                  <TouchableOpacity style={styles.facebook}>
+                    <Text style={styles.otherButtonText}>f</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.google}>
+                    <Text style={styles.otherButtonText}>g</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </TouchableWithoutFeedback>
@@ -96,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   logo: {
-    width: "50%",
+    width: "60%",
     height: "80%"
   },
   formContainer: {
@@ -107,15 +125,54 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,.2)",
     marginBottom: 10,
     color: "#fff",
-    paddingHorizontal: 10
+    paddingHorizontal: 20,
+    borderRadius: 50,
+    fontFamily: "montserrat-light"
   },
-  buttonContainer: {
-    backgroundColor: "rgba(0,0,0,.5)",
-    paddingVertical: 15
+  button: {
+    backgroundColor: "#062c52",
+    paddingVertical: 15,
+    marginTop: 10,
+    borderRadius: 50
   },
   buttonText: {
     textAlign: "center",
     color: "#fff",
-    fontWeight: "700"
+    fontFamily: "montserrat-light",
+    fontSize: 14
+  },
+  otherLogins: {
+    flexDirection: "row",
+    marginVertical: 10
+  },
+  facebook: {
+    flex: 1,
+    backgroundColor: "#3b5998",
+    borderRadius: 50,
+    padding: 10,
+    marginVertical: 10,
+    marginRight: 5,
+    color: "#fff"
+  },
+  google: {
+    flex: 1,
+    backgroundColor: "#ff0000",
+    borderRadius: 50,
+    padding: 10,
+    marginVertical: 10,
+    marginLeft: 5,
+    color: "#fff"
+  },
+  otherButtonText: {
+    fontStyle: "italic",
+    textAlign: "center",
+    color: "#fff",
+    fontWeight: "700",
+    fontSize: 18
+  },
+  horizontalLine: {
+    borderBottomColor: "rgba(255,255,255,0.5)",
+    borderBottomWidth: 1,
+    marginTop: 20
   }
 });
