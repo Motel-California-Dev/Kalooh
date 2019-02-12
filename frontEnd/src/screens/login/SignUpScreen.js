@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     color: "#062c52",
     fontSize: 40,
-    textAlign: "center"
+    textAlign: "center",
+    fontFamily: "montserrat-light"
   },
   formContainer: {
     flex: 3,
@@ -111,19 +112,21 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,.2)",
     marginBottom: 10,
     color: "#fff",
-    paddingHorizontal: 10,
-    borderRadius: 50
+    paddingHorizontal: 20,
+    borderRadius: 50,
+    fontFamily: "montserrat-light"
   },
   button: {
     backgroundColor: "#062c52",
     paddingVertical: 15,
-    marginVertical: 5,
+    marginTop: 10,
     borderRadius: 50
   },
   buttonText: {
     textAlign: "center",
     color: "#fff",
-    fontWeight: "700"
+    fontFamily: "montserrat-light",
+    fontSize: 14
   },
   footer: {
     padding: 20,

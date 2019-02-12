@@ -7,6 +7,7 @@ import {
   createAppContainer
 } from "react-navigation";
 
+import { Ionicons } from "@expo/vector-icons";
 import SignUpScreen from "../login/SignUpScreen";
 import LoginScreen from "../login/LoginScreen";
 import HomeScreen from "../home/HomeScreen";
@@ -36,12 +37,50 @@ const AuthenticationNavigator = createStackNavigator(
 );
 
 /* Tab Navigator that navigations between Home, Notification, Follower, and other screens */
-const TabNavigator = createBottomTabNavigator({
-  Home: HomeScreen,
-  Search: SearchScreen,
-  Friends: FriendsScreen,
-  Notification: NotificationScreen
-});
+const TabNavigator = createBottomTabNavigator(
+  {
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Ionicons name="ios-home" color={tintColor} size={24} />
+        )
+      }
+    },
+    Search: {
+      screen: SearchScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Ionicons name="ios-search" color={tintColor} size={24} />
+        )
+      }
+    },
+    Friends: {
+      screen: FriendsScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Ionicons name="ios-people" color={tintColor} size={24} />
+        )
+      }
+    },
+    Notification: {
+      screen: NotificationScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Ionicons name="ios-notifications" color={tintColor} size={24} />
+        )
+      }
+    }
+  },
+  {
+    navigationOptions: {
+      tabBarOptions: {
+        activeTintColor: "#629FE7",
+        inactiveTintColor: "#888888"
+      }
+    }
+  }
+);
 
 /* Navigator that goes from Login Screen to the Main App (TabNavigator)*/
 const AppNavigator = createSwitchNavigator({
