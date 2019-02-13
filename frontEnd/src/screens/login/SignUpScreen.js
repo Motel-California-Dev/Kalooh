@@ -12,28 +12,20 @@ import {
   TouchableWithoutFeedback,
   View
 } from "react-native";
-import { login } from "../../controllers/UserController";
 import GlobalStyles from "../../components/GlobalStyles";
 
-export default class LoginScreen extends React.Component {
+export default class SignUpScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      email: "",
       username: "",
       password: ""
     };
   }
-
-  _loginOnClick = () => {
-    let { username, password } = this.state;
-    data = login({
-      username,
-      password
-    });
-    Alert.alert(data.welcomeMessage);
-    this.props.navigation.navigate("Main"); //Navigates to the Main App
+  _signUpOnClick = () => {
+    Alert.alert("-Send Email Verification & other back-end stuff");
   };
-
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -44,25 +36,31 @@ export default class LoginScreen extends React.Component {
             onPress={Keyboard.dismiss}
           >
             <View style={styles.container}>
-              <View style={styles.logoContainer}>
-                <Image
-                  source={require("../../../assets/logoFull.png")}
-                  resizeMode="contain"
-                  style={styles.logo}
-                />
-              </View>
-
               <View style={styles.formContainer}>
+                <Text style={styles.title}>Create an Account</Text>
+
                 <TextInput
-                  placeholder="username or email"
+                  placeholder="username"
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   returnKeyType="next"
+                  onSubmitEditing={() => this.emailInput.focus()}
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  style={styles.input}
+                  onChangeText={username => this.setState({ username })}
+                />
+                <TextInput
+                  placeholder="email"
+                  placeholderTextColor="rgba(255,255,255,0.7)"
+                  returnKeyType="next"
+                  ref={input => (this.emailInput = input)}
                   onSubmitEditing={() => this.passwordInput.focus()}
                   keyboardType="email-address"
                   autoCapitalize="none"
                   autoCorrect={false}
                   style={styles.input}
-                  onChangeText={username => this.setState({ username })}
+                  onChangeText={email => this.setState({ email })}
                 />
                 <TextInput
                   placeholder="password"
@@ -75,26 +73,15 @@ export default class LoginScreen extends React.Component {
                 />
                 <TouchableOpacity
                   style={styles.button}
-                  onPress={this._loginOnClick}
+                  onPress={this._signUpOnClick}
                 >
-                  <Text style={styles.buttonText}>Log In</Text>
+                  <Text style={styles.buttonText}>Sign Up</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => this.props.navigation.navigate("SignUp")}
-                >
-                  <Text style={styles.buttonText}>Create an Account</Text>
-                </TouchableOpacity>
-                <View style={styles.horizontalLine} />
-                <View style={styles.otherLogins}>
-                  <TouchableOpacity style={styles.facebook}>
-                    <Text style={styles.otherButtonText}>f</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.google}>
-                    <Text style={styles.otherButtonText}>g</Text>
-                  </TouchableOpacity>
-                </View>
               </View>
+              <Text style={styles.footer}>
+                By creating an account, you are agreeing to Kalooh's User
+                Agreement
+              </Text>
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -108,17 +95,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#629FE7"
   },
-  logoContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  logo: {
-    width: "60%",
-    height: "80%"
+  title: {
+    paddingVertical: 10,
+    color: "#062c52",
+    fontSize: 40,
+    textAlign: "center",
+    fontFamily: "montserrat-light"
   },
   formContainer: {
-    padding: 20
+    flex: 3,
+    padding: 20,
+    justifyContent: "center"
   },
   input: {
     height: 40,
@@ -141,38 +128,10 @@ const styles = StyleSheet.create({
     fontFamily: "montserrat-light",
     fontSize: 14
   },
-  otherLogins: {
-    flexDirection: "row",
-    marginVertical: 10
-  },
-  facebook: {
-    flex: 1,
-    backgroundColor: "#3b5998",
-    borderRadius: 50,
-    padding: 10,
-    marginVertical: 10,
-    marginRight: 5,
-    color: "#fff"
-  },
-  google: {
-    flex: 1,
-    backgroundColor: "#ff0000",
-    borderRadius: 50,
-    padding: 10,
-    marginVertical: 10,
-    marginLeft: 5,
-    color: "#fff"
-  },
-  otherButtonText: {
-    fontStyle: "italic",
-    textAlign: "center",
-    color: "#fff",
-    fontWeight: "700",
-    fontSize: 18
-  },
-  horizontalLine: {
-    borderBottomColor: "rgba(255,255,255,0.5)",
-    borderBottomWidth: 1,
-    marginTop: 20
+  footer: {
+    padding: 20,
+    fontSize: 14,
+    color: "rgba(0,0,0,0.5)",
+    textAlign: "center"
   }
 });
