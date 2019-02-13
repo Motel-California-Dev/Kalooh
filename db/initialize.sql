@@ -9,12 +9,12 @@ CREATE TABLE users (
 
 CREATE TABLE post (
 	poster_name	VARCHAR(255) NOT NULL,
-	post_time	DATETIME2 NOT NULL,
+	post_time	TIMESTAMP NOT NULL,
 	title 		VARCHAR(255) NOT NULL,
 	message 	VARCHAR(255) NOT NULL,
   	lati 		FLOAT,
   	long  	  	FLOAT,
-	CONSTRAINT post_pk PRIMARY KEY (poster_name, time),
+	CONSTRAINT post_pk PRIMARY KEY (poster_name, post_time),
 	CONSTRAINT post_fk_user FOREIGN KEY (poster_name)
 	REFERENCES users(user_name)
   );
@@ -22,10 +22,10 @@ CREATE TABLE post (
 CREATE TABLE comment (
 	user_name	VARCHAR(255) NOT NULL,
 	poster_name	VARCHAR(255) NOT NULL,
-	post_time	DATETIME2,
-	comment_time	DATETIME2 NOT NULL,
+	post_time	TIMESTAMP,
+	comment_time	TIMESTAMP NOT NULL,
 	text		VARCHAR(255) NOT NULL,
-	CONSTRAINT comment_pk PRIMARY KEY (user_name, poster_id, post_time, comment_time),
+	CONSTRAINT comment_pk PRIMARY KEY (user_name, poster_name, post_time, comment_time),
 	CONSTRAINT comment_fk_user FOREIGN KEY (user_name)
 	REFERENCES users(user_name),
 	CONSTRAINT comment_fk_post FOREIGN KEY (poster_name, post_time)
