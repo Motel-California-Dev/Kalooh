@@ -9,7 +9,7 @@ CREATE TABLE user (
 
 CREATE TABLE post (
 	poster_name	VARCHAR(255) NOT NULL,
-	time	    	DATETIME2 NOT NULL,
+	post_time	DATETIME2 NOT NULL,
 	title 		VARCHAR(255) NOT NULL,
 	message 	VARCHAR(255) NOT NULL,
   	lati 		FLOAT,
