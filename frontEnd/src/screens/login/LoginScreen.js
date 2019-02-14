@@ -2,6 +2,7 @@ import React from "react";
 import {
   Alert,
   Image,
+  ImageBackground,
   KeyboardAvoidingView,
   Keyboard,
   StyleSheet,
@@ -37,67 +38,72 @@ export default class LoginScreen extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <View style={GlobalStyles.statusBarBlue} />
-        <KeyboardAvoidingView behavior="padding" style={styles.container}>
-          <TouchableWithoutFeedback
-            style={styles.container}
-            onPress={Keyboard.dismiss}
-          >
-            <View style={styles.container}>
-              <View style={styles.logoContainer}>
-                <Image
-                  source={require("../../../assets/logoFull.png")}
-                  resizeMode="contain"
-                  style={styles.logo}
-                />
-              </View>
+        <ImageBackground
+          source={require("../../../assets/bg.jpg")}
+          style={{ flex: 1 }}
+        >
+          <KeyboardAvoidingView behavior="padding" style={styles.container}>
+            <View style={GlobalStyles.statusBarBlue} />
+            <TouchableWithoutFeedback
+              style={styles.container}
+              onPress={Keyboard.dismiss}
+            >
+              <View style={styles.container}>
+                <View style={styles.logoContainer}>
+                  <Image
+                    source={require("../../../assets/logoFull.png")}
+                    resizeMode="contain"
+                    style={styles.logo}
+                  />
+                </View>
 
-              <View style={styles.formContainer}>
-                <TextInput
-                  placeholder="username or email"
-                  placeholderTextColor="rgba(255,255,255,0.7)"
-                  returnKeyType="next"
-                  onSubmitEditing={() => this.passwordInput.focus()}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  style={styles.input}
-                  onChangeText={username => this.setState({ username })}
-                />
-                <TextInput
-                  placeholder="password"
-                  placeholderTextColor="rgba(255,255,255,0.7)"
-                  returnKeyType="go"
-                  secureTextEntry
-                  style={styles.input}
-                  ref={input => (this.passwordInput = input)}
-                  onChangeText={password => this.setState({ password })}
-                />
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={this._loginOnClick}
-                >
-                  <Text style={styles.buttonText}>Log In</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => this.props.navigation.navigate("SignUp")}
-                >
-                  <Text style={styles.buttonText}>Create an Account</Text>
-                </TouchableOpacity>
-                <View style={styles.horizontalLine} />
-                <View style={styles.otherLogins}>
-                  <TouchableOpacity style={styles.facebook}>
-                    <Text style={styles.otherButtonText}>f</Text>
+                <View style={styles.formContainer}>
+                  <TextInput
+                    placeholder="username or email"
+                    placeholderTextColor="rgba(255,255,255,0.7)"
+                    returnKeyType="next"
+                    onSubmitEditing={() => this.passwordInput.focus()}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    style={styles.input}
+                    onChangeText={username => this.setState({ username })}
+                  />
+                  <TextInput
+                    placeholder="password"
+                    placeholderTextColor="rgba(255,255,255,0.7)"
+                    returnKeyType="go"
+                    secureTextEntry
+                    style={styles.input}
+                    ref={input => (this.passwordInput = input)}
+                    onChangeText={password => this.setState({ password })}
+                  />
+                  <TouchableOpacity
+                    style={styles.loginButton}
+                    onPress={this._loginOnClick}
+                  >
+                    <Text style={styles.loginText}>Log In</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.google}>
-                    <Text style={styles.otherButtonText}>g</Text>
+                  <TouchableOpacity
+                    style={styles.signUpButton}
+                    onPress={() => this.props.navigation.navigate("SignUp")}
+                  >
+                    <Text style={styles.signUpText}>Create an Account</Text>
                   </TouchableOpacity>
+                  <View style={styles.horizontalLine} />
+                  <View style={styles.otherLogins}>
+                    <TouchableOpacity style={styles.facebook}>
+                      <Text style={styles.otherButtonText}>f</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.google}>
+                      <Text style={styles.otherButtonText}>g</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+            </TouchableWithoutFeedback>
+          </KeyboardAvoidingView>
+        </ImageBackground>
       </SafeAreaView>
     );
   }
@@ -106,7 +112,7 @@ export default class LoginScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#629FE7"
+    backgroundColor: "rgba(98, 159, 231, 0.7)"
   },
   logoContainer: {
     flex: 1,
@@ -129,17 +135,31 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     fontFamily: "montserrat-light"
   },
-  button: {
+  loginButton: {
     backgroundColor: "#062c52",
-    paddingVertical: 15,
+    paddingVertical: 10,
     marginTop: 10,
     borderRadius: 50
   },
-  buttonText: {
+  signUpButton: {
+    borderColor: "#062c52",
+    borderWidth: 0,
+    paddingVertical: 10,
+    marginTop: 10,
+    borderRadius: 50
+  },
+  loginText: {
     textAlign: "center",
+    letterSpacing: 2.5,
     color: "#fff",
     fontFamily: "montserrat-light",
-    fontSize: 14
+    fontSize: 20
+  },
+  signUpText: {
+    textAlign: "center",
+    color: "#062c52",
+    fontFamily: "montserrat-light",
+    fontSize: 16
   },
   otherLogins: {
     flexDirection: "row",
@@ -173,6 +193,6 @@ const styles = StyleSheet.create({
   horizontalLine: {
     borderBottomColor: "rgba(255,255,255,0.5)",
     borderBottomWidth: 1,
-    marginTop: 20
+    marginTop: 10
   }
 });

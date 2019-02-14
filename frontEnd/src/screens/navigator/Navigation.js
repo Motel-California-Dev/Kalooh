@@ -14,6 +14,7 @@ import HomeScreen from "../home/HomeScreen";
 import SearchScreen from "../search/SearchScreen";
 import FriendsScreen from "../friends/FriendsScreen";
 import NotificationScreen from "../notification/NotificationScreen";
+import SettingsScreen from "../settings/SettingsScreen";
 
 /* Navigator that goes from Login Screen to the Main App (TabNavigator)*/
 export default class Router extends React.Component {
@@ -43,7 +44,7 @@ const TabNavigator = createBottomTabNavigator(
       screen: HomeScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-home" color={tintColor} size={24} />
+          <Ionicons name="ios-home" color={tintColor} size={32} />
         )
       }
     },
@@ -51,15 +52,7 @@ const TabNavigator = createBottomTabNavigator(
       screen: SearchScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-search" color={tintColor} size={24} />
-        )
-      }
-    },
-    Friends: {
-      screen: FriendsScreen,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-people" color={tintColor} size={24} />
+          <Ionicons name="ios-search" color={tintColor} size={32} />
         )
       }
     },
@@ -67,17 +60,36 @@ const TabNavigator = createBottomTabNavigator(
       screen: NotificationScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-notifications" color={tintColor} size={24} />
+          <Ionicons name="ios-notifications" color={tintColor} size={32} />
+        )
+      }
+    },
+    Friends: {
+      screen: FriendsScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Ionicons name="ios-people" color={tintColor} size={32} />
+        )
+      }
+    },
+    Settings: {
+      screen: SettingsScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Ionicons name="ios-settings" color={tintColor} size={32} />
         )
       }
     }
   },
   {
     navigationOptions: {
-      tabBarOptions: {
-        activeTintColor: "#629FE7",
-        inactiveTintColor: "#888888"
-      }
+      tabBarVisible: true
+    },
+    animationEnabled: true,
+    tabBarOptions: {
+      showLabel: false,
+      activeTintColor: "#629FE7",
+      inactiveTintColor: "rgba(0,0,0,0.3)"
     }
   }
 );
