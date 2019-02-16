@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     color: "#062c52",
     fontSize: 40,
     textAlign: "center",
-    fontFamily: "montserrat-light"
+    fontFamily: "montserrat"
   },
   formContainer: {
     flex: 3,
