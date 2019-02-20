@@ -41,10 +41,16 @@ INSERT INTO "users" (user_name, firstName, LastName, email)
   ('Test4','Kian','Badie','kianbadie@gmail.com','kian'),
   ('Test5','Christian','Wance','christian.wance@gmail.com','christian');
 
-Insert Into "post" (poster_name, post_time, title, message, lati, long)
-  VALUES
-  ('Test1',TO_TIMESTAMP(:ts_val, '2019-02-19 12:00:00'),'FIRST!','First Post of any kind!!',33.7817,-118.1135),
-  ('Test3',TO_TIMESTAMP(:ts_val, '2019-02-19 12:05:00'),'Wow Nate','Could you not Nathan...',33.7820,-118.1130),
-  ('Test2',TO_TIMESTAMP(:ts_val, '2019-02-19 14:15:00'),'Free fries at outpost','Whisper "give me all your money" and they will give you free fries.',33.7814,-118.1140);
+--Insert Into "post" (poster_name, post_time, title, message, lati, long)
+--  VALUES
+--  ('Test1',TO_TIMESTAMP(:ts_val, '2019-02-19 12:00:00'),'FIRST!','First Post of any kind!!',33.7817,-118.1135),
+--  ('Test3',TO_TIMESTAMP(:ts_val, '2019-02-19 12:05:00'),'Wow Nate','Could you not Nathan...',33.7820,-118.1130),
+--  ('Test2',TO_TIMESTAMP(:ts_val, '2019-02-19 14:15:00'),'Free fries at outpost','Whisper "give me all your money" and they will give you free fries.',33.7814,-118.1140);
+
+--Insert Into "comment" (user_name, poster_name, post_time, comment_time, text)
+--  VALUES
+--  ('Test1','Test3',TO_TIMESTAMP(:ts_val, '2019-02-19 12:05:00'),TO_TIMESTAMP(:ts_val, '2019-02-19 12:10:00'),'What do you want Kyle? >:('),
+--  ('Test3','Test3',TO_TIMESTAMP(:ts_val, '2019-02-19 12:05:00'),TO_TIMESTAMP(:ts_val, '2019-02-19 12:11:00'),'You know what you did!!'),
+--  ('Test4','Test3',TO_TIMESTAMP(:ts_val, '2019-02-19 12:05:00'),TO_TIMESTAMP(:ts_val, '2019-02-19 12:12:00'),'Woah guys, I feel like I caused this... :(');
 
 
