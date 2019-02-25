@@ -33,7 +33,7 @@ CREATE TABLE comment (
 	REFERENCES post(poster_name, post_time)
   );
 
-INSERT INTO "users" (user_name, firstName, LastName, email)
+INSERT INTO "users" (user_name, firstName, LastName, email, password)
   VALUES
   ('Test1','Nathan','Rice', 'n8@cambium5.com','nathan'),
   ('Test2','Eric','Do','ericdo62497@gmail.com','eric'),
