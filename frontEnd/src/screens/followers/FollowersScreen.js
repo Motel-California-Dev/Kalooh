@@ -1,21 +1,21 @@
 import React from "react";
 import { StyleSheet, View, SafeAreaView, Text } from "react-native";
-import FriendsList from "./FriendsList";
-import FriendCard from "./FriendCard";
+import FollowersList from "./FollowersList";
+import FollowerCard from "./FollowerCard";
 
-const friendsList = FriendsList;
+const followersList = FollowersList;
 export default class FriendsScreen extends React.Component {
   render() {
-    let friendCard = friendsList.map(friendInfo => {
+    let followerCard = followersList.map(followerInfo => {
       return (
-        <View key={friendInfo.email}>
-          <FriendCard friend={friendInfo} />
+        <View key={followerInfo.email}>
+          <FollowerCard follower={followerInfo} />
         </View>
       );
     });
     return (
       <SafeAreaView style={{ backgroundColor: "#EFEFF4", flex: 1 }}>
-        {friendCard}
+        {followerCard}
       </SafeAreaView>
     );
   }

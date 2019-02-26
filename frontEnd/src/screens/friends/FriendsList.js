@@ -7,7 +7,7 @@ const friendsList = [
   {
     username: "FrownyFace",
     name: "Kian Badie",
-    email: "kainbadie@gmail.com"
+    email: "kiannbadie@gmail.com"
   }
 ];
 
