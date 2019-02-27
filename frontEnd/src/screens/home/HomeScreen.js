@@ -1,6 +1,7 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableHighlight } from "react-native";
 import { Constants, MapView, Location, Permissions } from 'expo';
+import { Ionicons } from "@expo/vector-icons";
 
 export default class LoginScreen extends React.Component {
 
@@ -17,7 +18,12 @@ export default class LoginScreen extends React.Component {
     this._getLocationAsync();
   }
 
-  _handleMapRegionChange = (mapRegion) => {
+  // _handleMapRegionChange = (mapRegion) => {
+  //   console.log(mapRegion);
+  //   this.setState( { mapRegion } );
+  // };
+
+  _handleMapRegionChangeComplete = (mapRegion) => {
     console.log(mapRegion);
     this.setState( { mapRegion } );
   };
@@ -41,6 +47,14 @@ export default class LoginScreen extends React.Component {
     } } );
   };
 
+  _currentLocationOnClick = () => {
+    this._getLocationAsync();
+  }
+
+  _handleCreateNotePress = () => {
+    console.log('The create note button was pressed');
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -54,10 +68,22 @@ export default class LoginScreen extends React.Component {
                   <MapView
                     style={styles.map}
                     region={this.state.mapRegion}
-                    onRegionChange={this.handleMapRegionChange}
+                    onRegionChangeComplete={this._handleMapRegionChangeComplete}
                     showsUserLocation={true}
                   />
         }
+
+        <View style={styles.createNoteButtonContainer}>
+          <TouchableHighlight underlayColor='white' style={styles.createNoteButton} onPress={this._handleCreateNotePress}>
+            <Ionicons name="ios-add-circle-outline" size={64} color='#629FE7'/>
+          </TouchableHighlight>
+        </View>
+
+        <View style={styles.locationButtonContainer}>
+          <TouchableHighlight underlayColor='white' style={styles.locationButton} onPress={this._currentLocationOnClick}>
+            <Ionicons name="ios-locate" size={32} color='#629FE7'/>
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }
@@ -73,5 +99,32 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
     alignSelf: 'stretch'
-  }
+  },
+  locationButtonContainer: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    bottom: 15,
+    right: 15,
+  },
+  locationButton: {
+    height: 32,
+    width: 32,
+    alignItems: 'center',
+    borderRadius: 5,
+    backgroundColor: '#ffffff'
+  },
+  createNoteButtonContainer: {
+    position: 'absolute',
+    bottom: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  createNoteButton: {
+    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 64,
+    width: 64,
+    borderRadius: 100,
+  } 
 });
