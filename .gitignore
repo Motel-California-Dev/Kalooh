@@ -6,3 +6,4 @@
 *.p12
 *.key
 *.mobileprovision
+.env

@@ -20,11 +20,17 @@ export default class SignUpScreen extends React.Component {
     this.state = {
       email: "",
       username: "",
-      password: ""
+      password1: "",
+      password2: "",
+      confirmPassword: false
     };
   }
   _signUpOnClick = () => {
-    Alert.alert("-Send Email Verification & other back-end stuff");
+    if (this.state.password1 != this.state.password2) {
+      Alert.alert("Your password did not match. Try again.");
+    } else {
+      Alert.alert("Nice! An email confirmation has been sent.");
+    }
   };
   render() {
     return (
@@ -47,7 +53,7 @@ export default class SignUpScreen extends React.Component {
                     placeholder="username"
                     placeholderTextColor="rgba(255,255,255,0.7)"
                     returnKeyType="next"
-                    onSubmitEditing={() => this.emailInput.focus()}
+                    onSubmitEditing={() => this.nameInput.focus()}
                     keyboardType="default"
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -55,11 +61,23 @@ export default class SignUpScreen extends React.Component {
                     onChangeText={username => this.setState({ username })}
                   />
                   <TextInput
+                    placeholder="full name"
+                    placeholderTextColor="rgba(255,255,255,0.7)"
+                    returnKeyType="next"
+                    ref={input => (this.nameInput = input)}
+                    onSubmitEditing={() => this.emailInput.focus()}
+                    keyboardType="default"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    style={styles.input}
+                    onChangeText={name => this.setState({ name })}
+                  />
+                  <TextInput
                     placeholder="email"
                     placeholderTextColor="rgba(255,255,255,0.7)"
                     returnKeyType="next"
                     ref={input => (this.emailInput = input)}
-                    onSubmitEditing={() => this.passwordInput.focus()}
+                    onSubmitEditing={() => this.passwordInput1.focus()}
                     keyboardType="email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -70,10 +88,20 @@ export default class SignUpScreen extends React.Component {
                     placeholder="password"
                     placeholderTextColor="rgba(255,255,255,0.7)"
                     returnKeyType="go"
+                    ref={input => (this.passwordInput1 = input)}
+                    onSubmitEditing={() => this.passwordInput2.focus()}
                     secureTextEntry
                     style={styles.input}
-                    ref={input => (this.passwordInput = input)}
-                    onChangeText={password => this.setState({ password })}
+                    onChangeText={password1 => this.setState({ password1 })}
+                  />
+                  <TextInput
+                    placeholder="confirm password"
+                    placeholderTextColor="rgba(255,255,255,0.7)"
+                    returnKeyType="go"
+                    secureTextEntry
+                    style={styles.input}
+                    ref={input => (this.passwordInput2 = input)}
+                    onChangeText={password2 => this.setState({ password2 })}
                   />
                   <TouchableOpacity
                     style={styles.button}
@@ -105,7 +133,7 @@ const styles = StyleSheet.create({
     color: "#062c52",
     fontSize: 40,
     textAlign: "center",
-    fontFamily: "montserrat-light"
+    fontFamily: "montserrat"
   },
   formContainer: {
     flex: 3,
