@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { StyleSheet, View, SafeAreaView, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  Text,
+  TouchableOpacity
+} from "react-native";
 
 const FriendCard = props => {
   return (
@@ -14,7 +20,10 @@ export default FriendCard;
 
 const styles = StyleSheet.create({
   card: {
-    margin: 10,
-    backgroundColor: "rgba(0,0,0,0.1)"
+    margin: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    borderRadius: 30,
+    backgroundColor: "rgba(255,255,255,1)"
   }
 });
