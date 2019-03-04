@@ -1,10 +1,12 @@
 import React from "react";
+import { SafeAreaView, View } from "react-native";
 import {
   createSwitchNavigator,
   createStackNavigator,
   createAppContainer
 } from "react-navigation";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
+import GlobalStyles from "../../components/GlobalStyles";
 
 import { Ionicons } from "@expo/vector-icons";
 import SignUpScreen from "../login/SignUpScreen";
@@ -18,7 +20,12 @@ import SettingsScreen from "../settings/SettingsScreen";
 /* Navigator that goes from Login Screen to the Main App (TabNavigator)*/
 export default class Navigation extends React.Component {
   render() {
-    return <AppContainer />;
+    return (
+      <SafeAreaView style={{ backgroundColor: "#EFEFF4", flex: 1 }}>
+        <View style={[GlobalStyles.statusBarBlue]} />
+        <AppContainer />
+      </SafeAreaView>
+    );
   }
 }
 

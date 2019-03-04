@@ -15,12 +15,7 @@ export default class FriendsScreen extends React.Component {
     });
     return (
       <SafeAreaView style={{ backgroundColor: "#EFEFF4", flex: 1 }}>
-<<<<<<< HEAD
-        <View style={[GlobalStyles.statusBarBlue]} />
         <View>{friendCard}</View>
-=======
-        {friendCard}
->>>>>>> 7786a605d1edbf9029368ed92fff2ca92fde519b
       </SafeAreaView>
     );
   }

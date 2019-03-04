@@ -4,7 +4,7 @@ import { StyleSheet, View, SafeAreaView, Text } from "react-native";
 export default class SearchScreen extends React.Component {
   render() {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={{ backgroundColor: "#EFEFF4", flex: 1 }}>
         <Text>Search SCREEN</Text>
       </SafeAreaView>
     );

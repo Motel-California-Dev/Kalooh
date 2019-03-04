@@ -14,9 +14,7 @@ export default class SettingsScreen extends React.Component {
     var iconColor = "#629FE7";
     return (
       <SafeAreaView style={{ backgroundColor: "#EFEFF4", flex: 1 }}>
-        <View style={[GlobalStyles.statusBarBlue]} />
         <Text style={styles.title}>Settings</Text>
-
         <View style={{ backgroundColor: "#EFEFF4", flex: 1 }}>
           <SettingsList borderColor="#c8c7cc" defaultItemSize={50}>
             <SettingsList.Item
