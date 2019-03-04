@@ -1,29 +1,28 @@
 import React from "react";
-import { SafeAreaView, View, Text } from "react-native";
 import {
   createSwitchNavigator,
-  createBottomTabNavigator,
   createStackNavigator,
   createAppContainer
 } from "react-navigation";
+import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
 import { Ionicons } from "@expo/vector-icons";
 import SignUpScreen from "../login/SignUpScreen";
 import LoginScreen from "../login/LoginScreen";
 import HomeScreen from "../home/HomeScreen";
 import SearchScreen from "../search/SearchScreen";
-import FriendsScreen from "../friends/FriendsScreen";
+import PeopleNavigator from "./PeopleNavigation";
 import NotificationScreen from "../notification/NotificationScreen";
 import SettingsScreen from "../settings/SettingsScreen";
 
 /* Navigator that goes from Login Screen to the Main App (TabNavigator)*/
-export default class Router extends React.Component {
+export default class Navigation extends React.Component {
   render() {
     return <AppContainer />;
   }
 }
 
-/* Maybe add a Forget password screen later, but for now, just LoginScreen */
+/* Create Account & Login Screen */
 const AuthenticationNavigator = createStackNavigator(
   {
     Login: LoginScreen,
@@ -38,13 +37,13 @@ const AuthenticationNavigator = createStackNavigator(
 );
 
 /* Tab Navigator that navigations between Home, Notification, Follower, and other screens */
-const TabNavigator = createBottomTabNavigator(
+const MainNavigator = createMaterialBottomTabNavigator(
   {
     Home: {
       screen: HomeScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-home" color={tintColor} size={32} />
+          <Ionicons name="ios-home" color={tintColor} size={28} />
         )
       }
     },
@@ -52,7 +51,7 @@ const TabNavigator = createBottomTabNavigator(
       screen: SearchScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-search" color={tintColor} size={32} />
+          <Ionicons name="ios-search" color={tintColor} size={28} />
         )
       }
     },
@@ -60,15 +59,15 @@ const TabNavigator = createBottomTabNavigator(
       screen: NotificationScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-notifications" color={tintColor} size={32} />
+          <Ionicons name="ios-notifications" color={tintColor} size={28} />
         )
       }
     },
-    Friends: {
-      screen: FriendsScreen,
+    People: {
+      screen: PeopleNavigator,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-people" color={tintColor} size={32} />
+          <Ionicons name="ios-people" color={tintColor} size={28} />
         )
       }
     },
@@ -76,7 +75,7 @@ const TabNavigator = createBottomTabNavigator(
       screen: SettingsScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-settings" color={tintColor} size={32} />
+          <Ionicons name="ios-settings" color={tintColor} size={28} />
         )
       }
     }
@@ -86,10 +85,10 @@ const TabNavigator = createBottomTabNavigator(
       tabBarVisible: true
     },
     animationEnabled: true,
-    tabBarOptions: {
-      showLabel: false,
-      activeTintColor: "#629FE7",
-      inactiveTintColor: "rgba(0,0,0,0.3)"
+    activeTintColor: "white",
+    inactiveTintColor: "rgba(255,255,255,0.4)",
+    barStyle: {
+      backgroundColor: "#629FFF"
     }
   }
 );
@@ -97,7 +96,7 @@ const TabNavigator = createBottomTabNavigator(
 /* Navigator that goes from Login Screen to the Main App (TabNavigator)*/
 const AppNavigator = createSwitchNavigator({
   Auth: AuthenticationNavigator,
-  Main: TabNavigator
+  Main: MainNavigator
 });
 
 const AppContainer = createAppContainer(AppNavigator);
