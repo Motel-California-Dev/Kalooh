@@ -31,7 +31,7 @@ export default class LoginScreen extends React.Component {
       username,
       password
     });
-    Alert.alert(data.welcomeMessage);
+    // Alert.alert(data.welcomeMessage);
     this.props.navigation.navigate("Main"); //Navigates to the Main App
   };
 

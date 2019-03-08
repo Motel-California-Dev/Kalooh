@@ -18,10 +18,8 @@ exports.create = (req, res) => {
 
 exports.list = (req, res) => {
   console.log("Get!");
-  const { username, password } = req.body;
-  const query = "SELECT user_name, firstName, lastName, email, password FROM USERS WHERE user_name = $1 AND password = $2;";
-  const params = [username, password]; 
-  db.query(query, params)
+  const query = "SELECT user_name, firstName, lastName, email, password FROM users;";
+  db.query(query)
     .then(data => {
       console.log(data);
       res.status(200).send(data.rows);
@@ -32,6 +30,20 @@ exports.list = (req, res) => {
     });
 };
 
+exports.find = (req, res) => {
+  console.log("Get a user!");
+  const query = "SELECT user_name, firstName, lastName, email, password FROM users WHERE user_name = $1;";
+  const params = [req.params.username];
+  db.query(query, params)
+    .then(data => {
+      console.log(data);
+      res.status(200).send(data.rows[0]);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err);
+    });
+};
 
 exports.update = (req, res) => {
   console.log("Update!");
