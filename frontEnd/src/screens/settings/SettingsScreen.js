@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, SafeAreaView, Text } from "react-native";
+import { StyleSheet, View, SafeAreaView, Text, Alert } from "react-native";
 import SettingsList from "react-native-settings-list";
 import { Ionicons } from "@expo/vector-icons";
 import GlobalStyles from "../../components/GlobalStyles";
@@ -8,7 +8,7 @@ export default class SettingsScreen extends React.Component {
   constructor() {
     super();
     this.onValueChange = this.onValueChange.bind(this);
-    this.state = { switchValue: false };
+    this.state = { notificationSwitch: true, friendsSwitch: false };
   }
   render() {
     var iconColor = "#629FE7";
@@ -18,19 +18,31 @@ export default class SettingsScreen extends React.Component {
         <View style={{ backgroundColor: "#EFEFF4", flex: 1 }}>
           <SettingsList borderColor="#c8c7cc" defaultItemSize={50}>
             <SettingsList.Item
-              icon={<Ionicons name="ios-home" color={iconColor} size={32} />}
+              icon={
+                <Ionicons
+                  name="ios-notifications"
+                  color={iconColor}
+                  size={32}
+                  style={{
+                    margin: 8
+                  }}
+                />
+              }
               hasSwitch={true}
-              switchState={this.state.switchValue}
+              switchState={this.state.notificationSwitch}
               switchOnValueChange={this.onValueChange}
               hasNavArrow={false}
-              title="Airplane Mode"
+              title="Notifications"
             />
             <SettingsList.Item
-              icon={<Ionicons name="ios-home" color={iconColor} size={32} />}
-              title="Wi-Fi"
-              titleInfo="Bill Wi The Science Fi"
-              titleInfoStyle={styles.titleInfoStyle}
-              onPress={() => Alert.alert("Route to Wifi Page")}
+              hasSwitch={true}
+              switchState={this.state.friendsSwitch}
+              switchOnValueChange={this.onValueChange}
+              hasNavArrow={false}
+              title="Friends Only"
+              style={{
+                marginLeft: 30
+              }}
             />
             <SettingsList.Item
               icon={<Ionicons name="ios-home" color={iconColor} size={32} />}
@@ -39,44 +51,23 @@ export default class SettingsScreen extends React.Component {
               titleInfoStyle={styles.titleInfoStyle}
               onPress={() => Alert.alert("Route to Blutooth Page")}
             />
+            <SettingsList.Header headerStyle={{ marginTop: 15 }} />
             <SettingsList.Item
-              icon={<Ionicons name="ios-home" color={iconColor} size={32} />}
-              title="Cellular"
-              onPress={() => Alert.alert("Route To Cellular Page")}
+              title="Change Username"
+              onPress={() => Alert.alert("Route To Change Username")}
             />
             <SettingsList.Item
-              icon={<Ionicons name="ios-home" color={iconColor} size={32} />}
-              title="Personal Hotspot"
-              titleInfo="Off"
-              titleInfoStyle={styles.titleInfoStyle}
-              onPress={() => Alert.alert("Route To Hotspot Page")}
+              title="Change Email"
+              onPress={() => Alert.alert("Route To Change Email")}
+            />
+            <SettingsList.Item
+              title="Change Password"
+              onPress={() => Alert.alert("Route To Change Password")}
             />
             <SettingsList.Header headerStyle={{ marginTop: 15 }} />
             <SettingsList.Item
-              icon={<Ionicons name="ios-home" color={iconColor} size={32} />}
-              title="Notifications"
-              onPress={() => Alert.alert("Route To Notifications Page")}
-            />
-            <SettingsList.Item
-              icon={<Ionicons name="ios-home" color={iconColor} size={32} />}
-              title="Control Center"
-              onPress={() => Alert.alert("Route To Control Center Page")}
-            />
-            <SettingsList.Item
-              icon={<Ionicons name="ios-home" color={iconColor} size={32} />}
-              title="Do Not Disturb"
-              onPress={() => Alert.alert("Route To Do Not Disturb Page")}
-            />
-            <SettingsList.Header headerStyle={{ marginTop: 15 }} />
-            <SettingsList.Item
-              icon={<Ionicons name="ios-home" color={iconColor} size={32} />}
-              title="General"
-              onPress={() => Alert.alert("Route To General Page")}
-            />
-            <SettingsList.Item
-              icon={<Ionicons name="ios-home" color={iconColor} size={32} />}
-              title="Display & Brightness"
-              onPress={() => Alert.alert("Route To Display Page")}
+              title="About Us"
+              onPress={() => Alert.alert("Route To About Us Page")}
             />
           </SettingsList>
         </View>

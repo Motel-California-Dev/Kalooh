@@ -13,6 +13,7 @@ import {
   TouchableWithoutFeedback,
   View
 } from "react-native";
+import { Icon } from "react-native-elements";
 import { login } from "../../controllers/UserController";
 import GlobalStyles from "../../components/GlobalStyles";
 
@@ -93,10 +94,18 @@ export default class LoginScreen extends React.Component {
                   <View style={styles.horizontalLine} />
                   <View style={styles.otherLogins}>
                     <TouchableOpacity style={styles.facebook}>
-                      <Text style={styles.otherButtonText}>f</Text>
+                      <View style={styles.otherButtonText}>
+                        <Icon
+                          name="facebook-f"
+                          type="font-awesome"
+                          color="#fff"
+                        />
+                      </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.google}>
-                      <Text style={styles.otherButtonText}>g</Text>
+                      <View style={styles.otherButtonText}>
+                        <Icon name="google" type="font-awesome" color="#fff" />
+                      </View>
                     </TouchableOpacity>
                   </View>
                 </View>
