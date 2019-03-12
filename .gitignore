@@ -2,8 +2,10 @@
 /**/package-lock.json
 /**/.expo/**/*
 /**/npm-debug.*
+/**/.config
+/**/.npm
 *.jks
 *.p12
 *.key
 *.mobileprovision
-.env
+*.env
