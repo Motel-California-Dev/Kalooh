@@ -1,0 +1,20 @@
+version: '3.5'
+services:
+  db:
+    container_name: "postgres"
+    build: ./db
+    restart: always
+    ports:
+      - '5432:5432'
+    env_file:
+      - db/.env
+  server:
+    container_name: "kalooh-server"
+    build: ./server
+    restart: always
+    volumes:
+      - ./server:/home/node/app
+    ports:
+      - '3000:3000'
+    env_file:
+      - server/.env
