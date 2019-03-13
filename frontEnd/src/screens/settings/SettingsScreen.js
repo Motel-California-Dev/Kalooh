@@ -1,5 +1,13 @@
 import React from "react";
-import { StyleSheet, View, SafeAreaView, Text, Alert } from "react-native";
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  Text,
+  Alert,
+  Image,
+  TouchableHighlight
+} from "react-native";
 import SettingsList from "react-native-settings-list";
 import { Ionicons } from "@expo/vector-icons";
 import GlobalStyles from "../../components/GlobalStyles";
@@ -7,49 +15,62 @@ import GlobalStyles from "../../components/GlobalStyles";
 export default class SettingsScreen extends React.Component {
   constructor() {
     super();
-    this.onValueChange = this.onValueChange.bind(this);
+    this.onNotificationValueChange = this.onNotificationValueChange.bind(this);
+    this.onFriendValueChange = this.onFriendValueChange.bind(this);
     this.state = { notificationSwitch: true, friendsSwitch: false };
   }
+  changeAvatarOnClick = () => {
+    Alert.alert("Change Avatar Function");
+  };
+  onNotificationValueChange(value) {
+    this.setState({ notificationSwitch: value });
+  }
+  onFriendValueChange(value) {
+    this.setState({ friendsSwitch: value });
+  }
+
   render() {
-    var iconColor = "#629FE7";
     return (
       <SafeAreaView style={{ backgroundColor: "#EFEFF4", flex: 1 }}>
-        <Text style={styles.title}>Settings</Text>
+        <Text style={styles.title}>Account Settings</Text>
         <View style={{ backgroundColor: "#EFEFF4", flex: 1 }}>
+          <View style={{ flexDirection: "row", marginVertical: 20 }}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <TouchableHighlight
+                onPress={this.changeAvatarOnClick}
+                style={{ width: 75, height: 75, borderRadius: 37.5 }}
+              >
+                <Image
+                  source={require("../../../assets/default-profile.png")}
+                  style={{ width: 75, height: 75, borderRadius: 37.5 }}
+                />
+              </TouchableHighlight>
+            </View>
+            <View style={{ flex: 3 }}>
+              <Text style={{ fontSize: 18 }}>Username goes here</Text>
+              <Text>Name goes here</Text>
+            </View>
+          </View>
           <SettingsList borderColor="#c8c7cc" defaultItemSize={50}>
             <SettingsList.Item
-              icon={
-                <Ionicons
-                  name="ios-notifications"
-                  color={iconColor}
-                  size={32}
-                  style={{
-                    margin: 8
-                  }}
-                />
-              }
               hasSwitch={true}
               switchState={this.state.notificationSwitch}
-              switchOnValueChange={this.onValueChange}
+              switchOnValueChange={this.onNotificationValueChange}
               hasNavArrow={false}
               title="Notifications"
             />
             <SettingsList.Item
               hasSwitch={true}
               switchState={this.state.friendsSwitch}
-              switchOnValueChange={this.onValueChange}
+              switchOnValueChange={this.onFriendValueChange}
               hasNavArrow={false}
               title="Friends Only"
-              style={{
-                marginLeft: 30
-              }}
-            />
-            <SettingsList.Item
-              icon={<Ionicons name="ios-home" color={iconColor} size={32} />}
-              title="Blutooth"
-              titleInfo="Off"
-              titleInfoStyle={styles.titleInfoStyle}
-              onPress={() => Alert.alert("Route to Blutooth Page")}
             />
             <SettingsList.Header headerStyle={{ marginTop: 15 }} />
             <SettingsList.Item
@@ -73,9 +94,6 @@ export default class SettingsScreen extends React.Component {
         </View>
       </SafeAreaView>
     );
-  }
-  onValueChange(value) {
-    this.setState({ switchValue: value });
   }
 }
 

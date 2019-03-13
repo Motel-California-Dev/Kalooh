@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
+import { Card, ListItem, Button, Icon } from "react-native-elements";
 
 const FriendCard = props => {
-  return (
-    <View style={styles.card}>
-      <Text>{props.friend.username}</Text>
-      <Text>{props.friend.name}</Text>
-    </View>
-  );
+  return <Card title={props.friend.name} />;
 };
 
 export default FriendCard;
