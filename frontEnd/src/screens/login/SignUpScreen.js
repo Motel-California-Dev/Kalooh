@@ -18,8 +18,10 @@ export default class SignUpScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
       username: "",
+      nameFirst: "",
+      nameLast: "",
+      email: "",
       password1: "",
       password2: "",
       confirmPassword: false
@@ -53,25 +55,44 @@ export default class SignUpScreen extends React.Component {
                     placeholder="username"
                     placeholderTextColor="rgba(255,255,255,0.7)"
                     returnKeyType="next"
-                    onSubmitEditing={() => this.nameInput.focus()}
+                    onSubmitEditing={() => this.nameFirstInput.focus()}
                     keyboardType="default"
                     autoCapitalize="none"
                     autoCorrect={false}
                     style={styles.input}
                     onChangeText={username => this.setState({ username })}
                   />
-                  <TextInput
-                    placeholder="full name"
-                    placeholderTextColor="rgba(255,255,255,0.7)"
-                    returnKeyType="next"
-                    ref={input => (this.nameInput = input)}
-                    onSubmitEditing={() => this.emailInput.focus()}
-                    keyboardType="default"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    style={styles.input}
-                    onChangeText={name => this.setState({ name })}
-                  />
+                  <View style={{ flexDirection: "row" }}>
+                    <View style={{ flex: 1 }}>
+                      <TextInput
+                        placeholder="first name"
+                        placeholderTextColor="rgba(255,255,255,0.7)"
+                        returnKeyType="next"
+                        ref={input => (this.nameFirstInput = input)}
+                        onSubmitEditing={() => this.nameLastInput.focus()}
+                        keyboardType="default"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        style={[styles.input, { marginRight: 5 }]}
+                        onChangeText={nameFirst => this.setState({ nameFirst })}
+                      />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <TextInput
+                        placeholder="last name"
+                        placeholderTextColor="rgba(255,255,255,0.7)"
+                        returnKeyType="next"
+                        ref={input => (this.nameLastInput = input)}
+                        onSubmitEditing={() => this.emailInput.focus()}
+                        keyboardType="default"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        style={[styles.input, { marginLeft: 5 }]}
+                        onChangeText={nameLast => this.setState({ nameLast })}
+                      />
+                    </View>
+                  </View>
+
                   <TextInput
                     placeholder="email"
                     placeholderTextColor="rgba(255,255,255,0.7)"

@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Alert,
   Image,
   ImageBackground,
   KeyboardAvoidingView,
@@ -28,11 +27,10 @@ export default class LoginScreen extends React.Component {
 
   _loginOnClick = () => {
     let { username, password } = this.state;
-    data = login({
+    let res = login({
       username,
       password
     });
-    // Alert.alert(data.welcomeMessage);
     this.props.navigation.navigate("Main"); //Navigates to the Main App
   };
 
@@ -44,7 +42,6 @@ export default class LoginScreen extends React.Component {
           style={{ flex: 1 }}
         >
           <KeyboardAvoidingView behavior="padding" style={styles.container}>
-            <View style={GlobalStyles.statusBarBlue} />
             <TouchableWithoutFeedback
               style={styles.container}
               onPress={Keyboard.dismiss}
