@@ -30,11 +30,10 @@ exports.list = (req, res) => {
     });
 };
 
-// TODO: Change this to an ID value
 exports.find = (req, res) => {
   console.log("Get a post!");
-  const query = "SELECT * FROM post WHERE title = $1;";
-  const params = [req.params.title];
+  const query = "SELECT * FROM post WHERE ID = $1;";
+  const params = [req.params.ID];
   db.query(query, params)
     .then(data => {
       console.log(data);
@@ -48,9 +47,9 @@ exports.find = (req, res) => {
 
 exports.update = (req, res) => {
   console.log("Update!");
-  const { message, title } = req.body;
-  const query = "UPDATE post SET message = $1 WHERE title = $2;";
-  const params = [ message, title ]; 
+  const { message, ID } = req.body;
+  const query = "UPDATE post SET message = $1 WHERE ID = $2;";
+  const params = [ message, ID ]; 
   db.query(query, params)
     .then(data => {
       console.log(data.rows);
