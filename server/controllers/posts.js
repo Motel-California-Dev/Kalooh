@@ -3,8 +3,8 @@ const db = require('../db');
 exports.create = (req, res) => {
   console.log("Post!");
   const { username, title, message, lati, long } = req.body;
-  const query = "INSERT INTO post (poster_name, post_time, title, message, lati, long) VALUES ($1, $2, $3, $4, $5, $6);";
-  const params = [username, Date.now(), title, lati, long]; 
+  const query = "INSERT INTO post (poster_name, post_time, title, message, lati, long) VALUES ($1, CURRENT_TIMESTAMP, $2, $3, $4, $5);";
+  const params = [username, title, message, lati, long]; 
   db.query(query, params)
     .then(data => {
       console.log(data.rows);
@@ -50,6 +50,21 @@ exports.update = (req, res) => {
   const { message, ID } = req.body;
   const query = "UPDATE post SET message = $1 WHERE ID = $2;";
   const params = [ message, ID ]; 
+  db.query(query, params)
+    .then(data => {
+      console.log(data.rows);
+      res.status(204).send({ message: "success!" });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err);
+    });
+};
+exports.delete = (req, res) => {
+  console.log("Delete!");
+  const { title, ID } = req.body;
+  const query = "DELETE FROM post  WHERE TITLE = $1 AND ID = $2;";
+  const params = [ title, ID ]; 
   db.query(query, params)
     .then(data => {
       console.log(data.rows);
