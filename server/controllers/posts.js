@@ -63,7 +63,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   console.log("Delete!");
   const { title, ID } = req.body;
-  const query = "DELETE FROM post  WHERE TITLE = $1 AND ID = $2;";
+  const query = "DELETE FROM post WHERE TITLE = $1 AND ID = $2;";
   const params = [ title, ID ]; 
   db.query(query, params)
     .then(data => {
