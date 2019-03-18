@@ -22,13 +22,12 @@ CREATE TABLE post (
   );
   
 CREATE TABLE comment (
+    	ID 		SERIAL,
     	POST_ID 	int NOT NULL,
 	user_name	VARCHAR(255) NOT NULL,
-	poster_name	VARCHAR(255) NOT NULL,
-	post_time	TIMESTAMP,
 	comment_time	TIMESTAMP NOT NULL,
 	text		VARCHAR(255) NOT NULL,
-	CONSTRAINT comment_pk PRIMARY KEY (user_name, POST_ID, comment_time),
+	CONSTRAINT comment_pk PRIMARY KEY (ID),
 	CONSTRAINT comment_fk_user FOREIGN KEY (user_name)
 	REFERENCES users(user_name),
 	CONSTRAINT comment_fk_post FOREIGN KEY (POST_ID)

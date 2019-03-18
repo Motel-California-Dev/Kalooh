@@ -37,7 +37,7 @@ exports.find = (req, res) => {
   db.query(query, params)
     .then(data => {
       console.log(data);
-      res.status(200).send(data.rows[0]);
+      res.status(200).send(data.rows);
     })
     .catch(err => {
       console.log(err);
@@ -47,9 +47,9 @@ exports.find = (req, res) => {
 
 exports.update = (req, res) => {
   console.log("Update!");
-  const { message, ID } = req.body;
+  const { message, id } = req.body;
   const query = "UPDATE post SET message = $1 WHERE id = $2;";
-  const params = [ message, ID ]; 
+  const params = [ message, id ]; 
   db.query(query, params)
     .then(data => {
       console.log(data.rows);

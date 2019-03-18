@@ -1,15 +1,15 @@
 const router = require('express-promise-router')();
 
-const PostController = require('../controllers/posts.js');
+const CommentController = require('../controllers/comments.js');
 
 router.route('/')
-  .get(PostController.list)
-  .post(PostController.create)
-  .patch(PostController.update)
-  .delete(PostController.delete);
+  .get(CommentController.list)
+  .post(CommentController.create)
+  .patch(CommentController.update)
+  .delete(CommentController.delete);
 
-router.route('/:ID')
-  .get(PostController.find);
+router.route('/:id')
+  .get(CommentController.find);
 
 module.exports = router;
 
