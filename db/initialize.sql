@@ -49,7 +49,7 @@ Insert Into "post" (poster_name, post_time, title, message, lati, long)
   ('Test3',TIMESTAMP '2019-02-19 12:05:00','Wow Nate','Could you not Nathan...',33.7820,-118.1130),
   ('Test2',TIMESTAMP '2019-02-19 14:15:00','Free fries at outpost','Whisper "give me all your money" and they will give you free fries.',33.7814,-118.1140);
 
-Insert Into "comment" (user_name, poster_name, post_time, comment_time, text)
+Insert Into "comment" (user_name, POST_ID, poster_name, post_time, comment_time, text)
   VALUES
   ('Test1', 2,TIMESTAMP '2019-02-19 12:10:00','What do you want Kyle? >:('),
   ('Test3', 3,TIMESTAMP '2019-02-19 12:11:00','You know what you did!!'),
