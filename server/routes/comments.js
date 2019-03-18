@@ -8,7 +8,7 @@ router.route('/')
   .patch(PostController.update)
   .delete(PostController.delete);
 
-router.route('/:id')
+router.route('/:ID')
   .get(PostController.find);
 
 module.exports = router;

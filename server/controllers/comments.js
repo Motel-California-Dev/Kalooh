@@ -32,8 +32,8 @@ exports.list = (req, res) => {
 
 exports.find = (req, res) => {
   console.log("Get a post!");
-  const query = "SELECT * FROM post WHERE id = $1;";
-  const params = [req.params.id];
+  const query = "SELECT * FROM post WHERE ID = $1;";
+  const params = [req.params.ID];
   db.query(query, params)
     .then(data => {
       console.log(data);
@@ -48,7 +48,7 @@ exports.find = (req, res) => {
 exports.update = (req, res) => {
   console.log("Update!");
   const { message, ID } = req.body;
-  const query = "UPDATE post SET message = $1 WHERE id = $2;";
+  const query = "UPDATE post SET message = $1 WHERE ID = $2;";
   const params = [ message, ID ]; 
   db.query(query, params)
     .then(data => {
@@ -63,7 +63,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   console.log("Delete!");
   const { title, ID } = req.body;
-  const query = "DELETE FROM post WHERE title = $1 AND id = $2;";
+  const query = "DELETE FROM post WHERE TITLE = $1 AND ID = $2;";
   const params = [ title, ID ]; 
   db.query(query, params)
     .then(data => {
