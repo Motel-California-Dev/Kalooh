@@ -8,6 +8,16 @@ CREATE TABLE users (
 	CONSTRAINT user_uni UNIQUE (email)
 );
 
+CREATE TABLE follow (
+	user		VARCHAR(255) NOT NULL,
+	follower	VARCHAR(255) NOT NULL,
+	CONSTRAINT follow_pk PRIMARY KEY (user, follower),
+	CONSTRAINT follow_fk_user FOREIGN KEY (user)
+	REFERENCES users(user_name)
+	CONSTRAINT follow_fk_follower FOREIGN KEY (follower)
+	REFERENCES users(user_name)
+);
+
 CREATE TABLE post (
     	ID 		SERIAL,
 	poster_name	VARCHAR(255) NOT NULL,
@@ -54,4 +64,11 @@ Insert Into "comment" (user_name, POST_ID, comment_time, text)
   ('Test3', 3,TIMESTAMP '2019-02-19 12:11:00','You know what you did!!'),
   ('Test4', 3,TIMESTAMP '2019-02-19 12:12:00','Woah guys, I feel like I caused this... :(');
 
-
+Insert Into "follow" (user, follower)
+  VALUES
+  ('Test2','Test1'),
+  ('Test2','Test3'),
+  ('Test3','Test2'),
+  ('Test4','Test1'),
+  ('Test5','Test4');
+  
