@@ -14,9 +14,9 @@ CREATE TABLE follow (
 	follower	int NOT NULL,
 	CONSTRAINT follow_pk PRIMARY KEY (leader, follower),
 	CONSTRAINT follow_fk_user FOREIGN KEY (leader)
-	REFERENCES users(ID),
+	  REFERENCES users(ID),
 	CONSTRAINT follow_fk_follower FOREIGN KEY (follower)
-	REFERENCES users(ID)
+	  REFERENCES users(ID)
 );
 
 CREATE TABLE post (
@@ -29,7 +29,7 @@ CREATE TABLE post (
   long  	    FLOAT,
 	CONSTRAINT post_pk PRIMARY KEY (ID),
 	CONSTRAINT post_fk_user FOREIGN KEY (user_id)
-	REFERENCES users(ID)
+	  REFERENCES users(ID)
   );
   
 CREATE TABLE comment (
@@ -40,9 +40,9 @@ CREATE TABLE comment (
 	text		      VARCHAR(255) NOT NULL,
 	CONSTRAINT comment_pk PRIMARY KEY (id),
 	CONSTRAINT comment_fk_user FOREIGN KEY (user_id)
-	REFERENCES users(id),
+	  REFERENCES users(id),
 	CONSTRAINT comment_fk_post FOREIGN KEY (post_id)
-	REFERENCES post(id)
+	  REFERENCES post(id)
   );
 
 INSERT INTO users (user_name, first_name, last_name, email, password)
