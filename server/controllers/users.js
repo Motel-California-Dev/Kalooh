@@ -3,7 +3,7 @@ const db = require('../db');
 exports.create = (req, res) => {
   console.log("Post!");
   const { username, firstName, lastName, email, password } = req.body;
-  const query = "INSERT INTO users (user_name, firstName, lastName, email, password) VALUES ($1, $2, $3, $4, $5);";
+  const query = "INSERT INTO users (user_name, first_name, last_name, email, password) VALUES ($1, $2, $3, $4, $5);";
   const params = [username, firstName, lastName, email, password]; 
   db.query(query, params)
     .then(data => {
@@ -32,8 +32,8 @@ exports.list = (req, res) => {
  
 exports.find = (req, res) => {
   console.log("Get a user!");
-  const query = "SELECT firstName, lastName, email, password FROM users WHERE user_name = $1;";
-  const params = [req.params.username];
+  const query = "SELECT first_name, last_name, email, password FROM users WHERE id = $1;";
+  const params = [req.params.id];
   db.query(query, params)
     .then(data => {
       console.log(data);
@@ -47,9 +47,9 @@ exports.find = (req, res) => {
 
 exports.update = (req, res) => {
   console.log("Update!");
-  const { username, password, newPass } = req.body;
-  const query = "UPDATE users SET password = $3 WHERE user_name = $1 AND password = $2;";
-  const params = [username, password, newPass]; 
+  const { id, password, newPass } = req.body;
+  const query = "UPDATE users SET password = $3 WHERE id = $1 AND password = $2;";
+  const params = [id, password, newPass]; 
   db.query(query, params)
     .then(data => {
       console.log(data.rows);
@@ -63,9 +63,9 @@ exports.update = (req, res) => {
 
 exports.delete = (req, res) => {
   console.log("Delete!");
-  const { username, password } = req.body;
-  const query = "DELETE FROM users WHERE user_name = $1 AND password = $2;";
-  const params = [username, password]; 
+  const { id, password } = req.body;
+  const query = "DELETE FROM users WHERE id = $1 AND password = $2;";
+  const params = [id, password]; 
   db.query(query, params)
     .then(data => {
       console.log(data.rows);
