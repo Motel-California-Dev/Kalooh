@@ -141,11 +141,11 @@ const schema = {
             "initialOffset": 1,
             "autoIncrement": true
           },
-          "post": {
-            "jsonPath": "$..posts[*].id"
+          "postId": {
+            "jsonPath": `$..posts[*].id`
           },
-          "user": {
-            "jsonPath": "$..users[*].id"
+          "userId": {
+            "jsonPath": `$..users[*].id`
           },
           "created_at": {
             "type": "string",
