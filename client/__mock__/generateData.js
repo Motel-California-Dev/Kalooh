@@ -175,7 +175,7 @@ const schema = {
   ]
 };
 
-fs.writeFile("db.json", JSON.stringify(jsf(schema)), err => {
+fs.writeFile("__mock__/db.json", JSON.stringify(jsf(schema)), err => {
   if (err) {
     console.log(`ERROR generating JSON: ${err}`);
   } else {
