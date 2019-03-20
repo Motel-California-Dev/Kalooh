@@ -6,7 +6,7 @@ CREATE TABLE users (
 	email		VARCHAR(255) NOT NULL,
 	password	VARCHAR(255) NOT NULL,
 	CONSTRAINT user_pk PRIMARY KEY (ID),
-	CONSTRAINT user_email UNIQUE (email)	
+	CONSTRAINT user_email UNIQUE (email),	
 	CONSTRAINT user_UN UNIQUE (user_name)
 );
 
