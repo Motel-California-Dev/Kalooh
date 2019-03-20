@@ -1,10 +1,10 @@
 CREATE TABLE users (
-	id		SERIAL,	
+	id		      SERIAL,	
 	user_name 	VARCHAR(255) NOT NULL,
 	first_name	VARCHAR(255) NOT NULL,
-	last_name	VARCHAR(255) NOT NULL,
-	email		VARCHAR(255) NOT NULL,
-	password	VARCHAR(255) NOT NULL,
+	last_name	  VARCHAR(255) NOT NULL,
+	email		    VARCHAR(255) NOT NULL,
+	password	  VARCHAR(255) NOT NULL,
 	CONSTRAINT user_pk PRIMARY KEY (id),
 	CONSTRAINT user_email UNIQUE (email)
 );
@@ -20,13 +20,13 @@ CREATE TABLE follow (
 );
 
 CREATE TABLE post (
-  id      	SERIAL,
-	user_id	  int NOT NULL,
-	post_time	TIMESTAMP NOT NULL,
-	title 		VARCHAR(255) NOT NULL,
-	message 	VARCHAR(255) NOT NULL,
-  lati 		  FLOAT,
-  long  	  FLOAT,
+  id      	  SERIAL,
+	user_id	    int NOT NULL,
+	created_at	TIMESTAMP NOT NULL,
+  title 		  VARCHAR(255) NOT NULL,
+	message 	  VARCHAR(255) NOT NULL,
+  lati 		    FLOAT,
+  long  	    FLOAT,
 	CONSTRAINT post_pk PRIMARY KEY (ID),
 	CONSTRAINT post_fk_user FOREIGN KEY (user_id)
 	REFERENCES users(ID)
@@ -36,7 +36,7 @@ CREATE TABLE comment (
   id 		        SERIAL,
   post_id 	    int NOT NULL,
 	user_id	      int NOT NULL,
-	comment_time	TIMESTAMP NOT NULL,
+	created_at	  TIMESTAMP NOT NULL,
 	text		      VARCHAR(255) NOT NULL,
 	CONSTRAINT comment_pk PRIMARY KEY (id),
 	CONSTRAINT comment_fk_user FOREIGN KEY (user_id)
@@ -53,13 +53,13 @@ INSERT INTO users (user_name, first_name, last_name, email, password)
   ('Test4','Kian','Badie','kianbadie@gmail.com','kian'),
   ('Test5','Christian','Wance','christian.wance@gmail.com','weKnow');
 
-INSERT INTO post (user_id, post_time, title, message, lati, long)
+INSERT INTO post (user_id, created_at, title, message, lati, long)
   VALUES
   (5,TIMESTAMP '2019-02-19 12:00:00','FIRST!','First Post of any kind!!',33.7817,-118.1135),
   (3,TIMESTAMP '2019-02-19 12:05:00','Wow Nate','Could you not Nathan...',33.7820,-118.1130),
   (2,TIMESTAMP '2019-02-19 14:15:00','Free fries at outpost','Whisper "give me all your money" and they will give you free fries.',33.7814,-118.1140);
 
-INSERT INTO comment (user_id, post_id, comment_time, text)
+INSERT INTO comment (user_id, post_id, created_at, text)
   VALUES
   (1, 2,TIMESTAMP '2019-02-19 12:10:00','What do you want Kyle? >:('),
   (3, 3,TIMESTAMP '2019-02-19 12:11:00','You know what you did!!'),

@@ -5,10 +5,10 @@ exports.create = (req, res) => {
   const { username, firstName, lastName, email, password } = req.body;
   const query = "INSERT INTO users (user_name, first_name, last_name, email, password) VALUES ($1, $2, $3, $4, $5);";
   const params = [username, firstName, lastName, email, password]; 
-  db.query(query, params)
+  db.none(query, params)
     .then(data => {
-      console.log(data.rows);
-      res.status(204).send({ message: "success!" });
+      console.log(data);
+      res.status(204).json({ message: "success!" });
     })
     .catch(err => {
       console.log(err);
@@ -19,10 +19,10 @@ exports.create = (req, res) => {
 exports.list = (req, res) => {
   console.log("Get!");
   const query = "SELECT * FROM users;";
-  db.query(query)
+  db.many(query)
     .then(data => {
       console.log(data);
-      res.status(200).send(data.rows);
+      res.status(200).send(data);
     })
     .catch(err => {
       console.log(err);
@@ -34,10 +34,10 @@ exports.find = (req, res) => {
   console.log("Get a user!");
   const query = "SELECT first_name, last_name, email, password FROM users WHERE id = $1;";
   const params = [req.params.id];
-  db.query(query, params)
+  db.one(query, params)
     .then(data => {
       console.log(data);
-      res.status(200).send(data.rows);
+      res.status(200).send(data);
     })
     .catch(err => {
       console.log(err);
@@ -52,8 +52,8 @@ exports.update = (req, res) => {
   const params = [id, password, newPass]; 
   db.query(query, params)
     .then(data => {
-      console.log(data.rows);
-      res.status(204).send({ message: "success!" });
+      console.log(data);
+      res.status(204).json({ message: "success!" });
     })
     .catch(err => {
       console.log(err);
@@ -68,8 +68,8 @@ exports.delete = (req, res) => {
   const params = [id, password]; 
   db.query(query, params)
     .then(data => {
-      console.log(data.rows);
-      res.status(204).send({ message: "success!" });
+      console.log(data);
+      res.status(204).json({ message: "success!" });
     })
     .catch(err => {
       console.log(err);
