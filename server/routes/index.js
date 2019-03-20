@@ -8,4 +8,5 @@ module.exports = (app) => {
   app.use('/users', UserRouter);
   app.use('/posts', PostRouter);
   app.use('/comments', CommentRouter);
+  app.use('/settings', CommentRouter);
 };

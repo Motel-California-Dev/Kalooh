@@ -2,8 +2,8 @@ const db = require('../db');
 
 exports.login = (req, res) => {
   console.log("Log in!");
-  const query = "SELECT user_name FROM users WHERE user_name = $1 AND password = $2;";
-  const params = [req.params.username, req.params.password];
+  const query = "SELECT ID FROM users WHERE user_name = $1 AND password = $2;";
+  const params = [req.body.username, req.body.password];
   db.query(query, params)
     .then(data => {
       console.log(data);
