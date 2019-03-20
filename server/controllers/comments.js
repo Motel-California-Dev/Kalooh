@@ -2,9 +2,9 @@ const db = require('../db');
 
 exports.create = (req, res) => {
   console.log("Post!");
-  const { post_id, username, text } = req.body;
-  const query = "INSERT INTO comment (POST_ID, user_name, comment_time, text) VALUES ($1, $2, CURRENT_TIMESTAMP, $3);";
-  const params = [post_id, username, text]; 
+  const { post_id, userid, text } = req.body;
+  const query = "INSERT INTO comment (POST_ID, commenter_ID, comment_time, text) VALUES ($1, $2, CURRENT_TIMESTAMP, $3);";
+  const params = [post_id, userid, text]; 
   db.query(query, params)
     .then(data => {
       console.log(data.rows);
@@ -47,9 +47,9 @@ exports.find = (req, res) => {
 
 exports.update = (req, res) => {
   console.log("Update!");
-  const { text, id, username } = req.body;
-  const query = "UPDATE comment SET text = $1 WHERE POST_ID = $2 AND user_name = $3;";
-  const params = [ text, id, username ]; 
+  const { text, postid, username } = req.body;
+  const query = "UPDATE comment SET text = $1 WHERE POST_ID = $2 AND commenter_id = $3;";
+  const params = [ text, postid, userid ]; 
   db.query(query, params)
     .then(data => {
       console.log(data.rows);

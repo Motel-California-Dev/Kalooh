@@ -37,7 +37,7 @@ exports.find = (req, res) => {
   db.query(query, params)
     .then(data => {
       console.log(data);
-      res.status(200).send(data.rows[0]);
+      res.status(200).send(data.rows);
     })
     .catch(err => {
       console.log(err);
