@@ -1,4 +1,4 @@
-const axios = require("axios");
+import axios from '../../config/axios';
 
 export function login(credentials) {
   let { username, password } = credentials;
@@ -6,7 +6,7 @@ export function login(credentials) {
   console.log(password);
   axios
     //Change to your own IP Address
-    .get(`http://134.139.210.64:3000/users`)
+    .get('users')
     .then(res => {
       console.log("//////////////////////");
       console.log(JSON.stringify(res));
