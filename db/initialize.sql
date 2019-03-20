@@ -5,9 +5,8 @@ CREATE TABLE users (
 	last_name	VARCHAR(255) NOT NULL,
 	email		VARCHAR(255) NOT NULL,
 	password	VARCHAR(255) NOT NULL,
-	CONSTRAINT user_pk PRIMARY KEY (ID),
-	CONSTRAINT user_email UNIQUE (email),
-	CONSTRAINT user_UN UNIQUE (user_name)
+	CONSTRAINT user_pk PRIMARY KEY (id),
+	CONSTRAINT user_email UNIQUE (email)
 );
 
 CREATE TABLE follow (
@@ -54,19 +53,19 @@ INSERT INTO users (user_name, first_name, last_name, email, password)
   ('Test4','Kian','Badie','kianbadie@gmail.com','kian'),
   ('Test5','Christian','Wance','christian.wance@gmail.com','weKnow');
 
-Insert Into "post" (user_id, post_time, title, message, lati, long)
+INSERT INTO post (user_id, post_time, title, message, lati, long)
   VALUES
   (5,TIMESTAMP '2019-02-19 12:00:00','FIRST!','First Post of any kind!!',33.7817,-118.1135),
   (3,TIMESTAMP '2019-02-19 12:05:00','Wow Nate','Could you not Nathan...',33.7820,-118.1130),
   (2,TIMESTAMP '2019-02-19 14:15:00','Free fries at outpost','Whisper "give me all your money" and they will give you free fries.',33.7814,-118.1140);
 
-Insert Into "comment" (user_id, post_id, comment_time, text)
+INSERT INTO comment (user_id, post_id, comment_time, text)
   VALUES
   (1, 2,TIMESTAMP '2019-02-19 12:10:00','What do you want Kyle? >:('),
   (3, 3,TIMESTAMP '2019-02-19 12:11:00','You know what you did!!'),
   (4, 3,TIMESTAMP '2019-02-19 12:12:00','Woah guys, I feel like I caused this... :(');
 
-Insert Into "follow" (leader, follower)
+INSERT INTO follow (leader, follower)
   VALUES
   (2,1),
   (2,3),
