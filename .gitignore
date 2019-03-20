@@ -9,3 +9,4 @@
 *.key
 *.mobileprovision
 *.env
+db.json
