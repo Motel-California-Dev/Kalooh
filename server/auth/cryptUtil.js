@@ -6,7 +6,6 @@ const getPasswordHash = password => {
       .then(salt => {
          bcrypt.hash(password, salt)
           .then(hash => {
-            console.log(hash);
             resolve(hash);
           })
           .catch(err => {
@@ -22,15 +21,16 @@ const getPasswordHash = password => {
 };
 
 const comparePassword = (password, hash) => {
-  bcrypt.compare(password, hash)
-    .then(res => {
-      console.log(res);
-      return res;
-    })
-    .catch(err => {
-      console.log('Password compare went wrong, bcrypt');
-      console.log(err);
-    });
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(password, hash)
+      .then(res => {
+        resolve(res);
+      })
+      .catch(err => {
+        console.log('Password compare went wrong, bcrypt');
+        reject(err);
+      });
+  });
 };
 
 module.exports = {

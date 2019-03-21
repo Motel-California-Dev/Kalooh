@@ -14,11 +14,11 @@ exports.create = async (req, res) => {
   db.none(query, params)
     .then(data => {
       console.log(data);
-      res.status(204).json({ message: "success!" });
+      return res.status(204).json({ message: "success!" });
     })
     .catch(err => {
       console.log(err);
-      res.status(500).send(err);
+      return res.status(500).send(err);
     });
 };
 
@@ -28,11 +28,11 @@ exports.list = (req, res) => {
   db.many(query)
     .then(data => {
       console.log(data);
-      res.status(200).send(data);
+      return res.status(200).send(data);
     })
     .catch(err => {
       console.log(err);
-      res.status(500).send(err);
+      return res.status(500).send(err);
     });
 };
  
@@ -43,11 +43,11 @@ exports.find = (req, res) => {
   db.one(query, params)
     .then(data => {
       console.log(data);
-      res.status(200).send(data);
+      return res.status(200).send(data);
     })
     .catch(err => {
       console.log(err);
-      res.status(500).send(err);
+      return res.status(500).send(err);
     });
 };
 
@@ -59,11 +59,11 @@ exports.update = (req, res) => {
   db.query(query, params)
     .then(data => {
       console.log(data);
-      res.status(204).json({ message: "success!" });
+      return res.status(204).json({ message: "success!" });
     })
     .catch(err => {
       console.log(err);
-      res.status(500).send(err);
+      return res.status(500).send(err);
     });
 };
 
@@ -75,10 +75,10 @@ exports.delete = (req, res) => {
   db.query(query, params)
     .then(data => {
       console.log(data);
-      res.status(204).json({ message: "success!" });
+      return res.status(204).json({ message: "success!" });
     })
     .catch(err => {
       console.log(err);
-      res.status(500).send(err);
+      return res.status(500).send(err);
     });
 };
