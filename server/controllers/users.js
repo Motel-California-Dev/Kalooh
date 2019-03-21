@@ -1,10 +1,16 @@
 const db = require('../db');
+const CryptUtil = require('../auth/cryptUtil');
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   console.log("Post!");
-  const { username, firstName, lastName, email, password } = req.body;
+  const { userName, firstName, lastName, email, password } = req.body;
+
+  const hashedPassword = await CryptUtil.getPasswordHash(password);
+
+  console.log(hashedPassword);
+
   const query = "INSERT INTO users (user_name, first_name, last_name, email, password) VALUES ($1, $2, $3, $4, $5);";
-  const params = [username, firstName, lastName, email, password]; 
+  const params = [userName, firstName, lastName, email, hashedPassword]; 
   db.none(query, params)
     .then(data => {
       console.log(data);
