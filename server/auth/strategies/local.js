@@ -14,10 +14,8 @@ module.exports = passport => {
     const params = [ userName ];
     db.one(query, params)
       .then(async user => {
-        if (!user) {
-          return done({ message: "User not found." }, false);
-        } else if (!(await CryptUtil.comparePassword(password, user.password))) {
-          return done({ message: "Password does not match." }, false);
+        if (!user || !(await CryptUtil.comparePassword(password, user.password))) {
+          return done({ message: "Incorrect login" }, false);
         } else {
           // Don't want to send back password, even though it's encrypted.
           delete user.password;
