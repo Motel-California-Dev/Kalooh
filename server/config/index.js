@@ -1,3 +1,5 @@
+const merge = require('lodash.merge');
+
 const Utils = require('../util'); 
 
 const config = {
@@ -26,9 +28,6 @@ const config = {
   },
   production: {
     session: {
-      secret: process.env.SESSION_SECRET,
-      resave: false,
-      saveUninitialized: true,
       cookie: {
         httpOnly: true,
         secure: true
@@ -43,14 +42,8 @@ switch(process.env.NODE_ENV) {
   case 'development': 
     exportedConfig = config.development;
     break;
-  case 'testing':
-    exportedConfig = Utils.config.merge(config.testing, config.development);
-    break;
-  case 'staging':
-    exportedConfig = Utils.config.merge(config.staging, config.development);
-    break;
   case 'production':
-    exportedConfig = Utils.config.merge(config.production, config.development);
+    merge(exportedConfig, config.development, config.production);
     break;
 }
 
