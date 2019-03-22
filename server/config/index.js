@@ -36,16 +36,7 @@ const config = {
   }
 };
 
-let exportedConfig = {};
-
-switch(process.env.NODE_ENV) {
-  case 'development': 
-    exportedConfig = config.development;
-    break;
-  case 'production':
-    merge(exportedConfig, config.development, config.production);
-    break;
-}
+const exportedConfig = merge(config.development, config[process.env.NODE_ENV]);
 
 module.exports = exportedConfig;
 
