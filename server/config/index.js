@@ -1,4 +1,5 @@
 const merge = require('lodash.merge');
+const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 const Utils = require('../util'); 
 
@@ -18,6 +19,17 @@ const config = {
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: true
+    },
+    passport: {
+      local: {
+        usernameField: 'userName',
+        passwordField: 'password'
+      },
+      jwt: {
+        jwtFromRequest: ExtractJwt.fromUrlQueryParameter("token"),
+        secretOrKey: process.env.JWT_SECRET,
+        tokenBodyField: "token"
+      }
     }
   },
   testing: {

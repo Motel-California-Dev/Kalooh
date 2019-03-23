@@ -1,11 +1,9 @@
 const local = require('./local');
-
-const strategies = {
-  local
-};
+const jwt = require('./jwt');
 
 const initStrategies = passport => {
   local(passport);
+  jwt(passport);
 };
 
 module.exports = {
