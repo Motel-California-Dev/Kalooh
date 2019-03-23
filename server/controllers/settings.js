@@ -1,6 +1,6 @@
 const db = require('../db');
 
-exports.updatePass = (req, res) => {
+exports.updatePassword = (req, res) => {
   console.log("Update!");
   const { id, password, newPass } = req.body;
   const query = "UPDATE users SET password = $3 WHERE ID = $1 AND password = $2;";

@@ -1,20 +1,22 @@
+const config = require('../config');
+const pgp = require('pg-promise')(config.db.pgpOptions);
+const snakeCase = require('snake-case');
+
 const db = require('../db');
-const CryptUtil = require('../auth/cryptUtil');
+const Utils = require('../util');
 
 exports.create = async (req, res) => {
   console.log("Post!");
   const { userName, firstName, lastName, email, password } = req.body;
 
-  const hashedPassword = await CryptUtil.getPasswordHash(password);
-
-  console.log(hashedPassword);
+  const hashedPassword = await Utils.crypt.getPasswordHash(password);
 
   const query = "INSERT INTO users (user_name, first_name, last_name, email, password) VALUES ($1, $2, $3, $4, $5);";
   const params = [userName, firstName, lastName, email, hashedPassword]; 
   db.none(query, params)
     .then(data => {
       console.log(data);
-      return res.status(204).json({ message: "success!" });
+      return res.status(201).json({ message: "success!" });
     })
     .catch(err => {
       console.log(err);
@@ -51,15 +53,26 @@ exports.find = (req, res) => {
     });
 };
 
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
   console.log("Update!");
-  const { id, password, newPass } = req.body;
-  const query = "UPDATE users SET password = $3 WHERE id = $1 AND password = $2;";
-  const params = [id, password, newPass]; 
-  db.query(query, params)
+  const { id } = req.params;
+
+  if (req.user.id !== id) {
+    return res.status(403).send({ message: "Forbidden: You're not authorized to do that, bub." });
+  }
+
+  const hashedPassword = await Utils.crypt.getPasswordHash(req.body.password);
+  req.body.password = hashedPassword;
+
+  const snakeCasedObject = Utils.db.snakifyColumns(req.body);
+
+  const cs = new pgp.helpers.ColumnSet(Object.keys(snakeCasedObject), { table: 'users' });
+  const query = pgp.helpers.update(snakeCasedObject, cs) + ' WHERE id = ' + id;
+
+  db.query(query)
     .then(data => {
       console.log(data);
-      return res.status(204).json({ message: "success!" });
+      return res.status(200).send({ message: "success!" });
     })
     .catch(err => {
       console.log(err);
