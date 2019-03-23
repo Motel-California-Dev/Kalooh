@@ -9,7 +9,7 @@ module.exports = passport => {
     if (payload.user) {
       return done(null, payload.user);
     } else {
-      return done(null, false);
+      return done({ message: "Error: couldn't find user" }, false);
     }
   }));
 };
