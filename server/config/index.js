@@ -1,7 +1,7 @@
 const merge = require('lodash.merge');
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
-const Utils = require('../util'); 
+const DbUtil = require('../util').db; 
 
 const config = {
   development: {
@@ -12,7 +12,7 @@ const config = {
       password: process.env.POSTGRES_PASSWORD,
       name: process.env.POSTGRES_DB,
       pgpOptions: {
-        receive: Utils.db.camelizeColumns
+        receive: DbUtil.camelizeColumns
       }
     },
     session: {
