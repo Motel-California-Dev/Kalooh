@@ -1,4 +1,5 @@
 const { camelize } = require('pg-promise').utils;
+const snakeCase = require('snake-case');
 
 const camelizeColumns = (data, result, e) => {
   const template = data[0];
@@ -14,7 +15,18 @@ const camelizeColumns = (data, result, e) => {
   }
 };
 
+const snakifyColumns = obj => {
+  const snakyBoi = {};
+  for (let key in obj) {
+    const snakeKey = snakeCase(key.toString());
+    snakyBoi[snakeKey] = obj[key]; 
+  };
+
+  return snakyBoi;
+};
+
 module.exports = {
-  camelizeColumns
+  camelizeColumns,
+  snakifyColumns
 };
 
