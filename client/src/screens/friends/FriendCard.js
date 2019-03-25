@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
-import { Card, ListItem, Button, Icon } from "react-native-elements";
 
 const FriendCard = props => {
   return (
@@ -16,6 +15,7 @@ const FriendCard = props => {
           <Text style={styles.usernameStyle}>{props.friend.username}</Text>
           <Text style={styles.nameStyle}>{props.friend.name}</Text>
         </View>
+        <View style={{ flex: 1 }} />
       </View>
     </View>
   );

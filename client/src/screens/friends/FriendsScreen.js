@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, SafeAreaView, Text } from "react-native";
+import { View, SafeAreaView, ScrollView } from "react-native";
 import FriendsList from "./FriendsList";
 import FriendCard from "./FriendCard";
 
@@ -15,17 +15,8 @@ export default class FriendsScreen extends React.Component {
     });
     return (
       <SafeAreaView style={{ backgroundColor: "#EFEFF4", flex: 1 }}>
-        <View>{friendCard}</View>
+        <ScrollView style={{ flex: 1 }}>{friendCard}</ScrollView>
       </SafeAreaView>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#ffffff"
-  }
-});

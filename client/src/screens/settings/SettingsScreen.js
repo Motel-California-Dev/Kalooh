@@ -90,6 +90,10 @@ export default class SettingsScreen extends React.Component {
               title="About Us"
               onPress={() => Alert.alert("Route To About Us Page")}
             />
+            <SettingsList.Item
+              title="Log out"
+              onPress={() => this.props.navigation.navigate("Login")}
+            />
           </SettingsList>
         </View>
       </SafeAreaView>
