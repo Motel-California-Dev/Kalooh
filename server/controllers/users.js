@@ -37,6 +37,38 @@ exports.list = (req, res) => {
       return res.status(500).send(err);
     });
 };
+
+exports.getPost = (req, res) => {
+  console.log("Get user post!");
+  const { id, userId } = req.params;
+  const query = "SELECT * FROM post where id = $1 AND user_id = $2;";
+  const params = [id, userId];
+  db.one(query, params)
+    .then(data => {
+      console.log(data);
+      return res.status(200).send(data);
+    })
+    .catch(err => {
+      console.log(err);
+      return res.status(500).send(err)
+    });
+}
+
+exports.getAllPosts = (req, res) => {
+  console.log("Get all posts by this user!");
+  const { userId } = req.params;
+  const query = "SELECT * FROM post where user_id = $1;";
+  const params = [userId];
+  db.many(query, params)
+    .then(data => {
+      console.log(data);
+      return res.status(200).send(data);
+    })
+    .catch(err => {
+      console.log(err);
+      return res.status(500).send(err)
+    });
+}
  
 exports.find = (req, res) => {
   console.log("Get a user!");
