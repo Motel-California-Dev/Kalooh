@@ -13,9 +13,19 @@ CREATE TABLE follow (
 	leader		int NOT NULL,
 	follower	int NOT NULL,
 	CONSTRAINT follow_pk PRIMARY KEY (leader, follower),
-	CONSTRAINT follow_fk_user FOREIGN KEY (leader)
+	CONSTRAINT follow_fk_leader FOREIGN KEY (leader)
 	  REFERENCES users(ID),
 	CONSTRAINT follow_fk_follower FOREIGN KEY (follower)
+	  REFERENCES users(ID)
+);
+
+CREATE TABLE friend (
+	leader		int NOT NULL,
+	friender	int NOT NULL,
+	CONSTRAINT friend_pk PRIMARY KEY (leader, friender),
+	CONSTRAINT friend_fk_leader FOREIGN KEY (leader)
+	  REFERENCES users(ID),
+	CONSTRAINT friend_fk_friender FOREIGN KEY (friender)
 	  REFERENCES users(ID)
 );
 
@@ -71,5 +81,13 @@ INSERT INTO follow (leader, follower)
   (2,3),
   (3,2),
   (4,1),
+  (4,5),
+  (5,4);
+  
+INSERT INTO friend (leader, friender)
+  VALUES
+  (2,3),
+  (3,2),
+  (4,5),
   (5,4);
   
