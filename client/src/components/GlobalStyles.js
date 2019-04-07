@@ -8,5 +8,10 @@ export default StyleSheet.create({
   statusBarWhite: {
     backgroundColor: "#fff",
     height: Platform.OS === "android" ? StatusBar.currentHeight : 0
+  },
+  horizontalLine: {
+    borderBottomColor: "rgba(255,255,255,0.5)",
+    borderBottomWidth: 1,
+    marginVertical: 10
   }
 });
