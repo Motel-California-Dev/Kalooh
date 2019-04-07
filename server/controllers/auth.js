@@ -8,7 +8,9 @@ const login = (req, res) => {
   const { user } = req;
   const token = jwt.sign({ user }, config.passport.jwt.secretOrKey);
 
-  return res.json(token);
+  user.token = token;
+
+  return res.json(user);
 };
 
 module.exports = {

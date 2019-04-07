@@ -52,6 +52,10 @@ const schema = {
           "password": {
             "type": "string",
             "faker": "internet.password"
+          },
+          "token": {
+            "type": "string",
+            "faker": { "random.alphaNumeric": [40] }
           }
         },
         "required": [
@@ -60,7 +64,8 @@ const schema = {
           "lastName",
           "email",
           "username",
-          "password"
+          "password",
+          "token"
         ]
       }
     },
