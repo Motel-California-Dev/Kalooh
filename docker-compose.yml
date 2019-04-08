@@ -7,7 +7,7 @@ services:
     ports:
       - '5432:5432'
     env_file:
-      - db/.env
+      - db/.env.example
   server:
     container_name: "kalooh-server"
     build: ./server
@@ -17,4 +17,4 @@ services:
     ports:
       - '3000:3000'
     env_file:
-      - server/.env
+      - server/.env.example

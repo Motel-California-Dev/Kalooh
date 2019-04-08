@@ -88,7 +88,7 @@ export default class LoginScreen extends React.Component {
                   >
                     <Text style={styles.signUpText}>Create an Account</Text>
                   </TouchableOpacity>
-                  <View style={styles.horizontalLine} />
+                  <View style={GlobalStyles.horizontalLine} />
                   <View style={styles.otherLogins}>
                     <TouchableOpacity style={styles.facebook}>
                       <View style={styles.otherButtonText}>
@@ -147,19 +147,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 50
   },
-  signUpButton: {
-    borderColor: "#062c52",
-    borderWidth: 0,
-    paddingVertical: 10,
-    marginTop: 10,
-    borderRadius: 50
-  },
   loginText: {
     textAlign: "center",
     letterSpacing: 2.5,
     color: "#fff",
     fontFamily: "montserrat-light",
     fontSize: 20
+  },
+  signUpButton: {
+    paddingVertical: 10,
+    marginTop: 10,
+    borderRadius: 50
   },
   signUpText: {
     textAlign: "center",
@@ -168,8 +166,7 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   otherLogins: {
-    flexDirection: "row",
-    marginVertical: 10
+    flexDirection: "row"
   },
   facebook: {
     flex: 1,
@@ -195,10 +192,5 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "700",
     fontSize: 18
-  },
-  horizontalLine: {
-    borderBottomColor: "rgba(255,255,255,0.5)",
-    borderBottomWidth: 1,
-    marginTop: 10
   }
 });

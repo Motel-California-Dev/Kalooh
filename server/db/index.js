@@ -1,29 +1,10 @@
-const { Pool } = require('pg');
+const pgPromise = require('pg-promise');
 
-const pool = new Pool({
-  host: process.env.POSTGRES_HOST,
-  user: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  port: process.env.POSTGRES_PORT,
-  database: process.env.POSTGRES_DB,
-  max: process.env.MAX_RETRIES,
-  connectionTimeoutMillis: process.env.CONNECTION_TIMEOUT
-});
+const config = require('../config');
 
-pool.on('connect', () => {
-  console.log("DB connected!");
-});
+const pgp = pgPromise(config.db.pgpOptions);
+const connection = `${config.db.host}://${config.db.user}:${config.db.password}@${config.db.host}:${config.db.port}/${config.db.name}`;
+const db = pgp(connection);
 
-pool.on('error', () => {
-  console.log("Error occurred with the database...");
-  setTimeout(pool.connect, 5000);
-});
-
-function query (text, params) {
-  return pool.query(text, params);
-}
-
-module.exports = {
-  query
-};
+module.exports = db;
 

@@ -3,12 +3,12 @@ const db = require('../db');
 exports.create = (req, res) => {
   console.log("Post!");
   const { userid, title, message, lati, long } = req.body;
-  const query = "INSERT INTO post (poster_ID, post_time, title, message, lati, long) VALUES ($1, CURRENT_TIMESTAMP, $2, $3, $4, $5);";
+  const query = "INSERT INTO post (user_id, created_at, title, message, lati, long) VALUES ($1, CURRENT_TIMESTAMP, $2, $3, $4, $5);";
   const params = [userid, title, message, lati, long]; 
   db.query(query, params)
     .then(data => {
-      console.log(data.rows);
-      res.status(204).send({ message: "success!" });
+      console.log(data);
+      res.status(204).json({ message: "success!" });
     })
     .catch(err => {
       console.log(err);
@@ -22,7 +22,7 @@ exports.list = (req, res) => {
   db.query(query)
     .then(data => {
       console.log(data);
-      res.status(200).send(data.rows);
+      res.status(200).send(data);
     })
     .catch(err => {
       console.log(err);
@@ -37,7 +37,7 @@ exports.find = (req, res) => {
   db.query(query, params)
     .then(data => {
       console.log(data);
-      res.status(200).send(data.rows);
+      res.status(200).send(data);
     })
     .catch(err => {
       console.log(err);
@@ -52,8 +52,8 @@ exports.update = (req, res) => {
   const params = [ message, id ]; 
   db.query(query, params)
     .then(data => {
-      console.log(data.rows);
-      res.status(204).send({ message: "success!" });
+      console.log(data);
+      res.status(204).json({ message: "success!" });
     })
     .catch(err => {
       console.log(err);
@@ -67,8 +67,8 @@ exports.delete = (req, res) => {
   const params = [ title, ID ]; 
   db.query(query, params)
     .then(data => {
-      console.log(data.rows);
-      res.status(204).send({ message: "success!" });
+      console.log(data);
+      res.status(204).json({ message: "success!" });
     })
     .catch(err => {
       console.log(err);

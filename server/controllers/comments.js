@@ -2,13 +2,13 @@ const db = require('../db');
 
 exports.create = (req, res) => {
   console.log("Post!");
-  const { post_id, userid, text } = req.body;
-  const query = "INSERT INTO comment (POST_ID, commenter_ID, comment_time, text) VALUES ($1, $2, CURRENT_TIMESTAMP, $3);";
-  const params = [post_id, userid, text]; 
+  const { postId, userId, text } = req.body;
+  const query = "INSERT INTO comment (post_id, user_id, created_at, text) VALUES ($1, $2, CURRENT_TIMESTAMP, $3);";
+  const params = [postId, userId, text]; 
   db.query(query, params)
     .then(data => {
-      console.log(data.rows);
-      res.status(204).send({ message: "success!" });
+      console.log(data);
+      res.status(204).json({ message: "success!" });
     })
     .catch(err => {
       console.log(err);
@@ -22,7 +22,7 @@ exports.list = (req, res) => {
   db.query(query)
     .then(data => {
       console.log(data);
-      res.status(200).send(data.rows);
+      res.status(200).send(data);
     })
     .catch(err => {
       console.log(err);
@@ -32,12 +32,12 @@ exports.list = (req, res) => {
 
 exports.find = (req, res) => {
   console.log("Get a post!");
-  const query = "SELECT * FROM comment WHERE ID = $1;";
+  const query = "SELECT * FROM comment WHERE id = $1;";
   const params = [req.params.id];
   db.query(query, params)
     .then(data => {
       console.log(data);
-      res.status(200).send(data.rows);
+      res.status(200).send(data);
     })
     .catch(err => {
       console.log(err);
@@ -48,12 +48,12 @@ exports.find = (req, res) => {
 exports.update = (req, res) => {
   console.log("Update!");
   const { text, postid, username } = req.body;
-  const query = "UPDATE comment SET text = $1 WHERE POST_ID = $2 AND commenter_id = $3;";
+  const query = "UPDATE comment SET text = $1 WHERE post_id = $2 AND user_id = $3;";
   const params = [ text, postid, userid ]; 
   db.query(query, params)
     .then(data => {
-      console.log(data.rows);
-      res.status(204).send({ message: "success!" });
+      console.log(data);
+      res.status(204).json({ message: "success!" });
     })
     .catch(err => {
       console.log(err);
@@ -63,12 +63,12 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   console.log("Delete!");
   const { title, ID } = req.body;
-  const query = "DELETE FROM comment WHERE ID = $1;";
+  const query = "DELETE FROM comment WHERE id = $1;";
   const params = [ ID ]; 
   db.query(query, params)
     .then(data => {
-      console.log(data.rows);
-      res.status(204).send({ message: "success!" });
+      console.log(data);
+      res.status(204).json({ message: "success!" });
     })
     .catch(err => {
       console.log(err);

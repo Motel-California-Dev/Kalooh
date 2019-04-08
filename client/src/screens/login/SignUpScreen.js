@@ -28,7 +28,15 @@ export default class SignUpScreen extends React.Component {
     };
   }
   _signUpOnClick = () => {
-    if (this.state.password1 != this.state.password2) {
+    if (
+      this.state.username == "" ||
+      this.state.nameFirst == "" ||
+      this.state.nameLast == "" ||
+      this.state.email == "" ||
+      this.state.password1 == ""
+    ) {
+      Alert.alert("Create account failed. Missing fields.");
+    } else if (this.state.password1 != this.state.password2) {
       Alert.alert("Your password did not match. Try again.");
     } else {
       Alert.alert("Nice! An email confirmation has been sent.");
@@ -42,7 +50,6 @@ export default class SignUpScreen extends React.Component {
           style={{ flex: 1 }}
         >
           <KeyboardAvoidingView behavior="padding" style={styles.container}>
-            <View style={GlobalStyles.statusBarBlue} />
             <TouchableWithoutFeedback
               style={styles.container}
               onPress={Keyboard.dismiss}
@@ -92,7 +99,6 @@ export default class SignUpScreen extends React.Component {
                       />
                     </View>
                   </View>
-
                   <TextInput
                     placeholder="email"
                     placeholderTextColor="rgba(255,255,255,0.7)"
@@ -105,6 +111,7 @@ export default class SignUpScreen extends React.Component {
                     style={styles.input}
                     onChangeText={email => this.setState({ email })}
                   />
+                  <View style={GlobalStyles.horizontalLine} />
                   <TextInput
                     placeholder="password"
                     placeholderTextColor="rgba(255,255,255,0.7)"
@@ -125,10 +132,16 @@ export default class SignUpScreen extends React.Component {
                     onChangeText={password2 => this.setState({ password2 })}
                   />
                   <TouchableOpacity
-                    style={styles.button}
+                    style={styles.signUpButton}
                     onPress={this._signUpOnClick}
                   >
-                    <Text style={styles.buttonText}>Sign Up</Text>
+                    <Text style={styles.signUpText}>Sign Up</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.goBackButton}
+                    onPress={() => this.props.navigation.navigate("Login")}
+                  >
+                    <Text style={styles.goBackText}>Back to Login</Text>
                   </TouchableOpacity>
                 </View>
                 <Text style={styles.footer}>
@@ -164,24 +177,35 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     backgroundColor: "rgba(255,255,255,.2)",
-    marginBottom: 10,
+    marginVertical: 5,
     color: "#fff",
     paddingHorizontal: 20,
     borderRadius: 50,
     fontFamily: "montserrat-light"
   },
-  button: {
+  signUpButton: {
     backgroundColor: "#062c52",
     paddingVertical: 10,
     marginTop: 10,
     borderRadius: 50
   },
-  buttonText: {
+  signUpText: {
     textAlign: "center",
     letterSpacing: 2.5,
     color: "#fff",
     fontFamily: "montserrat-light",
     fontSize: 20
+  },
+  goBackButton: {
+    paddingVertical: 10,
+    marginTop: 10,
+    borderRadius: 50
+  },
+  goBackText: {
+    textAlign: "center",
+    color: "#062c52",
+    fontFamily: "montserrat-light",
+    fontSize: 16
   },
   footer: {
     padding: 20,
