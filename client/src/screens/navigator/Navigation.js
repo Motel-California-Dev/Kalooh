@@ -11,7 +11,7 @@ import GlobalStyles from "../../components/GlobalStyles";
 import { Ionicons } from "@expo/vector-icons";
 import SignUpScreen from "../login/SignUpScreen";
 import LoginScreen from "../login/LoginScreen";
-import HomeScreen from "../home/HomeScreen";
+import HomeNavigator from "../home/HomeNavigator";
 import SearchScreen from "../search/SearchScreen";
 import PeopleNavigator from "./PeopleNavigation";
 import NotificationScreen from "../notification/NotificationScreen";
@@ -28,6 +28,7 @@ export default class Navigation extends React.Component {
     );
   }
 }
+
 
 /* Create Account & Login Screen */
 const AuthenticationNavigator = createStackNavigator(
@@ -47,7 +48,7 @@ const AuthenticationNavigator = createStackNavigator(
 const MainNavigator = createMaterialBottomTabNavigator(
   {
     Home: {
-      screen: HomeScreen,
+      screen: HomeNavigator,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Ionicons name="ios-home" color={tintColor} size={28} />

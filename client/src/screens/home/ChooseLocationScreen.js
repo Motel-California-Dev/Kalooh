@@ -41,10 +41,8 @@ export default class HomeScreen extends React.Component {
     } } );
   };
 
-  _handleCreateNotePress = () => {
-    this.props.navigation.navigate('CreateNoteScreen', {
-      mapRegion: this.state.mapRegion,
-    });
+  _handleConfirmLocationPress = () => {
+    this.props.navigation.state.params._chooseLocationGoBack(this.state.mapRegion);
   }
 
   render() {
@@ -65,9 +63,11 @@ export default class HomeScreen extends React.Component {
                   />
         }
 
-        <View style={styles.createNoteButtonContainer}>
-          <TouchableHighlight underlayColor='white' style={styles.createNoteButton} onPress={this._handleCreateNotePress}>
-            <Ionicons name="ios-add-circle-outline" size={64} color='#629FE7'/>
+        <Ionicons style={styles.noteFlag} name="ios-flag" size={32} color='#629FE7'/>
+
+        <View style={styles.confirmLocationButtonContainer}>
+          <TouchableHighlight underlayColor='white' style={styles.confirmLocationButton} onPress={this._handleConfirmLocationPress}>
+            <Text>Confirm Location</Text>
           </TouchableHighlight>
         </View>
 
@@ -92,6 +92,19 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'stretch'
   },
+  noteFlag: {
+    position: 'absolute',
+    color: '#000000'
+  },
+  confirmLocationButtonContainer: {
+    position: 'absolute',
+    bottom: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  confirmLocationButton : {
+
+  },
   locationButtonContainer: {
     backgroundColor: 'transparent',
     position: 'absolute',
@@ -105,18 +118,4 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: '#ffffff'
   },
-  createNoteButtonContainer: {
-    position: 'absolute',
-    bottom: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  createNoteButton: {
-    backgroundColor: '#ffffff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 64,
-    width: 64,
-    borderRadius: 100,
-  } 
 });
