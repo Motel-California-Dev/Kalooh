@@ -8,6 +8,8 @@ import {
   TextInput 
 } from "react-native";
 
+import axios from '../../../config/axios';
+
 export default class CreateNoteScreen extends React.Component {
   constructor(props){
     super(props);
@@ -19,12 +21,27 @@ export default class CreateNoteScreen extends React.Component {
   }
 
   _postOnClick = () => {
+    const { titleText: title, descriptionText: description } = this.state;
+    const { longitude: long, latitude: lati } = this.state.mapRegion;
     let post = {
-      title: this.state.titleText,
-      description: this.state.descriptionText,
-      mapRegion: this.state.mapRegion,
+      title,
+      userId: 1,
+      message: description,
+      createdAt: Date.now(),
+      long,
+      lati
     }
     console.log(post);
+
+    axios.post('posts', post)
+    .then(res => {
+      console.log(JSON.stringify(res));
+    })
+    .catch(err => {
+      console.log("Fuck.");
+      console.log(JSON.stringify(err));
+    })
+
     this.props.navigation.navigate('HomeScreen');
   };
 

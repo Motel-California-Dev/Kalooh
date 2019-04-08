@@ -3,6 +3,8 @@ import { StyleSheet, View, Text, TouchableHighlight } from "react-native";
 import { Constants, MapView, Location, Permissions } from 'expo';
 import { Ionicons } from "@expo/vector-icons";
 
+import axios from '../../../config/axios';
+
 export default class HomeScreen extends React.Component {
 
   constructor(props){
@@ -10,12 +12,21 @@ export default class HomeScreen extends React.Component {
     this.state = {
       mapRegion: null,
       hasLocationPermissions: false,
-      locationResult: null
+      locationResult: null,
+      posts: []
     };
   }
 
   componentDidMount(){
     this._getLocationAsync();
+
+    axios.get('posts')
+      .then(res => {
+        this.setState({posts: res.data});
+      })
+      .catch(err => {
+        console.log("ahhh");
+      });
   }
 
   _handleMapRegionChangeComplete = (mapRegion) => {
@@ -62,7 +73,20 @@ export default class HomeScreen extends React.Component {
                     region={this.state.mapRegion}
                     onRegionChangeComplete={this._handleMapRegionChangeComplete}
                     showsUserLocation={true}
-                  />
+                  >
+                    {
+                      this.state.posts.map(post => (
+                        <MapView.Marker key={post.id}
+                          coordinate={{
+                            latitude: post.lati,
+                            longitude: post.long
+                          }}
+                          title={post.title}
+                          description={post.message}
+                        />
+                      ))
+                    }
+                  </MapView>
         }
 
         <View style={styles.createNoteButtonContainer}>
@@ -70,7 +94,6 @@ export default class HomeScreen extends React.Component {
             <Ionicons name="ios-add-circle-outline" size={64} color='#629FE7'/>
           </TouchableHighlight>
         </View>
-
         <View style={styles.locationButtonContainer}>
           <TouchableHighlight underlayColor='white' style={styles.locationButton} onPress={this._getLocationAsync}>
             <Ionicons name="ios-locate" size={32} color='#629FE7'/>
