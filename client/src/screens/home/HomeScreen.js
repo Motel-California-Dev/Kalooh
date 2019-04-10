@@ -5,6 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 import axios from '../../../config/axios';
 
+import { SecureStore } from 'expo';
+
 export default class HomeScreen extends React.Component {
 
   constructor(props){
@@ -19,7 +21,14 @@ export default class HomeScreen extends React.Component {
 
   componentDidMount(){
     this._getLocationAsync();
+    console.log('testing if we can access token');
+    SecureStore.getItemAsync('token')
+      .then((token) => {
+          console.log(token);
+      });
 
+
+// TODO: Move to posts controller
     axios.get('posts')
       .then(res => {
         this.setState({posts: res.data});

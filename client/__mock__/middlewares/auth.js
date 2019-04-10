@@ -1,13 +1,13 @@
 const fs = require('fs');
 
 module.exports = (req, res, next) => {
-  const { method, path, body: { username, password }} = req;
+  const { method, path, body: { username, password, token }} = req;
   if (method === 'POST' && path === '/login') {
     const users = JSON.parse(fs.readFileSync('__mock__/db.json')).users;
     console.log(users);
 
     for(let i = 0; i < users.length; i++) {
-      if (username === users[i].username && password === users[i].password) {
+      if ((username === users[i].username && password === users[i].password) || token === users[i].token) {
         return res.status(200).send(users[i]);
       }
     }

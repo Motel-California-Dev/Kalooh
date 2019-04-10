@@ -16,6 +16,8 @@ import { Icon } from "react-native-elements";
 import { login } from "../../controllers/UserController";
 import GlobalStyles from "../../components/GlobalStyles";
 
+import { SecureStore } from 'expo';
+
 export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -25,13 +27,33 @@ export default class LoginScreen extends React.Component {
     };
   }
 
-  _loginOnClick = () => {
+  componentDidMount(){
+    SecureStore.getItemAsync('token')
+      .then(async (token) => {
+        let res = await login({ token });
+        if(res){
+          console.log('token is already stored. logging in');
+          this.props.navigation.navigate("Main"); //Navigates to the Main App
+        }
+      });
+  }
+
+  _loginOnClick = async () => {
     let { username, password } = this.state;
-    let res = login({
+    let res = await login({
       username,
       password
     });
-    this.props.navigation.navigate("Main"); //Navigates to the Main App
+    if(res){
+      SecureStore.setItemAsync('token', res.token)
+        .then(() => {
+          console.log('token has been stored');
+          this.props.navigation.navigate("Main"); //Navigates to the Main App
+        });
+    }
+    else{
+      console.log('the username or password was incorrect.');
+    }
   };
 
   render() {

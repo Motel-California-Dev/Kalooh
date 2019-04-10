@@ -12,6 +12,8 @@ import SettingsList from "react-native-settings-list";
 import { Ionicons } from "@expo/vector-icons";
 import GlobalStyles from "../../components/GlobalStyles";
 
+import { SecureStore } from 'expo';
+
 export default class SettingsScreen extends React.Component {
   constructor() {
     super();
@@ -92,7 +94,12 @@ export default class SettingsScreen extends React.Component {
             />
             <SettingsList.Item
               title="Log out"
-              onPress={() => this.props.navigation.navigate("Login")}
+              onPress={async () => {
+                await SecureStore.deleteItemAsync('token')
+                  .then(() => {
+                    this.props.navigation.navigate("Login");
+                  });
+              }}
             />
           </SettingsList>
         </View>
