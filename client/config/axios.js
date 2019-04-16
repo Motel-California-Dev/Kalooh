@@ -1,6 +1,11 @@
 import axios from 'axios';
+import { Constants } from 'expo';
+
+const baseURL = Constants.manifest.extra.baseURL;
+
+console.log(baseURL);
 
 module.exports = axios.create({
-  baseURL: 'http://ec2-18-215-245-62.compute-1.amazonaws.com/'
+  baseURL
 });
 
