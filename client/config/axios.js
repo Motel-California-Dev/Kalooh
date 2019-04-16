@@ -1,6 +1,6 @@
 import axios from 'axios';
 
 module.exports = axios.create({
-  baseURL: 'http://10.0.2.2:3001/'
+  baseURL: 'http://ec2-18-215-245-62.compute-1.amazonaws.com/'
 });
 

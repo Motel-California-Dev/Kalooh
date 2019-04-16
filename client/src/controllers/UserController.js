@@ -1,10 +1,19 @@
-//Test user
-//"username": "Coy69",
-//"password": "a8qw8nBxbdOeRDc",
-
 import axios from '../../config/axios';
 
-export async function login(credentials) {
+export async function login({ username, password }) {
+  const user = { userName: username, password };
+
+  console.log(JSON.stringify(user));
+
+  try {
+    const { data } = await axios.post('auth/login', user)
+    return data; 
+  } catch (err) {
+    console.log(`Error: ${JSON.stringify(err)}`);
+  }
+}
+
+export async function loginMock(credentials) {
   let { username, password, token } = credentials;
 
   let query = (username && password) ? 

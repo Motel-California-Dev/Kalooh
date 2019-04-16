@@ -22,8 +22,8 @@ export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: ""
+      username: "test1",
+      password: "testpw"
     };
   }
 
@@ -40,19 +40,20 @@ export default class LoginScreen extends React.Component {
 
   _loginOnClick = async () => {
     let { username, password } = this.state;
-    let res = await login({
-      username,
-      password
-    });
-    if(res){
-      SecureStore.setItemAsync('token', res.token)
-        .then(() => {
-          console.log('token has been stored');
-          this.props.navigation.navigate("Main"); //Navigates to the Main App
-        });
-    }
-    else{
-      console.log('the username or password was incorrect.');
+    try { 
+      const res = await login({
+        username,
+        password
+      });
+
+      console.log(JSON.stringify(res));
+
+      // "await" stops execution until the method is completed, which means the screen won't navigate to main
+      // until after the token is stored.
+      await SecureStore.setItemAsync('token', res.token);
+      this.props.navigation.navigate("Main"); 
+    } catch (err) {
+      console.log(`Error while logging in: ${err}`);
     }
   };
 
@@ -88,6 +89,7 @@ export default class LoginScreen extends React.Component {
                     autoCorrect={false}
                     style={styles.input}
                     onChangeText={username => this.setState({ username })}
+                    value={this.state.username}
                   />
                   <TextInput
                     placeholder="password"
@@ -97,6 +99,7 @@ export default class LoginScreen extends React.Component {
                     style={styles.input}
                     ref={input => (this.passwordInput = input)}
                     onChangeText={password => this.setState({ password })}
+                    value={this.state.password}
                   />
                   <TouchableOpacity
                     style={styles.loginButton}
