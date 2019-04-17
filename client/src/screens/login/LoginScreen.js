@@ -16,31 +16,35 @@ import { Icon } from "react-native-elements";
 import { login } from "../../controllers/UserController";
 import GlobalStyles from "../../components/GlobalStyles";
 
-import { SecureStore } from 'expo';
+import { SecureStore } from "expo";
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: "test1",
-      password: "testpw"
+      password: "testpw",
+      hidePassword: false
     };
   }
 
-  componentDidMount(){
-    SecureStore.getItemAsync('token')
-      .then(async (token) => {
-        let res = await login({ token });
-        if(res){
-          console.log('token is already stored. logging in');
-          this.props.navigation.navigate("Main"); //Navigates to the Main App
-        }
-      });
+  componentDidMount() {
+    SecureStore.getItemAsync("token").then(async token => {
+      let res = await login({ token });
+      if (res) {
+        console.log("token is already stored. logging in");
+        this.props.navigation.navigate("Main"); //Navigates to the Main App
+      }
+    });
+  }
+
+  _toggleHiddenPassword() {
+    this.setState(prevState => ({ hidePassword: !prevState.hidePassword }));
   }
 
   _loginOnClick = async () => {
     let { username, password } = this.state;
-    try { 
+    try {
       const res = await login({
         username,
         password
@@ -50,8 +54,8 @@ export default class LoginScreen extends React.Component {
 
       // "await" stops execution until the method is completed, which means the screen won't navigate to main
       // until after the token is stored.
-      await SecureStore.setItemAsync('token', res.token);
-      this.props.navigation.navigate("Main"); 
+      await SecureStore.setItemAsync("token", res.token);
+      this.props.navigation.navigate("Main");
     } catch (err) {
       console.log(`Error while logging in: ${err}`);
     }
@@ -95,12 +99,19 @@ export default class LoginScreen extends React.Component {
                     placeholder="password"
                     placeholderTextColor="rgba(255,255,255,0.7)"
                     returnKeyType="go"
-                    secureTextEntry
-                    style={styles.input}
+                    autoCapitalize="none"
+                    secureTextEntry={this.state.hidePassword}
                     ref={input => (this.passwordInput = input)}
+                    style={styles.input}
                     onChangeText={password => this.setState({ password })}
                     value={this.state.password}
                   />
+                  <TouchableOpacity
+                    onPress={() => this._toggleHiddenPassword()}
+                  >
+                    <Icon name="remove-red-eye" type="material" color="#000" />
+                  </TouchableOpacity>
+
                   <TouchableOpacity
                     style={styles.loginButton}
                     onPress={this._loginOnClick}
