@@ -1,0 +1,39 @@
+#!/bin/bash
+
+build-ecr() {
+  $(aws ecr get-login --no-include-email --region us-east-1)
+
+  docker build -t kalooh-server $KALOOH/server 
+
+  docker tag kalooh-server:latest 823151457499.dkr.ecr.us-east-1.amazonaws.com/kalooh-server:latest
+
+  docker push 823151457499.dkr.ecr.us-east-1.amazonaws.com/kalooh-server:latest
+}
+
+redeploy() {
+  aws ecs --profile kalooh update-service --cluster kalooh-cluster --service kalooh-server-service --force-new-deployment
+}
+
+connect() {
+  echo "$1"
+  case "$1" in
+    db)
+      echo "Connecting to DB"
+      psql --host=kalooh-db.clmdf2zvhmlk.us-east-1.rds.amazonaws.com --port=5432 --dbname=kalooh --username=motelcalifornia --password
+      ;;
+    server)
+      ssh -i ~/.aws/keypairs/kalooh-server.pem ec2-user@ec2-18-215-245-62.compute-1.amazonaws.com
+      ;;
+  esac
+}
+
+if declare -f "$1" > /dev/null; then
+  "$@"
+else 
+  echo "'$1' is not a known function." 
+  echo "Current commands:
+    build-ecr =>  Build Docker image and deploy to ECR
+    redeploy  =>  Redeploy kalooh-server-service" 
+  exit 1
+fi
+
