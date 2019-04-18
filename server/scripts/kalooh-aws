@@ -33,7 +33,8 @@ else
   echo "'$1' is not a known function." 
   echo "Current commands:
     build-ecr =>  Build Docker image and deploy to ECR
-    redeploy  =>  Redeploy kalooh-server-service" 
+    redeploy  =>  Redeploy kalooh-server-service
+    connect   =>  Connect to server/db"
   exit 1
 fi
 

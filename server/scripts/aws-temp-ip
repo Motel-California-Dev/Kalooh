@@ -1,3 +1,3 @@
 #!/bin/bash
 
-aws-ip-temp-permissions --profile kalooh -g sg-079ae782e9b5d0c05 -t 22 -P tcp -c $IP/24
+aws-ip-temp-permissions -u kalooh -g sg-079ae782e9b5d0c05,sg-0da2bcf787043e6d0 -p 22,5432 -P tcp -c $(curl -s ifconfig.me)/24

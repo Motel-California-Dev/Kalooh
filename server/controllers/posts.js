@@ -18,8 +18,11 @@ exports.create = (req, res) => {
 
 exports.list = (req, res) => {
   console.log("Get!");
-  const query = "SELECT * FROM post;";
-  db.query(query)
+  const { lati, long } = req.query;
+  const query = "SELECT id, distance FROM ( SELECT id, ( 6371 * ACOS( COS( RADIANS( $1 ) ) * COS( RADIANS( lati ) ) * COS( RADIANS( long ) - RADIANS( $2 ) ) + SIN( RADIANS( $1) ) * SIN( RADIANS( lati ) ) ) ) AS distance FROM post) AS dt WHERE distance < 25.0;";
+
+  const params = [ lati, long ]
+  db.query(query, params)
     .then(data => {
       console.log(data);
       res.status(200).send(data);
