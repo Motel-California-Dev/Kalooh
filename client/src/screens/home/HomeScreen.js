@@ -13,21 +13,38 @@ export default class HomeScreen extends React.Component {
     this.state = {
       mapRegion: null,
       hasLocationPermissions: false,
-      locationResult: null,
+      location: null,
       posts: []
     };
   }
 
-  componentDidMount() {
-    this._getLocationAsync();
+  async componentDidMount() {
+    const location = await this._getLocationAsync();
+    this.setState({ location, 
+      mapRegion: {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      }
+    });
+
     console.log("testing if we can access token");
     SecureStore.getItemAsync("token").then(token => {
       console.log(token);
     });
 
+    console.log("THIS STATE");
+    console.log(this.state);
+
     // TODO: Move to posts controller
     axios
-      .get("posts")
+      .get("posts", {
+        params: {
+          lati: this.state.location.coords.latitude,
+          long: this.state.location.coords.longitude
+        }
+      })
       .then(res => {
         console.log(res.data);
         this.setState({ posts: res.data });
@@ -45,23 +62,13 @@ export default class HomeScreen extends React.Component {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
       this.setState({
-        locationResult: "Permission to access location was denied"
+        location: "Permission to access location was denied"
       });
     } else {
       this.setState({ hasLocationPermissions: "true" });
     }
 
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ locationResult: JSON.stringify(location) });
-
-    this.setState({
-      mapRegion: {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
-      }
-    });
+    return await Location.getCurrentPositionAsync({});
   };
 
   _handleCreateNotePress = () => {
@@ -73,7 +80,7 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.state.locationResult === null ? (
+        {this.state.location === null ? (
           <Text>Finding your current location...</Text>
         ) : this.state.hasLocationPermissions === false ? (
           <Text>Location permissions are not granted.</Text>
