@@ -69,6 +69,18 @@ export default class HomeScreen extends React.Component {
       this.setState({ hasLocationPermissions: "true" });
     }
 
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ locationResult: JSON.stringify(location) });
+
+    this.setState({
+      mapRegion: {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      }
+    });
+
     return await Location.getCurrentPositionAsync({});
   };
 

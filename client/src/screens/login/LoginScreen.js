@@ -26,7 +26,7 @@ export default class LoginScreen extends React.Component {
     this.state = {
       username: "test1",
       password: "testpw",
-      hidePassword: false,
+      hidePassword: true,
       isLoading: false
     };
   }
@@ -55,8 +55,6 @@ export default class LoginScreen extends React.Component {
         password
       });
       console.log(JSON.stringify(res));
-      // "await" stops execution until the method is completed, which means the screen won't navigate to main
-      // until after the token is stored.
       await SecureStore.setItemAsync("token", res.token);
       authValidate = true;
     } catch (err) {
