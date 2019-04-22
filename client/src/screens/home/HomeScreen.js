@@ -14,7 +14,7 @@ export default class HomeScreen extends React.Component {
       mapRegion: null,
       hasLocationPermissions: false,
       location: null,
-      posts: []
+      posts: [],
     };
   }
 
@@ -77,6 +77,20 @@ export default class HomeScreen extends React.Component {
     });
   };
 
+  _handleDisplayNote = async (key) => {
+    console.log('hello from _handleDisplayNote!');
+    console.log(key);
+
+    let note = await axios.get('posts/' + key)
+      .then(res => {
+        return res.data[0];
+      })
+      .catch(err => {
+        console.log('ahhh');
+      });
+   
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -102,6 +116,7 @@ export default class HomeScreen extends React.Component {
                 }}
                 title={post.title}
                 description={post.message}
+                onPress={() => this._handleDisplayNote(post.id)}
               />
             ))}
           </MapView>
