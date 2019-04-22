@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  ActivityIndicator,
   Image,
   ImageBackground,
   KeyboardAvoidingView,
@@ -10,7 +11,8 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View
+  View,
+  Alert
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { login } from "../../controllers/UserController";
@@ -24,7 +26,8 @@ export default class LoginScreen extends React.Component {
     this.state = {
       username: "test1",
       password: "testpw",
-      hidePassword: false
+      hidePassword: false,
+      isLoading: false
     };
   }
 
@@ -43,22 +46,25 @@ export default class LoginScreen extends React.Component {
   }
 
   _loginOnClick = async () => {
+    let authValidate = false;
+    this.setState({ isLoading: true });
     let { username, password } = this.state;
     try {
       const res = await login({
         username,
         password
       });
-
       console.log(JSON.stringify(res));
-
       // "await" stops execution until the method is completed, which means the screen won't navigate to main
       // until after the token is stored.
       await SecureStore.setItemAsync("token", res.token);
-      this.props.navigation.navigate("Main");
+      authValidate = true;
     } catch (err) {
       console.log(`Error while logging in: ${err}`);
+      Alert.alert("Invalid Username or Password.");
     }
+    this.setState({ isLoading: false });
+    authValidate && this.props.navigation.navigate("Main");
   };
 
   render() {
@@ -68,83 +74,111 @@ export default class LoginScreen extends React.Component {
           source={require("../../../assets/bg.jpg")}
           style={{ flex: 1 }}
         >
-          <KeyboardAvoidingView behavior="padding" style={styles.container}>
-            <TouchableWithoutFeedback
-              style={styles.container}
-              onPress={Keyboard.dismiss}
-            >
-              <View style={styles.container}>
-                <View style={styles.logoContainer}>
-                  <Image
-                    source={require("../../../assets/logoFull.png")}
-                    resizeMode="contain"
-                    style={styles.logo}
+          <View style={styles.container}>
+            <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={{ flex: 1 }}>
+                  <ActivityIndicator
+                    style={
+                      this.state.isLoading
+                        ? styles.activityIndicator
+                        : { height: 0 }
+                    }
+                    size="large"
+                    color="#062c52"
+                    animating={this.state.isLoading}
                   />
-                </View>
+                  <View style={styles.logoContainer}>
+                    <Image
+                      source={require("../../../assets/logoFull.png")}
+                      resizeMode="contain"
+                      style={styles.logo}
+                    />
+                  </View>
 
-                <View style={styles.formContainer}>
-                  <TextInput
-                    placeholder="username or email"
-                    placeholderTextColor="rgba(255,255,255,0.7)"
-                    returnKeyType="next"
-                    onSubmitEditing={() => this.passwordInput.focus()}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    style={styles.input}
-                    onChangeText={username => this.setState({ username })}
-                    value={this.state.username}
-                  />
-                  <TextInput
-                    placeholder="password"
-                    placeholderTextColor="rgba(255,255,255,0.7)"
-                    returnKeyType="go"
-                    autoCapitalize="none"
-                    secureTextEntry={this.state.hidePassword}
-                    ref={input => (this.passwordInput = input)}
-                    style={styles.input}
-                    onChangeText={password => this.setState({ password })}
-                    value={this.state.password}
-                  />
-                  <TouchableOpacity
-                    onPress={() => this._toggleHiddenPassword()}
-                  >
-                    <Icon name="remove-red-eye" type="material" color="#000" />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={styles.loginButton}
-                    onPress={this._loginOnClick}
-                  >
-                    <Text style={styles.loginText}>Log In</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.signUpButton}
-                    onPress={() => this.props.navigation.navigate("SignUp")}
-                  >
-                    <Text style={styles.signUpText}>Create an Account</Text>
-                  </TouchableOpacity>
-                  <View style={GlobalStyles.horizontalLine} />
-                  <View style={styles.otherLogins}>
-                    <TouchableOpacity style={styles.facebook}>
-                      <View style={styles.otherButtonText}>
-                        <Icon
-                          name="facebook-f"
-                          type="font-awesome"
-                          color="#fff"
+                  <View style={styles.formContainer}>
+                    <View style={styles.inputContainer}>
+                      <TextInput
+                        placeholder="username or email"
+                        placeholderTextColor="rgba(255,255,255,0.7)"
+                        returnKeyType="next"
+                        onSubmitEditing={() => this.passwordInput.focus()}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        style={styles.input}
+                        onChangeText={username => this.setState({ username })}
+                        value={this.state.username}
+                      />
+                      <View style={[{ flexDirection: "row" }, styles.input]}>
+                        <TextInput
+                          placeholder="password"
+                          placeholderTextColor="rgba(255,255,255,0.7)"
+                          returnKeyType="go"
+                          autoCapitalize="none"
+                          secureTextEntry={this.state.hidePassword}
+                          ref={input => (this.passwordInput = input)}
+                          style={{
+                            flex: 1,
+                            color: "#fff",
+                            fontFamily: "montserrat-light"
+                          }}
+                          onChangeText={password => this.setState({ password })}
+                          value={this.state.password}
                         />
+                        <TouchableOpacity
+                          onPress={() => this._toggleHiddenPassword()}
+                          style={{
+                            alightItems: "right",
+                            justifyContent: "center"
+                          }}
+                        >
+                          <Icon
+                            name="remove-red-eye"
+                            type="material"
+                            color="#000"
+                          />
+                        </TouchableOpacity>
                       </View>
+                    </View>
+                    <TouchableOpacity
+                      style={styles.loginButton}
+                      onPress={this._loginOnClick}
+                    >
+                      <Text style={styles.loginText}>Log In</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.google}>
-                      <View style={styles.otherButtonText}>
-                        <Icon name="google" type="font-awesome" color="#fff" />
-                      </View>
+                    <TouchableOpacity
+                      style={styles.signUpButton}
+                      onPress={() => this.props.navigation.navigate("SignUp")}
+                    >
+                      <Text style={styles.signUpText}>Create an Account</Text>
                     </TouchableOpacity>
+                    <View style={GlobalStyles.horizontalLine} />
+                    <View style={styles.otherLogins}>
+                      <TouchableOpacity style={styles.facebook}>
+                        <View style={styles.otherButtonText}>
+                          <Icon
+                            name="facebook-f"
+                            type="font-awesome"
+                            color="#fff"
+                          />
+                        </View>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.google}>
+                        <View style={styles.otherButtonText}>
+                          <Icon
+                            name="google"
+                            type="font-awesome"
+                            color="#fff"
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
-              </View>
-            </TouchableWithoutFeedback>
-          </KeyboardAvoidingView>
+              </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
+          </View>
         </ImageBackground>
       </SafeAreaView>
     );
@@ -154,7 +188,16 @@ export default class LoginScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(98, 159, 231, 0.7)"
+    backgroundColor: "rgba(98, 159, 231, 0.8)"
+  },
+  activityIndicator: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(0,0,0,0.3)",
+    zIndex: 10
   },
   logoContainer: {
     flex: 1,
@@ -168,10 +211,13 @@ const styles = StyleSheet.create({
   formContainer: {
     padding: 20
   },
+  inputContainer: {
+    marginBottom: 15
+  },
   input: {
     height: 40,
     backgroundColor: "rgba(255,255,255,.2)",
-    marginBottom: 10,
+    marginVertical: 5,
     color: "#fff",
     paddingHorizontal: 20,
     borderRadius: 50,

@@ -20,7 +20,8 @@ export default class HomeScreen extends React.Component {
 
   async componentDidMount() {
     const location = await this._getLocationAsync();
-    this.setState({ location, 
+    this.setState({
+      location,
       mapRegion: {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,

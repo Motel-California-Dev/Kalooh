@@ -1,13 +1,27 @@
 import React from "react";
 import { StyleSheet, View, SafeAreaView, Text } from "react-native";
 import { SearchBar } from "react-native-elements";
+import axios from "../../../config/axios";
 
 export default class SearchScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: ""
+      search: "",
+      posts: []
     };
+  }
+
+  async componentDidMount() {
+    axios
+      .get("posts")
+      .then(res => {
+        console.log(res.data);
+        this.setState({ posts: res.data });
+      })
+      .catch(err => {
+        console.log("ahhh");
+      });
   }
 
   updateSearch = search => {
