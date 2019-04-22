@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, SafeAreaView, Text } from "react-native";
 import { SearchBar } from "react-native-elements";
 import axios from "../../../config/axios";
+import PostCard from "./PostCard";
 
 export default class SearchScreen extends React.Component {
   constructor(props) {
@@ -11,7 +12,6 @@ export default class SearchScreen extends React.Component {
       posts: []
     };
   }
-
   async componentDidMount() {
     axios
       .get("posts")
@@ -23,13 +23,19 @@ export default class SearchScreen extends React.Component {
         console.log("ahhh");
       });
   }
-
   updateSearch = search => {
     this.setState({ search });
   };
-  render() {
-    const { search } = this.state;
 
+  render() {
+    const { search, posts } = this.state;
+    let postList = posts.map(postInfo => {
+      return (
+        <View key={postInfo.id}>
+          <PostCard post={postInfo} />
+        </View>
+      );
+    });
     return (
       <SafeAreaView style={{ backgroundColor: "#EFEFF4", flex: 1 }}>
         <SearchBar
@@ -41,6 +47,7 @@ export default class SearchScreen extends React.Component {
           containerStyle={{ backgroundColor: "white" }}
           inputContainerStyle={{ backgroundColor: "white" }}
         />
+        {postList}
       </SafeAreaView>
     );
   }

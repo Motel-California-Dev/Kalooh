@@ -14,7 +14,8 @@ export default class HomeScreen extends React.Component {
       mapRegion: null,
       hasLocationPermissions: false,
       location: null,
-      posts: [],
+      locationResult: null,
+      posts: []
     };
   }
 
@@ -63,13 +64,27 @@ export default class HomeScreen extends React.Component {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
       this.setState({
-        location: "Permission to access location was denied"
+        locationResult: "Permission to access location was denied"
       });
     } else {
       this.setState({ hasLocationPermissions: "true" });
     }
 
-    return await Location.getCurrentPositionAsync({});
+    ////Spagetti/////
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ locationResult: JSON.stringify(location) });
+
+    this.setState({
+      mapRegion: {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      }
+    });
+    ////////////////
+
+    return location;
   };
 
   _handleCreateNotePress = () => {
@@ -95,7 +110,7 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.state.location === null ? (
+        {this.state.locationResult === null ? (
           <Text>Finding your current location...</Text>
         ) : this.state.hasLocationPermissions === false ? (
           <Text>Location permissions are not granted.</Text>

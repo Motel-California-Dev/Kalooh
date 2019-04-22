@@ -4,6 +4,7 @@ import FriendsList from "./FriendsList";
 import FriendCard from "./FriendCard";
 
 const friendsList = FriendsList;
+
 export default class FriendsScreen extends React.Component {
   render() {
     let friendCard = friendsList.map(friendInfo => {
