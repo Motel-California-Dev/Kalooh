@@ -7,7 +7,6 @@ import {
   Button,
   TextInput 
 } from "react-native";
-
 import axios from '../../../config/axios';
 
 export default class CreateNoteScreen extends React.Component {
@@ -21,18 +20,16 @@ export default class CreateNoteScreen extends React.Component {
   }
 
   _postOnClick = () => {
-    const { titleText: title, descriptionText: description } = this.state;
-    const { longitude: long, latitude: lati } = this.state.mapRegion;
     let post = {
-      title,
+      title: this.state.titleText,
       userId: 1,
-      message: description,
+      message: this.state.descriptionText,
       createdAt: Date.now(),
-      long,
-      lati
+      long: this.state.mapRegion.longitude,
+      lati: this.state.mapRegion.latitude,
     }
-    console.log(post);
 
+    // TODO: Move to posts controller
     axios.post('posts', post)
     .then(res => {
       console.log(JSON.stringify(res));
@@ -40,7 +37,8 @@ export default class CreateNoteScreen extends React.Component {
     .catch(err => {
       console.log("Fuck.");
       console.log(JSON.stringify(err));
-    })
+    });
+    ///////////////////////////////////
 
     this.props.navigation.navigate('HomeScreen');
   };

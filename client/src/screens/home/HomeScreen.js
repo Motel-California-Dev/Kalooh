@@ -1,11 +1,8 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableHighlight } from "react-native";
-import { Constants, MapView, Location, Permissions } from "expo";
+import { Constants, MapView, Location, Permissions, SecureStore } from "expo";
 import { Ionicons } from "@expo/vector-icons";
-
 import axios from "../../../config/axios";
-
-import { SecureStore } from "expo";
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -20,40 +17,28 @@ export default class HomeScreen extends React.Component {
   }
 
   async componentDidMount() {
-    const location = await this._getLocationAsync();
-    this.setState({
-      location,
-      mapRegion: {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
-      }
-    });
+    await this._getLocationAsync();
 
-    console.log("testing if we can access token");
     SecureStore.getItemAsync("token").then(token => {
-      console.log(token);
+      console.log('User token: ' + token);
     });
-
-    console.log("THIS STATE");
-    console.log(this.state);
 
     // TODO: Move to posts controller
     axios
       .get("posts", {
         params: {
-          lati: this.state.location.coords.latitude,
-          long: this.state.location.coords.longitude
+          lati: this.state.mapRegion.latitude,
+          long: this.state.mapRegion.longitude
         }
       })
       .then(res => {
-        console.log(res.data);
+        console.log('Note retrieval successful! Fetched ' + res.data.length + ' notes\n');
         this.setState({ posts: res.data });
       })
       .catch(err => {
         console.log("ahhh");
       });
+    ///////////////////////////////////
   }
 
   _handleMapRegionChangeComplete = mapRegion => {
@@ -70,7 +55,6 @@ export default class HomeScreen extends React.Component {
       this.setState({ hasLocationPermissions: "true" });
     }
 
-    ////Spagetti/////
     let location = await Location.getCurrentPositionAsync({});
     this.setState({ locationResult: JSON.stringify(location) });
 
@@ -82,9 +66,6 @@ export default class HomeScreen extends React.Component {
         longitudeDelta: 0.0421
       }
     });
-    ////////////////
-
-    return location;
   };
 
   _handleCreateNotePress = () => {
@@ -92,6 +73,19 @@ export default class HomeScreen extends React.Component {
       mapRegion: this.state.mapRegion
     });
   };
+
+  _handleDisplayNote = async (key) => {
+    console.log('hello from _handleDisplayNote!');
+    console.log('The Note Id you pressed is: ' + key);
+
+    let note = await axios.get('posts/' + key)
+      .then(res => {
+        return res.data[0];
+      })
+      .catch(err => {
+        console.log('ahhh');
+      });
+  }
 
   render() {
     return (
@@ -118,6 +112,7 @@ export default class HomeScreen extends React.Component {
                 }}
                 title={post.title}
                 description={post.message}
+                onPress={() => this._handleDisplayNote(post.id)}
               />
             ))}
           </MapView>
