@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, SafeAreaView, Text } from "react-native";
 import { SearchBar } from "react-native-elements";
 import axios from "../../../config/axios";
-import PostCard from "./PostCard";
+//import PostCard from "./PostCard";
 
 export default class SearchScreen extends React.Component {
   constructor(props) {
@@ -33,7 +33,7 @@ export default class SearchScreen extends React.Component {
     let postList = posts.map(postInfo => {
       return (
         <View key={postInfo.id}>
-          <PostCard post={postInfo} />
+          { /* <PostCard post={postInfo} /> */}
         </View>
       );
     });
