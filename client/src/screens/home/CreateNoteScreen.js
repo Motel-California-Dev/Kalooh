@@ -7,6 +7,7 @@ import {
   Button,
   TextInput 
 } from "react-native";
+import { postNote } from "../../controllers/PostController";
 import axios from '../../../config/axios';
 
 export default class CreateNoteScreen extends React.Component {
@@ -28,18 +29,7 @@ export default class CreateNoteScreen extends React.Component {
       long: this.state.mapRegion.longitude,
       lati: this.state.mapRegion.latitude,
     }
-
-    // TODO: Move to posts controller
-    axios.post('posts', post)
-    .then(res => {
-      console.log(JSON.stringify(res));
-    })
-    .catch(err => {
-      console.log("Fuck.");
-      console.log(JSON.stringify(err));
-    });
-    ///////////////////////////////////
-
+    postNote(post)
     this.props.navigation.navigate('HomeScreen');
   };
 
