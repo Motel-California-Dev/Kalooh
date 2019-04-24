@@ -4,7 +4,7 @@ const AuthController = require('../controllers/auth.js');
 const passport = require('../auth/passport');
 
 router.route('/login')
-  .post(passport.authenticate('local', { session: false }), AuthController.login);
+  .post(AuthController.login, AuthController.returnToken);
 
 module.exports = router;
 
