@@ -33,7 +33,10 @@ export default class LoginScreen extends React.Component {
 
   componentDidMount() {
     SecureStore.getItemAsync("token").then(async token => {
-      let res = await login({ token });
+      let res = await login({ 
+        username: this.username,
+        password: this.password,
+        token });
       if (res) {
         console.log("token is already stored. logging in");
         this.props.navigation.navigate("Main"); //Navigates to the Main App
@@ -55,6 +58,7 @@ export default class LoginScreen extends React.Component {
         password
       });
       console.log(JSON.stringify(res));
+      console.log('token stored' + res.token);
       await SecureStore.setItemAsync("token", res.token);
       authValidate = true;
     } catch (err) {

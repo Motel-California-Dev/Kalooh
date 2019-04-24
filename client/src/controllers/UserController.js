@@ -1,12 +1,9 @@
 import axios from '../../config/axios';
 
-export async function login({ username, password }) {
-  const user = { userName: username, password };
-
-  console.log(JSON.stringify(user));
-
+export async function login({ username, password, token }) {
+  const credentials = { userName: username, password, token };
   try {
-    const { data } = await axios.post('auth/login', user)
+    const { data } = await axios.post('auth/login', credentials)
     return data; 
   } catch (err) {
     console.log(`Error: ${JSON.stringify(err)}`);
