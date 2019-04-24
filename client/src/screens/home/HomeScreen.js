@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, TouchableHighlight } from "react-native";
 import { Constants, MapView, Location, Permissions, SecureStore } from "expo";
 import { Ionicons } from "@expo/vector-icons";
+import { getNotes } from "../../controllers/PostController";
 import axios from "../../../config/axios";
 
 export default class HomeScreen extends React.Component {
@@ -23,22 +24,11 @@ export default class HomeScreen extends React.Component {
       console.log('User token: ' + token);
     });
 
-    // TODO: Move to posts controller
-    axios
-      .get("posts", {
-        params: {
-          lati: this.state.mapRegion.latitude,
-          long: this.state.mapRegion.longitude
-        }
-      })
-      .then(res => {
-        console.log('Note retrieval successful! Fetched ' + res.data.length + ' notes\n');
-        this.setState({ posts: res.data });
-      })
-      .catch(err => {
-        console.log("ahhh");
-      });
-    ///////////////////////////////////
+    let notes = await getNotes({
+      lati: this.state.mapRegion.latitude,
+      long: this.state.mapRegion.longitude
+    });
+    this.setState({ posts: notes });
   }
 
   _handleMapRegionChangeComplete = mapRegion => {
