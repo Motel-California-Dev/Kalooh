@@ -21,7 +21,7 @@ export default class HomeScreen extends React.Component {
     await this._getLocationAsync();
 
     SecureStore.getItemAsync("token").then(token => {
-      console.log('User token: ' + token);
+      console.log("User token: " + token);
     });
 
     let notes = await getNotes({
@@ -64,18 +64,19 @@ export default class HomeScreen extends React.Component {
     });
   };
 
-  _handleDisplayNote = async (key) => {
-    console.log('hello from _handleDisplayNote!');
-    console.log('The Note Id you pressed is: ' + key);
+  _handleDisplayNote = async key => {
+    console.log("hello from _handleDisplayNote!");
+    console.log("The Note Id you pressed is: " + key);
 
-    let note = await axios.get('posts/' + key)
+    let note = await axios
+      .get("posts/" + key)
       .then(res => {
         return res.data[0];
       })
       .catch(err => {
-        console.log('ahhh');
+        console.log("ahhh");
       });
-  }
+  };
 
   render() {
     return (

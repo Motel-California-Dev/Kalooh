@@ -1,15 +1,15 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 const PostCard = props => {
   return (
     <View style={styles.card}>
       <View style={{ flexDirection: "row" }}>
-        <View style={{ flex: 1 }}>
-          <Image
-            source={require("../../../assets/default-profile.png")}
-            style={{ width: 55, height: 55, borderRadius: 30 }}
-          />
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <Ionicons name="ios-pin" color="#ff0000" size={50} />
         </View>
         <View style={{ flex: 4 }}>
           <Text style={styles.title}>{props.post.title}</Text>
@@ -25,8 +25,7 @@ export default PostCard;
 
 const styles = StyleSheet.create({
   card: {
-    margin: 10,
-    padding: 10,
+    paddingVertical: 10,
     backgroundColor: "rgba(255,255,255,1)"
   },
   title: {
