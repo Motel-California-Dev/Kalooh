@@ -9,10 +9,8 @@ import {
   TouchableHighlight
 } from "react-native";
 import SettingsList from "react-native-settings-list";
-import { Ionicons } from "@expo/vector-icons";
-import GlobalStyles from "../../components/GlobalStyles";
 
-import { SecureStore } from 'expo';
+import { SecureStore } from "expo";
 
 export default class SettingsScreen extends React.Component {
   constructor() {
@@ -95,10 +93,9 @@ export default class SettingsScreen extends React.Component {
             <SettingsList.Item
               title="Log out"
               onPress={async () => {
-                await SecureStore.deleteItemAsync('token')
-                  .then(() => {
-                    this.props.navigation.navigate("Login");
-                  });
+                await SecureStore.deleteItemAsync("token").then(() => {
+                  this.props.navigation.navigate("Login");
+                });
               }}
             />
           </SettingsList>

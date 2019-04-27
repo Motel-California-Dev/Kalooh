@@ -1,14 +1,14 @@
 import React from "react";
 import {
+  Alert,
   StyleSheet,
   View,
   SafeAreaView,
-  Text,
   FlatList,
-  ScrollView
+  ActivityIndicator
 } from "react-native";
-import { Constants, MapView, Location, Permissions, SecureStore } from "expo";
-import { SearchBar, ListItem } from "react-native-elements";
+import { Location, Permissions } from "expo";
+import { SearchBar } from "react-native-elements";
 import { getNotes } from "../../controllers/PostController";
 import PostCard from "./PostCard";
 
@@ -19,26 +19,30 @@ export default class SearchScreen extends React.Component {
       mapRegion: null,
       search: "",
       posts: [],
-      displayPosts: []
+      postsDisplay: [],
+      isLoading: true
     };
   }
 
   componentDidMount() {
-    this._getLocationAsync();
     this._getNotesAsync();
+    this.setState({ isLoading: false });
   }
 
   _getNotesAsync = async () => {
+    console.log("Getting Notes...");
     await this._getLocationAsync();
     let notes = await getNotes({
       lati: this.state.mapRegion.latitude,
       long: this.state.mapRegion.longitude
     });
-    await this.setState({ posts: notes });
-    await this.setState({ displayPosts: notes });
+    this.setState({ posts: notes });
+    this.setState({ postsDisplay: notes });
+    console.log("Success");
   };
 
   _getLocationAsync = async () => {
+    console.log("Getting Current Location...");
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
       this.setState({
@@ -57,9 +61,10 @@ export default class SearchScreen extends React.Component {
         longitudeDelta: 0.0421
       }
     });
+    console.log("Success");
   };
 
-  searchFilterFunction = searchText => {
+  _searchFilterFunction = searchText => {
     this.setState({ search: searchText });
     const newData = this.state.posts.filter(item => {
       const noteData = `${item.title.toUpperCase()}   
@@ -68,23 +73,25 @@ export default class SearchScreen extends React.Component {
 
       return noteData.indexOf(searchData) > -1;
     });
-    this.setState({ displayPosts: newData });
+    this.setState({ postsDisplay: newData });
   };
 
-  renderHeader = () => {
+  _renderHeader = () => {
     return (
-      <SearchBar
-        placeholder="Type Here..."
-        lightTheme
-        cancelIcon
-        onChangeText={text => this.searchFilterFunction(text)}
-        autoCorrect={false}
-        value={this.state.search}
-      />
+      <View>
+        <SearchBar
+          placeholder="Type Here..."
+          lightTheme
+          cancelIcon
+          onChangeText={text => this._searchFilterFunction(text)}
+          autoCorrect={false}
+          value={this.state.search}
+        />
+      </View>
     );
   };
 
-  renderSeparator = () => {
+  _renderSeparator = () => {
     return (
       <View
         style={{
@@ -97,15 +104,43 @@ export default class SearchScreen extends React.Component {
     );
   };
 
+  _renderEmpty = () => {
+    if (this.state.isLoading) {
+      return (
+        <ActivityIndicator
+          size="large"
+          color="#062c52"
+          animating={this.state.isLoading}
+        />
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <Text>No notes found... :(</Text>
+        </View>
+      );
+    }
+  };
+
+  _renderItem = ({ item }) => (
+    <PostCard post={item} onPressItem={this._onPressItem} />
+  );
+
+  _onPressItem = () => {
+    //Navigate to View Note & pass in note props
+    Alert.alert("Navigate to View Note Screen & pass in note props");
+  };
+
   render() {
     return (
       <SafeAreaView style={{ backgroundColor: "#ffffff", flex: 1 }}>
         <FlatList
-          data={this.state.displayPosts}
-          renderItem={({ item }) => <PostCard post={item} />}
+          data={this.state.postsDisplay}
+          renderItem={this._renderItem}
           keyExtractor={item => item.id.toString()}
-          ItemSeparatorComponent={this.renderSeparator}
-          ListHeaderComponent={this.renderHeader}
+          ItemSeparatorComponent={this._renderSeparator}
+          ListHeaderComponent={this._renderHeader}
+          ListEmptyComponent={this._renderEmpty}
         />
       </SafeAreaView>
     );
