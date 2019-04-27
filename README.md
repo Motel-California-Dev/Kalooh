@@ -7,7 +7,7 @@ Make sure you have Git installed on your machine.
 Run the following command in the folder that you want the repository files to end up.
 `git clone https://github.com/motel-california-dev/kalooh.git`
 
-Change into the directory of the project (./frontEnd) and install the rest of the dependencies by running:
+Change into the directory of the project (./client) and install the rest of the dependencies by running:
 `npm install`
 
 ### Starting up the Application
@@ -16,3 +16,4 @@ Run the following command in the directory of the project.
 
 This will run the local development server of Expo CLI. This will allow you to test the app in your mobile phone or simulator. Use the QR code to test the app on your mobile device (make sure you have the Expo app installed in your device).
 
+If you want to run the project with the live aws server, run the following command: `npm run start:aws`
