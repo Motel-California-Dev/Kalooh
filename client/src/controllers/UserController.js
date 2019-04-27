@@ -13,8 +13,8 @@ export async function login({ username, password, token }) {
 export async function updatePassword({ password }) {
   const userInfo = { password };
   try {
-    const result = axios.patch(`users/${userInfo.id}`, userInfo);
-    return result;
+    const result = await axios.patch(`users/${userInfo.id}`, userInfo);
+    return { result };
   } catch (err) {
     console.log(`Error when changing password: ${JSON.stringify(err)}`);
   }
@@ -23,7 +23,7 @@ export async function updatePassword({ password }) {
 export async function updateUsername({ username }) {
   const userInfo = { userName: username };
   try {
-    const result = axios.patch(`users/${userInfo.id}`, userInfo);
+    const { result } = await axios.patch(`users/${userInfo.id}`, userInfo);
     return result;
   } catch (err) {
     console.log(`Error when updating username: ${JSON.stringify(err)}`);
