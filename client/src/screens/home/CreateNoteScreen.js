@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Alert,
   StyleSheet,
   View,
   SafeAreaView,
@@ -8,7 +7,7 @@ import {
   TouchableOpacity,
   TextInput
 } from "react-native";
-import { Feather, Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { postNote } from "../../controllers/PostController";
 
 export default class CreateNoteScreen extends React.Component {
@@ -119,12 +118,6 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     height: 50,
-    backgroundColor: "#fff",
-    margin: 5
-  },
-  locationHeader: {
-    flexDirection: "row",
-    height: 30,
     backgroundColor: "#fff",
     margin: 5
   },

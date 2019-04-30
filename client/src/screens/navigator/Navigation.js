@@ -15,7 +15,7 @@ import HomeNavigator from "../home/HomeNavigator";
 import SearchScreen from "../search/SearchScreen";
 import PeopleNavigator from "./PeopleNavigation";
 import NotificationScreen from "../notification/NotificationScreen";
-import SettingsScreen from "../settings/SettingsScreen";
+import SettingsNavigation from "./SettingsNavigator";
 
 /* Navigator that goes from Login Screen to the Main App (TabNavigator)*/
 export default class Navigation extends React.Component {
@@ -28,7 +28,6 @@ export default class Navigation extends React.Component {
     );
   }
 }
-
 
 /* Create Account & Login Screen */
 const AuthenticationNavigator = createStackNavigator(
@@ -80,7 +79,7 @@ const MainNavigator = createMaterialBottomTabNavigator(
       }
     },
     Settings: {
-      screen: SettingsScreen,
+      screen: SettingsNavigation,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Ionicons name="ios-settings" color={tintColor} size={28} />

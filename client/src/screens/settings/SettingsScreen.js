@@ -83,7 +83,7 @@ export default class SettingsScreen extends React.Component {
             />
             <SettingsList.Item
               title="Change Password"
-              onPress={() => Alert.alert("Route To Change Password")}
+              onPress={() => this.props.navigation.navigate("ChangePassword")}
             />
             <SettingsList.Header headerStyle={{ marginTop: 15 }} />
             <SettingsList.Item
