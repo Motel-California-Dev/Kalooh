@@ -21,7 +21,7 @@
       "supportsTablet": true
     },
     "extra": {
-      "baseURL": "http://ec2-18-215-245-62.compute-1.amazonaws.com"
+      "baseURL": "http://54.157.201.117"
     }
   }
 }
