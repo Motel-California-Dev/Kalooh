@@ -57,7 +57,6 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {/*
         <View style={styles.header}>
           <TouchableOpacity onPress={this._backButton}>
             <Feather
@@ -80,35 +79,38 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.confirmLocationText}>Confirm Location</Text>
           </TouchableOpacity>
         </View>
-        */}
-        {this.state.locationResult === null ? (
-          <Text>Finding your current location...</Text>
-        ) : this.state.hasLocationPermissions === false ? (
-          <Text>Location permissions are not granted.</Text>
-        ) : this.state.mapRegion === null ? (
-          <Text>Map region doesn't exist.</Text>
-        ) : (
-          <MapView
-            style={styles.map}
-            region={this.state.mapRegion}
-            onRegionChangeComplete={this._handleMapRegionChangeComplete}
-            showsUserLocation={true}
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          {this.state.locationResult === null ? (
+            <Text>Finding your current location...</Text>
+          ) : this.state.hasLocationPermissions === false ? (
+            <Text>Location permissions are not granted.</Text>
+          ) : this.state.mapRegion === null ? (
+            <Text>Map region doesn't exist.</Text>
+          ) : (
+            <MapView
+              style={styles.map}
+              region={this.state.mapRegion}
+              onRegionChangeComplete={this._handleMapRegionChangeComplete}
+              showsUserLocation={true}
+            />
+          )}
+          <Ionicons
+            style={styles.noteFlag}
+            name="ios-flag"
+            size={32}
+            color="#629FE7"
           />
-        )}
-        <Ionicons
-          style={styles.noteFlag}
-          name="ios-flag"
-          size={32}
-          color="#629FE7"
-        />
-        <View style={styles.locationButtonContainer}>
-          <TouchableOpacity
-            underlayColor="white"
-            style={styles.locationButton}
-            onPress={this._getLocationAsync}
-          >
-            <Ionicons name="ios-locate" size={32} color="#629FE7" />
-          </TouchableOpacity>
+          <View style={styles.locationButtonContainer}>
+            <TouchableOpacity
+              underlayColor="white"
+              style={styles.locationButton}
+              onPress={this._getLocationAsync}
+            >
+              <Ionicons name="ios-locate" size={32} color="#629FE7" />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -118,14 +120,11 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "#ffffff"
   },
   header: {
     flexDirection: "row",
     height: 50,
-    backgroundColor: "#fff",
     margin: 5
   },
   map: {

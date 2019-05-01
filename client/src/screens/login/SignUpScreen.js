@@ -57,7 +57,6 @@ export default class SignUpScreen extends React.Component {
               <View style={styles.container}>
                 <View style={styles.formContainer}>
                   <Text style={styles.title}>Create an Account</Text>
-
                   <TextInput
                     placeholder="username"
                     placeholderTextColor="rgba(255,255,255,0.7)"
