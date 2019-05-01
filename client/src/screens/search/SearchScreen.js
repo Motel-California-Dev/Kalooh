@@ -5,7 +5,8 @@ import {
   View,
   SafeAreaView,
   FlatList,
-  ActivityIndicator
+  ActivityIndicator,
+  RefreshControl
 } from "react-native";
 import { Location, Permissions } from "expo";
 import { SearchBar } from "react-native-elements";
@@ -20,7 +21,8 @@ export default class SearchScreen extends React.Component {
       search: "",
       posts: [],
       postsDisplay: [],
-      isLoading: true
+      isLoading: true,
+      refreshing: false
     };
   }
 
@@ -105,21 +107,13 @@ export default class SearchScreen extends React.Component {
   };
 
   _renderEmpty = () => {
-    if (this.state.isLoading) {
-      return (
-        <ActivityIndicator
-          size="large"
-          color="#062c52"
-          animating={this.state.isLoading}
-        />
-      );
-    } else {
-      return (
-        <View style={styles.container}>
-          <Text>No notes found... :(</Text>
-        </View>
-      );
-    }
+    return (
+      <ActivityIndicator
+        size="large"
+        color="#062c52"
+        animating={this.state.isLoading}
+      />
+    );
   };
 
   _renderItem = ({ item }) => (
@@ -131,16 +125,30 @@ export default class SearchScreen extends React.Component {
     Alert.alert("Navigate to View Note Screen & pass in note props");
   };
 
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
+    this._getNotesAsync().then(() => {
+      this.setState({ refreshing: false });
+    });
+  };
+
   render() {
     return (
       <SafeAreaView style={{ backgroundColor: "#ffffff", flex: 1 }}>
         <FlatList
-          data={this.state.postsDisplay}
+          data={this.state.postsDisplay.reverse()}
           renderItem={this._renderItem}
           keyExtractor={item => item.id.toString()}
           ItemSeparatorComponent={this._renderSeparator}
           ListHeaderComponent={this._renderHeader}
+          stickyHeaderIndices={[0]}
           ListEmptyComponent={this._renderEmpty}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+            />
+          }
         />
       </SafeAreaView>
     );

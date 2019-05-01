@@ -39,6 +39,7 @@ export default class LoginScreen extends React.Component {
         token
       });
       if (res) {
+        console.log(res); // User info { "username" "id" }
         console.log("token is already stored. logging in");
         this.props.navigation.navigate("Main"); //Navigates to the Main App
       }
