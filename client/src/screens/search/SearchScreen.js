@@ -26,8 +26,8 @@ export default class SearchScreen extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this._getNotesAsync();
+  async componentDidMount() {
+    await this._getNotesAsync();
     this.setState({ isLoading: false });
   }
 
