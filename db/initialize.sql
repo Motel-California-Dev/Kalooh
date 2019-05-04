@@ -4,7 +4,9 @@ CREATE TABLE users (
 	first_name	VARCHAR(255) NOT NULL,
 	last_name	  VARCHAR(255) NOT NULL,
 	email		    VARCHAR(255) NOT NULL,
-	password	  VARCHAR(255) NOT NULL,
+	password	  VARCHAR(255),
+  picture     VARCHAR(255),
+  created_at  TIMESTAMP NOT NULL,
 	CONSTRAINT user_pk PRIMARY KEY (id),
 	CONSTRAINT user_email UNIQUE (email)
 );
@@ -55,13 +57,13 @@ CREATE TABLE comment (
 	  REFERENCES post(id)
   );
 
-INSERT INTO users (user_name, first_name, last_name, email, password)
+INSERT INTO users (user_name, first_name, last_name, email, password, created_at)
   VALUES
-  ('Test1','Nathan','Rice', 'n8@cambium5.com','nathan'),
-  ('Test2','Eric','Do','ericdo62497@gmail.com','eric'),
-  ('Test3','Kyle','Mazza','kylemazza@gmail.com','kyle'),
-  ('Test4','Kian','Badie','kianbadie@gmail.com','kian'),
-  ('Test5','Christian','Wance','christian.wance@gmail.com','weKnow');
+  ('Test1','Nathan','Rice', 'n8@cambium5.com','nathan', CURRENT_TIMESTAMP),
+  ('Test2','Eric','Do','ericdo62497@gmail.com','eric', CURRENT_TIMESTAMP),
+  ('Test3','Kyle','Mazza','kylemazza@gmail.com','kyle', CURRENT_TIMESTAMP),
+  ('Test4','Kian','Badie','kianbadie@gmail.com','kian', CURRENT_TIMESTAMP),
+  ('Test5','Christian','Wance','christian.wance@gmail.com','weKnow', CURRENT_TIMESTAMP);
 
 INSERT INTO post (user_id, created_at, title, message, lati, long)
   VALUES

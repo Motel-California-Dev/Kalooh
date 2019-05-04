@@ -29,6 +29,19 @@ const config = {
         jwtFromRequest: ExtractJwt.fromBodyField('token'),
         secretOrKey: process.env.JWT_SECRET,
         tokenBodyField: "token"
+      },
+      google: {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_CALLBACK_URL,
+        passReqToCallback: true
+      },
+      facebook: {
+        clientID: process.env.FACEBOOK_APP_ID,
+        clientSecret: process.env.FACEBOOK_APP_SECRET,
+        callbackURL: process.env.FACEBOOK_CALLBACK_URL,
+        passReqToCallback: true,
+        profileFields: ['displayName', 'picture', 'emails', 'first_name', 'last_name']
       }
     }
   },
