@@ -36,7 +36,7 @@ exports.get = (req, res) => {
 exports.deleteAll = (req, res) => {
   console.log("Delete!");
   const { id } = req.body;
-  const query = "DELETE FROM post WHERE post_id = $1 AND follower = $2;";
+  const query = "DELETE FROM post WHERE post_id = $1;";
   const params = [ leader, follower ]; 
   db.query(query, params)
     .then(data => {
