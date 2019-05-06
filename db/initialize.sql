@@ -66,7 +66,7 @@ CREATE TABLE comment (
 	post_tag	tag Not NULL,
 	CONSTRAINT comment_pk PRIMARY KEY (post_id,post_tag),
 	CONSTRAINT comment_fk_user FOREIGN KEY (post_id)
-	  REFERENCES users(id)
+	  REFERENCES post(id)
   );
 
   
