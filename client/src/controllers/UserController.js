@@ -1,5 +1,28 @@
 import axios from "../../config/axios";
 
+export async function signUp({
+  username,
+  firstName,
+  lastName,
+  email,
+  password
+}) {
+  const credentials = {
+    userName: username,
+    firstName,
+    lastName,
+    email,
+    password,
+    token
+  };
+  try {
+    const { data } = await axios.post("/users", credentials);
+    return data;
+  } catch (err) {
+    console.log(`Error: ${JSON.stringify(err)}`);
+  }
+}
+
 export async function login({ username, password, token }) {
   const credentials = { userName: username, password, token };
   try {
@@ -10,8 +33,8 @@ export async function login({ username, password, token }) {
   }
 }
 
-export async function updatePassword({ password }) {
-  const userInfo = { password };
+export async function updatePassword({ id, password }) {
+  const userInfo = { id, password };
   try {
     const result = await axios.patch(`users/${userInfo.id}`, userInfo);
     return { result };
