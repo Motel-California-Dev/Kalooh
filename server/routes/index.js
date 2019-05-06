@@ -8,6 +8,7 @@ const FollowRouter = require('./follow');
 module.exports = (app) => {
   app.use('/auth', AuthRouter);
   app.use('/users', UserRouter);
+  PostRouter.use('/:postId/comments', CommentRouter);
   app.use('/posts', PostRouter);
   app.use('/comments', CommentRouter);
   app.use('/settings', SettingsRouter);

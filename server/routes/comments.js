@@ -1,4 +1,4 @@
-const router = require('express-promise-router')();
+const router = require('express-promise-router')({ mergeParams: true });
 
 const CommentController = require('../controllers/comments.js');
 

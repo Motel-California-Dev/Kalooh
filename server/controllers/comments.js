@@ -18,8 +18,10 @@ exports.create = (req, res) => {
 
 exports.list = (req, res) => {
   console.log("Get!");
-  const query = "SELECT * FROM comment;";
-  db.query(query)
+  const query = "SELECT * FROM comment WHERE post_id=$1;";
+  const params = [ req.params.postId ];
+  console.log(params);
+  db.query(query, params)
     .then(data => {
       console.log(data);
       res.status(200).send(data);
