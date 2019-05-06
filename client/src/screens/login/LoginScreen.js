@@ -17,7 +17,7 @@ import {
 import { Icon } from "react-native-elements";
 import { login } from "../../controllers/UserController";
 import GlobalStyles from "../../components/GlobalStyles";
-
+import { UserConsumer } from "../../context/User";
 import { SecureStore } from "expo";
 
 export default class LoginScreen extends React.Component {
@@ -27,7 +27,8 @@ export default class LoginScreen extends React.Component {
       username: "test1",
       password: "testpw",
       hidePassword: true,
-      isLoading: false
+      isLoading: false,
+      isLoadingUserContext: true
     };
   }
 
@@ -46,6 +47,10 @@ export default class LoginScreen extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    console.log("Username (FROM LOGIN): " + this.state.username);
+  }
+
   _toggleHiddenPassword() {
     this.setState(prevState => ({ hidePassword: !prevState.hidePassword }));
   }
@@ -62,6 +67,7 @@ export default class LoginScreen extends React.Component {
       console.log(JSON.stringify(res));
       console.log("token stored" + res.token);
       await SecureStore.setItemAsync("token", res.token);
+
       authValidate = true;
     } catch (err) {
       console.log(`Error while logging in: ${err}`);
@@ -99,86 +105,101 @@ export default class LoginScreen extends React.Component {
                       style={styles.logo}
                     />
                   </View>
-
-                  <View style={styles.formContainer}>
-                    <View style={styles.inputContainer}>
-                      <TextInput
-                        placeholder="username or email"
-                        placeholderTextColor="rgba(255,255,255,0.7)"
-                        returnKeyType="next"
-                        onSubmitEditing={() => this.passwordInput.focus()}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        style={styles.input}
-                        onChangeText={username => this.setState({ username })}
-                        value={this.state.username}
-                      />
-                      <View style={[{ flexDirection: "row" }, styles.input]}>
-                        <TextInput
-                          placeholder="password"
-                          placeholderTextColor="rgba(255,255,255,0.7)"
-                          returnKeyType="go"
-                          autoCapitalize="none"
-                          secureTextEntry={this.state.hidePassword}
-                          ref={input => (this.passwordInput = input)}
-                          style={{
-                            flex: 1,
-                            color: "#fff",
-                            fontFamily: "montserrat-light"
-                          }}
-                          onChangeText={password => this.setState({ password })}
-                          value={this.state.password}
-                        />
+                  <UserConsumer>
+                    {userContext => (
+                      <View style={styles.formContainer}>
+                        <View style={styles.inputContainer}>
+                          <TextInput
+                            placeholder="username or email"
+                            placeholderTextColor="rgba(255,255,255,0.7)"
+                            returnKeyType="next"
+                            onSubmitEditing={() => this.passwordInput.focus()}
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            style={styles.input}
+                            onChangeText={username => {
+                              this.setState({ username });
+                              userContext.updateUsername(username);
+                            }}
+                            value={userContext.username}
+                          />
+                          <View
+                            style={[{ flexDirection: "row" }, styles.input]}
+                          >
+                            <TextInput
+                              placeholder="password"
+                              placeholderTextColor="rgba(255,255,255,0.7)"
+                              returnKeyType="go"
+                              autoCapitalize="none"
+                              secureTextEntry={this.state.hidePassword}
+                              ref={input => (this.passwordInput = input)}
+                              style={{
+                                flex: 1,
+                                color: "#fff",
+                                fontFamily: "montserrat-light"
+                              }}
+                              onChangeText={password => {
+                                this.setState({ password });
+                                userContext.updatePassword(password);
+                              }}
+                              value={userContext.password}
+                            />
+                            <TouchableOpacity
+                              onPress={() => this._toggleHiddenPassword()}
+                              style={{
+                                alightItems: "right",
+                                justifyContent: "center"
+                              }}
+                            >
+                              <Icon
+                                name="remove-red-eye"
+                                type="material"
+                                color="#000"
+                              />
+                            </TouchableOpacity>
+                          </View>
+                        </View>
                         <TouchableOpacity
-                          onPress={() => this._toggleHiddenPassword()}
-                          style={{
-                            alightItems: "right",
-                            justifyContent: "center"
-                          }}
+                          style={styles.loginButton}
+                          onPress={this._loginOnClick}
                         >
-                          <Icon
-                            name="remove-red-eye"
-                            type="material"
-                            color="#000"
-                          />
+                          <Text style={styles.loginText}>Log In</Text>
                         </TouchableOpacity>
+                        <TouchableOpacity
+                          style={styles.signUpButton}
+                          onPress={() =>
+                            this.props.navigation.navigate("SignUp")
+                          }
+                        >
+                          <Text style={styles.signUpText}>
+                            Create an Account
+                          </Text>
+                        </TouchableOpacity>
+                        <View style={GlobalStyles.horizontalLine} />
+                        <View style={styles.otherLogins}>
+                          <TouchableOpacity style={styles.facebook}>
+                            <View style={styles.otherButtonText}>
+                              <Icon
+                                name="facebook-f"
+                                type="font-awesome"
+                                color="#fff"
+                              />
+                            </View>
+                          </TouchableOpacity>
+                          <TouchableOpacity style={styles.google}>
+                            <View style={styles.otherButtonText}>
+                              <Icon
+                                name="google"
+                                type="font-awesome"
+                                color="#fff"
+                              />
+                            </View>
+                          </TouchableOpacity>
+                        </View>
                       </View>
-                    </View>
-                    <TouchableOpacity
-                      style={styles.loginButton}
-                      onPress={this._loginOnClick}
-                    >
-                      <Text style={styles.loginText}>Log In</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={styles.signUpButton}
-                      onPress={() => this.props.navigation.navigate("SignUp")}
-                    >
-                      <Text style={styles.signUpText}>Create an Account</Text>
-                    </TouchableOpacity>
-                    <View style={GlobalStyles.horizontalLine} />
-                    <View style={styles.otherLogins}>
-                      <TouchableOpacity style={styles.facebook}>
-                        <View style={styles.otherButtonText}>
-                          <Icon
-                            name="facebook-f"
-                            type="font-awesome"
-                            color="#fff"
-                          />
-                        </View>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={styles.google}>
-                        <View style={styles.otherButtonText}>
-                          <Icon
-                            name="google"
-                            type="font-awesome"
-                            color="#fff"
-                          />
-                        </View>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
+                    )}
+                  </UserConsumer>
                 </View>
               </TouchableWithoutFeedback>
             </KeyboardAvoidingView>

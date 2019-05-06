@@ -13,12 +13,12 @@ import {
 } from "react-native";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { updatePassword } from "../../controllers/UserController";
+import { UserConsumer } from "../../context/User";
 
 export default class ChangePasswordScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      oldPassword: "",
       newPassword: "",
       newPassword2: ""
     };
@@ -28,11 +28,19 @@ export default class ChangePasswordScreen extends React.Component {
     this.props.navigation.navigate("Settings");
   };
 
-  _handleUpdatePassword = () => {
+  _handleChangePassword = async () => {
     if (this.state.newPassword != this.state.newPassword2) {
       Alert.alert("Error: Passwords did not match.");
     } else {
-      Alert.alert("Password changed!");
+      try {
+        const res = await updatePassword({
+          password: this.state.newPassword
+        });
+        console.log(red);
+        Alert.alert("Password changed!");
+      } catch (err) {
+        console.log(err);
+      }
       this._backButton;
     }
   };
@@ -55,64 +63,75 @@ export default class ChangePasswordScreen extends React.Component {
         </View>
         <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.title}>Change Your Password</Text>
-              <View style={styles.topContainer}>
-                <MaterialCommunityIcons
-                  name="lock-reset"
-                  size={150}
-                  color="#000"
-                />
-              </View>
-              <View style={styles.formContainer}>
-                <Text style={styles.prompText}>Enter current password</Text>
-                <View styles={styles.textInputContainer}>
-                  <TextInput
-                    returnKeyType="go"
-                    autoCapitalize="none"
-                    secureTextEntry={true}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    onSubmitEditing={() => this.newPasswordInput.focus()}
-                    ref={input => (this.passwordInput = input)}
-                    style={styles.input}
-                    onChangeText={oldPassword => this.setState({ oldPassword })}
-                    value={this.state.oldPassword}
-                  />
+            <UserConsumer>
+              {userContext => (
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.title}>Change Your Password</Text>
+                  <View style={styles.topContainer}>
+                    <MaterialCommunityIcons
+                      name="lock-reset"
+                      size={150}
+                      color="#000"
+                    />
+                  </View>
+                  <View style={styles.formContainer}>
+                    <Text style={styles.prompText}>New password</Text>
+                    <TextInput
+                      returnKeyType="go"
+                      autoCapitalize="none"
+                      secureTextEntry={true}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      onSubmitEditing={() => this.newPassword2Input.focus()}
+                      ref={input => (this.newPasswordInput = input)}
+                      style={styles.input}
+                      onChangeText={newPassword =>
+                        this.setState({ newPassword })
+                      }
+                      value={this.state.newPassword}
+                    />
+                    <Text style={styles.prompText}>Confirm password</Text>
+                    <TextInput
+                      returnKeyType="go"
+                      autoCapitalize="none"
+                      secureTextEntry={true}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      ref={input => (this.newPassword2Input = input)}
+                      style={styles.input}
+                      onChangeText={newPassword2 =>
+                        this.setState({ newPassword2 })
+                      }
+                      value={this.state.newPassword2}
+                    />
+                    <TouchableOpacity
+                      style={styles.changePasswordButton}
+                      onPress={async () => {
+                        if (this.state.newPassword != this.state.newPassword2) {
+                          Alert.alert("Error: Passwords did not match.");
+                        } else {
+                          try {
+                            const res = await updatePassword({
+                              id: userContext.id,
+                              password: this.state.newPassword
+                            });
+                            console.log(res);
+                            Alert.alert("Password changed!");
+                          } catch (err) {
+                            console.log(err);
+                          }
+                          this._backButton;
+                        }
+                      }}
+                    >
+                      <Text style={styles.changePasswordText}>
+                        Change Password
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <Text style={styles.prompText}>New password</Text>
-                <TextInput
-                  returnKeyType="go"
-                  autoCapitalize="none"
-                  secureTextEntry={true}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  onSubmitEditing={() => this.newPassword2Input.focus()}
-                  ref={input => (this.newPasswordInput = input)}
-                  style={styles.input}
-                  onChangeText={newPassword => this.setState({ newPassword })}
-                  value={this.state.newPassword}
-                />
-                <Text style={styles.prompText}>Confirm password</Text>
-                <TextInput
-                  returnKeyType="go"
-                  autoCapitalize="none"
-                  secureTextEntry={true}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  ref={input => (this.newPassword2Input = input)}
-                  style={styles.input}
-                  onChangeText={newPassword2 => this.setState({ newPassword2 })}
-                  value={this.state.newPassword2}
-                />
-                <TouchableOpacity
-                  style={styles.changePasswordButton}
-                  onPress={this._handleUpdatePassword}
-                >
-                  <Text style={styles.changePasswordText}>Change Password</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+              )}
+            </UserConsumer>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
       </SafeAreaView>
@@ -131,7 +150,7 @@ const styles = StyleSheet.create({
     margin: 5
   },
   topContainer: {
-    flex: 2,
+    flex: 1,
     alignItems: "center",
     justifyContent: "center"
   },
@@ -141,7 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 28
   },
   formContainer: {
-    flex: 3,
+    flex: 1,
     justifyContent: "center",
     padding: 20
   },
