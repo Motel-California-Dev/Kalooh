@@ -11,16 +11,33 @@ exports.create = async (req, res) => {
 
   const hashedPassword = await Utils.crypt.getPasswordHash(password);
 
-  const query = "INSERT INTO users (user_name, first_name, last_name, email, password) VALUES ($1, $2, $3, $4, $5);";
+  const query = "INSERT INTO users (user_name, first_name, last_name, email, password, created_at) VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP) RETURNING user_name, first_name, last_name, email, picture;";
   const params = [userName, firstName, lastName, email, hashedPassword]; 
-  db.none(query, params)
+  db.one(query, params)
     .then(data => {
-      console.log(data);
-      return res.status(201).json({ message: "success!" });
+      return res.status(201).json({ data });
     })
     .catch(err => {
       console.log(err);
       return res.status(500).send(err);
+    });
+};
+
+exports.upsert = async (user) => {
+  console.log("UPSERT");
+  const { firstName, lastName, email, picture } = user;
+  const userName = `${firstName}.${lastName}`;
+  const query = 'INSERT INTO users (user_name, first_name, last_name, email, created_at) VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP) ON CONFLICT ON CONSTRAINT user_email DO UPDATE SET email = $4, picture = $5 RETURNING id, user_name, first_name, last_name, email, picture;';
+  const params = [ userName, firstName, lastName, email, picture ];
+  return db.one(query, params)
+    .then(data => {
+      console.log(data);
+      return data;
+    })
+    .catch(err => {
+      console.log('upsert error');
+      console.log(err);
+      return err;
     });
 };
 
@@ -72,8 +89,13 @@ exports.getAllPosts = (req, res) => {
  
 exports.find = (req, res) => {
   console.log("Get a user!");
-  const query = "SELECT first_name, last_name, email, password FROM users WHERE id = $1;";
-  const params = [req.params.id];
+  const query = `SELECT first_name, last_name, email, password FROM users 
+    WHERE 
+      ($1 IS NULL OR id = $1)
+    AND
+      ($2 IS NULL OR user_name = $2)
+  ;`;
+  const params = [ req.params.id, req.query.userName ];
   db.one(query, params)
     .then(data => {
       console.log(data);

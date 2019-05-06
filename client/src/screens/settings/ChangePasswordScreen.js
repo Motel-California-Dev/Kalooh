@@ -1,6 +1,9 @@
 import React from "react";
 import {
   Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
   StyleSheet,
   View,
   SafeAreaView,
@@ -51,57 +54,65 @@ export default class ChangePasswordScreen extends React.Component {
           </TouchableOpacity>
         </View>
         <Text style={styles.title}>Change Your Password</Text>
-        <View style={styles.topContainer}>
-          <MaterialCommunityIcons name="lock-reset" size={150} color="#000" />
-        </View>
-        <View style={styles.formContainer}>
-          <Text style={styles.prompText}>Enter current password</Text>
-          <View styles={styles.textInputContainer}>
-            <TextInput
-              returnKeyType="go"
-              autoCapitalize="none"
-              secureTextEntry={true}
-              autoCapitalize="none"
-              autoCorrect={false}
-              onSubmitEditing={() => this.newPasswordInput.focus()}
-              ref={input => (this.passwordInput = input)}
-              style={styles.input}
-              onChangeText={oldPassword => this.setState({ oldPassword })}
-              value={this.state.oldPassword}
-            />
-          </View>
-          <Text style={styles.prompText}>New password</Text>
-          <TextInput
-            returnKeyType="go"
-            autoCapitalize="none"
-            secureTextEntry={true}
-            autoCapitalize="none"
-            autoCorrect={false}
-            onSubmitEditing={() => this.newPassword2Input.focus()}
-            ref={input => (this.newPasswordInput = input)}
-            style={styles.input}
-            onChangeText={newPassword => this.setState({ newPassword })}
-            value={this.state.newPassword}
-          />
-          <Text style={styles.prompText}>Confirm password</Text>
-          <TextInput
-            returnKeyType="go"
-            autoCapitalize="none"
-            secureTextEntry={true}
-            autoCapitalize="none"
-            autoCorrect={false}
-            ref={input => (this.newPassword2Input = input)}
-            style={styles.input}
-            onChangeText={newPassword2 => this.setState({ newPassword2 })}
-            value={this.state.newPassword2}
-          />
-          <TouchableOpacity
-            style={styles.changePasswordButton}
-            onPress={this._handleUpdatePassword}
-          >
-            <Text style={styles.changePasswordText}>Change Password</Text>
-          </TouchableOpacity>
-        </View>
+        <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.topContainer}>
+              <MaterialCommunityIcons
+                name="lock-reset"
+                size={150}
+                color="#000"
+              />
+            </View>
+            <View style={styles.formContainer}>
+              <Text style={styles.prompText}>Enter current password</Text>
+              <View styles={styles.textInputContainer}>
+                <TextInput
+                  returnKeyType="go"
+                  autoCapitalize="none"
+                  secureTextEntry={true}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  onSubmitEditing={() => this.newPasswordInput.focus()}
+                  ref={input => (this.passwordInput = input)}
+                  style={styles.input}
+                  onChangeText={oldPassword => this.setState({ oldPassword })}
+                  value={this.state.oldPassword}
+                />
+              </View>
+              <Text style={styles.prompText}>New password</Text>
+              <TextInput
+                returnKeyType="go"
+                autoCapitalize="none"
+                secureTextEntry={true}
+                autoCapitalize="none"
+                autoCorrect={false}
+                onSubmitEditing={() => this.newPassword2Input.focus()}
+                ref={input => (this.newPasswordInput = input)}
+                style={styles.input}
+                onChangeText={newPassword => this.setState({ newPassword })}
+                value={this.state.newPassword}
+              />
+              <Text style={styles.prompText}>Confirm password</Text>
+              <TextInput
+                returnKeyType="go"
+                autoCapitalize="none"
+                secureTextEntry={true}
+                autoCapitalize="none"
+                autoCorrect={false}
+                ref={input => (this.newPassword2Input = input)}
+                style={styles.input}
+                onChangeText={newPassword2 => this.setState({ newPassword2 })}
+                value={this.state.newPassword2}
+              />
+              <TouchableOpacity
+                style={styles.changePasswordButton}
+                onPress={this._handleUpdatePassword}
+              >
+                <Text style={styles.changePasswordText}>Change Password</Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     );
   }
