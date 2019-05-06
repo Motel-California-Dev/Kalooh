@@ -23,21 +23,21 @@ exports.create = async (req, res) => {
     });
 };
 
-exports.upsert = async (req, res) => {
+exports.upsert = async (user) => {
   console.log("UPSERT");
-  console.log(req);
-  const { firstName, lastName, email, picture } = req.body;
+  const { firstName, lastName, email, picture } = user;
   const userName = `${firstName}.${lastName}`;
   const query = 'INSERT INTO users (user_name, first_name, last_name, email, created_at) VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP) ON CONFLICT ON CONSTRAINT user_email DO UPDATE SET email = $4, picture = $5 RETURNING id, user_name, first_name, last_name, email, picture;';
   const params = [ userName, firstName, lastName, email, picture ];
-  db.one(query, params)
+  return db.one(query, params)
     .then(data => {
       console.log(data);
-      return res.status(201).json(data);
+      return data;
     })
     .catch(err => {
+      console.log('upsert error');
       console.log(err);
-      return res.status(400).send(err);
+      return err;
     });
 };
 
