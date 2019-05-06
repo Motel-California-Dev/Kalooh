@@ -26,7 +26,10 @@ const config = {
         passwordField: 'password'
       },
       jwt: {
-        jwtFromRequest: ExtractJwt.fromBodyField('token'),
+        jwtFromRequest: ExtractJwt.fromExtractors([
+          ExtractJwt.fromBodyField('token'), 
+          ExtractJwt.fromAuthHeaderAsBearerToken()
+        ]),
         secretOrKey: process.env.JWT_SECRET,
         tokenBodyField: "token"
       },
