@@ -9,6 +9,9 @@
 *.key
 *.mobileprovision
 *.env
+*.env.dev*
 /**/.env
+/**/.env.dev*
 .env
 db.json
+/**/keys/
