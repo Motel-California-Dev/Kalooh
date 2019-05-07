@@ -1,0 +1,24 @@
+version: '3.5'
+services:
+  db:
+    container_name: "kalooh_postgres"
+    build: ./db
+    restart: always
+    ports:
+      - '5432:5432'
+    env_file:
+      - db/.env.dev
+  server:
+    container_name: "kalooh_server"
+    build: 
+      context: ./server
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./server:/home/node/app
+    ports:
+      - '3000:3000'
+    entrypoint: [ "/usr/bin/dumb-init", "--", "./scripts/e2e.test.sh" ]
+    env_file:
+      - server/envs/.env.dev
+    depends_on:
+      - db

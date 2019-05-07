@@ -55,12 +55,7 @@ const config = {
 
   },
   production: {
-    session: {
-      cookie: {
-        httpOnly: true,
-        secure: true
-      }
-    }
+    
   }
 };
 

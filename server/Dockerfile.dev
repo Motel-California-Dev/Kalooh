@@ -1,0 +1,32 @@
+# Base Image
+FROM node:10.15.0-stretch
+
+# Create app folder
+RUN mkdir -p /home/node/app
+ENV HOME /home/node/app
+WORKDIR $HOME
+
+RUN mkdir $HOME/node_modules && \
+  chown -R node:node $HOME
+
+# Install dumb-init
+RUN wget https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64.deb
+RUN dpkg -i dumb-init_*.deb
+
+# Install ss
+RUN apt-get install iproute2
+
+# Copy over package.json and package-lock.json to be able to install dependencies
+COPY package*.json ./
+RUN npm install --no-optional && \
+  npm cache clean --force
+
+COPY ./ ./
+
+EXPOSE 3000
+
+ENTRYPOINT ["/usr/bin/dumb-init", "--"] 
+
+USER node
+
+CMD ["npm", "run", "start"]

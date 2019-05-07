@@ -3,31 +3,26 @@ const pgp = require('pg-promise')(config.db.pgpOptions);
 const snakeCase = require('snake-case');
 
 const db = require('../db');
+const { UserService } = require('../services');
 const Utils = require('../util');
 
 exports.create = async (req, res) => {
-  console.log("Post!");
-  const { userName, firstName, lastName, email, password } = req.body;
+  const user = req.body; 
 
-  const hashedPassword = await Utils.crypt.getPasswordHash(password);
-
-  const query = "INSERT INTO users (user_name, first_name, last_name, email, password, created_at) VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP) RETURNING user_name, first_name, last_name, email, picture;";
-  const params = [userName, firstName, lastName, email, hashedPassword]; 
-  db.one(query, params)
-    .then(data => {
-      return res.status(201).json({ data });
-    })
-    .catch(err => {
-      console.log(err);
-      return res.status(500).send(err);
-    });
+  try {
+    const data = await UserService.create(user);
+    return res.status(201).send(data);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send({ message: 'User creation failed' });
+  }
 };
 
 exports.upsert = async (user) => {
   console.log("UPSERT");
   const { firstName, lastName, email, picture } = user;
   const userName = `${firstName}.${lastName}`;
-  const query = 'INSERT INTO users (user_name, first_name, last_name, email, created_at) VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP) ON CONFLICT ON CONSTRAINT user_email DO UPDATE SET email = $4, picture = $5 RETURNING id, user_name, first_name, last_name, email, picture;';
+  const query = 'INSERT INTO users (username, first_name, last_name, email, created_at) VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP) ON CONFLICT ON CONSTRAINT user_email DO UPDATE SET email = $4, picture = $5 RETURNING id, username, first_name, last_name, email, picture;';
   const params = [ userName, firstName, lastName, email, picture ];
   return db.one(query, params)
     .then(data => {
@@ -87,24 +82,19 @@ exports.getAllPosts = (req, res) => {
     });
 }
  
-exports.find = (req, res) => {
-  console.log("Get a user!");
-  const query = `SELECT first_name, last_name, email, password FROM users 
-    WHERE 
-      ($1 IS NULL OR id = $1)
-    AND
-      ($2 IS NULL OR user_name = $2)
-  ;`;
-  const params = [ req.params.id, req.query.userName ];
-  db.one(query, params)
-    .then(data => {
-      console.log(data);
-      return res.status(200).send(data);
-    })
-    .catch(err => {
-      console.log(err);
-      return res.status(500).send(err);
-    });
+exports.find = async (req, res) => {
+  const identifier = {
+    id: req.params.id,
+    username: req.query.username
+  };
+
+  try {
+    const data = await UserService.find(identifier);
+    return res.status(200).send(data);
+  } catch (err) {
+    console.log(`ERROR: ${err}`);
+    return res.status(400).send({ message: 'User not found' });
+  }
 };
 
 exports.update = async (req, res) => {
@@ -134,18 +124,11 @@ exports.update = async (req, res) => {
     });
 };
 
-exports.delete = (req, res) => {
-  console.log("Delete!");
-  const { id, password } = req.body;
-  const query = "DELETE FROM users WHERE id = $1 AND password = $2;";
-  const params = [id, password]; 
-  db.query(query, params)
-    .then(data => {
-      console.log(data);
-      return res.status(204).json({ message: "success!" });
-    })
-    .catch(err => {
-      console.log(err);
-      return res.status(500).send(err);
-    });
+exports.delete = async (req, res) => {
+  try {
+    const data = await UserService.delete(req.params.id);
+    return res.status(204).json(data);
+  } catch (err) {
+    return res.status(404).send(err);
+  }
 };

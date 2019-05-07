@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "debug": "npm debug src/index.js",
+    "start": "dotenv -e envs/.env.dev -- node src/index.js",
+    "start:dev": "nodemon -w src/* --exec 'npm run start'",
     "test": "mocha 'test/**/*.test.js' --recursive",
-    "debug": "npm debug server.js",
-    "start": "dotenv -e envs/.env.dev node server.js",
-    "start:dev": "nodemon -w auth -w controllers -w config -w routes -w util -w db --exec 'npm run start'"
+    "test:e2e": "dotenv -e envs/.env.dev -- npx cucumber-js test/integration/features --require-module @babel/register --require test/integration/steps"
   },
   "keywords": [],
   "author": "",
@@ -33,7 +34,12 @@
     "snake-case": "^2.1.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/register": "^7.4.4",
+    "axios": "^0.18.0",
     "chai": "^4.2.0",
+    "cucumber": "^5.1.0",
     "dotenv": "^7.0.0",
     "dotenv-cli": "^2.0.0",
     "errorhandler": "^1.5.0",

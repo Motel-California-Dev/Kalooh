@@ -1,6 +1,6 @@
 CREATE TABLE users (
 	id		      SERIAL,	
-	user_name 	VARCHAR(255) NOT NULL,
+	username 	VARCHAR(255) NOT NULL,
 	first_name	VARCHAR(255) NOT NULL,
 	last_name	  VARCHAR(255) NOT NULL,
 	email		    VARCHAR(255) NOT NULL,
@@ -60,13 +60,4 @@ CREATE TABLE comment (
   );
 
 CREATE TYPE tag AS ENUM ('Food', 'Sale',  'Free' ,'Personal', 'Social', 'Other', 'Event', 'Music', 'Shopping');
-
-CREATE TABLE comment (
-  	post_id 	int NOT NULL,
-	post_tag	tag Not NULL,
-	CONSTRAINT comment_pk PRIMARY KEY (post_id,post_tag),
-	CONSTRAINT comment_fk_user FOREIGN KEY (post_id)
-	  REFERENCES post(id)
-  );
-
   
