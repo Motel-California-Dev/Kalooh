@@ -38,3 +38,22 @@ export async function postNote(post){
     }
   );
 }
+
+export async function getComments(postId){
+  console.log('i got called with noteID= ' + postId);
+  let comments = [];
+  for(let i = 0; i < 25; i++){
+    comments[i] = {
+      id: i,
+      created_at: new Date(),
+      message: 'this is a extra long comment for postID ' + postId + ' (trying to get this to be multiline)',
+      postId: postId,
+      userId: 'user' + i,
+    }
+  }
+  return comments;
+}
+
+export async function addComment(comment){
+  console.log('implement addComment');
+}
