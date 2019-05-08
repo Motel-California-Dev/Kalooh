@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, View, Text, TouchableHighlight } from "react-native";
+import { StyleSheet, View, Text, TouchableHighlight, Modal, FlatList } from "react-native";
 import { Constants, MapView, Location, Permissions, SecureStore } from "expo";
 import { Ionicons } from "@expo/vector-icons";
-import { getNotes } from "../../controllers/PostController";
+import { getNotes, getNote, getComments } from "../../controllers/PostController";
 import axios from "../../../config/axios";
 
 export default class HomeScreen extends React.Component {
@@ -13,7 +13,7 @@ export default class HomeScreen extends React.Component {
       hasLocationPermissions: false,
       location: null,
       locationResult: null,
-      posts: []
+      posts: [],
     };
   }
 
@@ -65,17 +65,10 @@ export default class HomeScreen extends React.Component {
   };
 
   _handleDisplayNote = async key => {
-    console.log("hello from _handleDisplayNote!");
-    console.log("The Note Id you pressed is: " + key);
-
-    let note = await axios
-      .get("posts/" + key)
-      .then(res => {
-        return res.data[0];
-      })
-      .catch(err => {
-        console.log("ahhh");
-      });
+    let note = await getNote(key);
+    this.props.navigation.navigate('ViewNoteScreen', {
+      note
+    });
   };
 
   render() {
@@ -124,7 +117,7 @@ export default class HomeScreen extends React.Component {
             style={styles.locationButton}
             onPress={this._getLocationAsync}
           >
-            <Ionicons name="ios-locate" size={32} color="#629FE7" />
+            <Ionicons name="ios-navigate" size={32} color="#629FE7" />
           </TouchableHighlight>
         </View>
       </View>
@@ -169,5 +162,5 @@ const styles = StyleSheet.create({
     height: 64,
     width: 64,
     borderRadius: 100
-  }
+  },
 });
