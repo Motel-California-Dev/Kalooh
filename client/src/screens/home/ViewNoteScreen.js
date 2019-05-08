@@ -21,16 +21,16 @@ export default class ViewNoteScreen extends React.Component {
 		this.props.navigation.goBack();
 	};
 
-	_addComment = (comment) => {
-		addComment(comment);
-		this.setState( {comment: ''} );
+	_addComment = async (comment) => {
+		await addComment(this.state.note.id, 5, comment);
+		this.setState( {comment: '', comments: await getComments(this.state.note.id)});
 	};
 
 	_renderComment = ( comment ) => {
 		return (
 			<View style={styles.commentContainer} key={comment.id}>
 				<Ionicons name="ios-contact" size={48} color="#000000"/>
-				<Text style={styles.comment}>{comment.userId}: {comment.message}</Text>
+				<Text style={styles.comment}>{comment.userId}: {comment.text}</Text>
 			</View>
 		);
 	};

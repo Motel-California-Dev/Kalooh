@@ -40,20 +40,27 @@ export async function postNote(post){
 }
 
 export async function getComments(postId){
-  console.log('i got called with noteID= ' + postId);
-  let comments = [];
-  for(let i = 0; i < 25; i++){
-    comments[i] = {
-      id: i,
-      created_at: new Date(),
-      message: 'this is a extra long comment for postID ' + postId + ' (trying to get this to be multiline)',
-      postId: postId,
-      userId: 'user' + i,
-    }
-  }
-  return comments;
+  console.log();
+  return await axios.get('posts/' + postId + '/comments')
+    .then(res => {
+      console.log('Comment retrieval successful! Retrieved ' + res.data + ' comments');
+      return res.data;
+    })
+    .catch(err => {
+      console.log(`Comment retrieval error:\n${JSON.stringify(err)}`);
+    });
 }
 
-export async function addComment(comment){
-  console.log('implement addComment');
+export async function addComment(postId, userId, text){
+  await axios.post('posts/' + postId + '/comments', {
+    postId: postId,
+    userId: userId,
+    text: text,
+  })
+    .then(res => {
+      console.log('Comment successfully added:\n' + JSON.stringify(res));
+    })
+    .catch(err => {
+      console.log('Comment unsuccessfully added:\n' + JSON.stringify(err));
+    });
 }
