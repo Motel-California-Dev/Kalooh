@@ -18,7 +18,7 @@ export default class ViewNoteScreen extends React.Component {
 	}
 
 	_goBack = () => {
-		this.props.navigation.navigate("HomeScreen");
+		this.props.navigation.goBack();
 	};
 
 	_addComment = (comment) => {
@@ -28,7 +28,7 @@ export default class ViewNoteScreen extends React.Component {
 
 	_renderComment = ( comment ) => {
 		return (
-			<View style={styles.commentContainer}>
+			<View style={styles.commentContainer} key={comment.id}>
 				<Ionicons name="ios-contact" size={48} color="#000000"/>
 				<Text style={styles.comment}>{comment.userId}: {comment.message}</Text>
 			</View>

@@ -12,7 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import SignUpScreen from "../login/SignUpScreen";
 import LoginScreen from "../login/LoginScreen";
 import HomeNavigator from "../home/HomeNavigator";
-import SearchScreen from "../search/SearchScreen";
+import SearchNavigator from "../search/SearchNavigator";
 import PeopleNavigator from "./PeopleNavigation";
 import NotificationScreen from "../notification/NotificationScreen";
 import SettingsNavigation from "./SettingsNavigator";
@@ -55,7 +55,7 @@ const MainNavigator = createMaterialBottomTabNavigator(
       }
     },
     Search: {
-      screen: SearchScreen,
+      screen: SearchNavigator,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <Ionicons name="ios-search" color={tintColor} size={28} />
