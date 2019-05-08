@@ -1,6 +1,8 @@
 import React from "react";
 import Navigation from "./src/screens/navigator/Navigation";
 import { Font, AppLoading } from "expo";
+import { UserProvider } from "./src/context/User";
+
 export default class App extends React.Component {
   state = {
     isReady: false
@@ -8,7 +10,6 @@ export default class App extends React.Component {
   async componentDidMount() {
     await Font.loadAsync({
       montserrat: require("./assets/fonts/Montserrat-Regular.ttf"),
-
       "montserrat-light": require("./assets/fonts/Montserrat-Light.ttf")
     });
     this.setState({ isReady: true });
@@ -17,6 +18,10 @@ export default class App extends React.Component {
     if (!this.state.isReady) {
       return <AppLoading />;
     }
-    return <Navigation />;
+    return (
+      <UserProvider>
+        <Navigation />
+      </UserProvider>
+    );
   }
 }
