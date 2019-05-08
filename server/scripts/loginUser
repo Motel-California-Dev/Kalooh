@@ -2,13 +2,13 @@
 
 if [[ -z $1 ]]; then
   URL=ec2-54-157-201-117.compute-1.amazonaws.com;
-  DATA='{"userName":"test1","password":"testpw"}'
+  DATA='{"username":"test1","password":"testpw"}'
 elif [[ $1 == "token" ]]; then
   URL=localhost:3000 
-  TOKEN=$(curl $URL/auth/login -H "Content-Type: application/json" -d '{"userName": "test1", "password": "testpw"}' | jq -r ".token" | xargs echo -n)
+  TOKEN=$(curl $URL/auth/login -H "Content-Type: application/json" -d '{"username": "test1", "password": "testpw"}' | jq -r ".token" | xargs echo -n)
   DATA="'{"token": '"$TOKEN"'}'"
 else
   URL=localhost:3000
 fi
 
-curl -X POST $URL/auth/login -H "Content-Type: application/json" -d '{"userName": "test1", "password": "testpw"}'
+curl -X POST $URL/auth/login -H "Content-Type: application/json" -d '{"username": "test1", "password": "testpw"}'

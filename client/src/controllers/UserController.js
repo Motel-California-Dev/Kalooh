@@ -24,7 +24,7 @@ export async function signUp({
 }
 
 export async function login({ username, password, token }) {
-  const credentials = { userName: username, password, token };
+  const credentials = { username, password, token };
   try {
     const { data } = await axios.post("auth/login", credentials);
     return data;
@@ -104,3 +104,26 @@ export async function loginMock(credentials) {
       console.log("\\\\\\\\\\\\\\\\\\\\\\");
     });
 }
+
+export async function getFollowers(id) {
+  try {
+    const { data } = await axios.get(`users/${id}/followers`);
+    return data;
+  } catch (err) {
+    console.log('Error in UserController.getFollowers');
+    console.log(JSON.stringify(err));
+  }
+};
+
+export async function addFollower(id, userId) {
+  try {
+    return await axios.post(`followers`, {
+      follower: userId,
+      leader: id
+    });
+  } catch (err) {
+    console.log('Error in UserController.getFollowers');
+    console.log(JSON.stringify(err));
+  }
+}
+

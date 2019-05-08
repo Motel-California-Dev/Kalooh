@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, Button } from "react-native";
 
 const FriendCard = props => {
   return (
@@ -7,15 +7,20 @@ const FriendCard = props => {
       <View style={{ flexDirection: "row" }}>
         <View style={{ flex: 1 }}>
           <Image
-            source={require("../../../assets/default-profile.png")}
+            source={props.friend.picture || require("../../../assets/default-profile.png")}
             style={{ width: 55, height: 55, borderRadius: 30 }}
           />
         </View>
-        <View style={{ flex: 4 }}>
+        <View style={{ flex: 4, marginLeft: 20 }}>
           <Text style={styles.usernameStyle}>{props.friend.username}</Text>
-          <Text style={styles.nameStyle}>{props.friend.name}</Text>
+          <Text style={styles.nameStyle}>{props.friend.firstName} {props.friend.lastName}</Text>
         </View>
-        <View style={{ flex: 1 }} />
+        <View style={{ flex: 2, alignSelf: 'center' }}>
+          <Button
+            onPress={() => console.log('Implement add follower here')}
+            title="Follow"
+          />
+        </View>
       </View>
     </View>
   );

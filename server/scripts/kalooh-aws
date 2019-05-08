@@ -11,9 +11,15 @@ build-ecr() {
 }
 
 redeploy() {
+  echo "Rebuilding image..."
+  build-ecr
+
+  echo "Setting desired instances to 0..."
   aws ecs --profile kalooh update-service --cluster kalooh-cluster --service kalooh-server-service --desired-count 0
+  echo "Sleeping for 30 seconds..."
   sleep 30
   
+  echo "Resetting desired instances to 1..."
   aws ecs --profile kalooh update-service --cluster kalooh-cluster --service kalooh-server-service --desired-count 1
 }
 

@@ -2,37 +2,76 @@
 
 create() {
   echo "Create"
-  curl -X POST localhost:3000/posts -H "Content-Type: application/json" -d '{"userId": 1, "title": "command line post", "message": "'$1'", "lati": 33.8878, "long": -118.7411}'
+  curl -X POST $URL/posts -H "Content-Type: application/json" -d '{"userId": 1, "title": "command line post", "message": "'$1'", "lati": 33.8878, "long": -118.7411}'
 }
 
 list() {
   echo "List"
-  curl "localhost:3000/posts?lati=38.000&long=-118.000&radius=200000"
+  echo $URL/posts?lati=38.000&long=-118.000&radius=200000
+  curl $URL/posts?lati=38.000&long=-118.000&radius=200000
 }
 
 get() {
   echo "Get"
-  curl localhost:3000/posts/$1
+  curl $URL/posts/$1
 }
 
 delete() {
   echo "Delete"
-  curl -X DELETE localhost:3000/posts/$1
+  curl -X DELETE $URL/posts/$1
 }
 
 case $1 in
   create)
     shift;
+    case $1 in
+      aws)
+        echo "aws"
+        URL=http://ec2-54-157-201-117.compute-1.amazonaws.com
+        ;;
+      local)
+        echo "local"
+        URL=http://localhost:3000
+        ;;
+    esac
+    shift;
     create $@
     ;;
   list)
+    case $1 in
+      aws)
+        URL=http://ec2-54-157-201-117.compute-1.amazonaws.com
+        ;;
+      local)
+        URL=http://localhost:3000
+        ;;
+    esac
+    shift;
     list
     ;;
   get)
+    case $1 in
+      aws)
+        URL=http://ec2-54-157-201-117.compute-1.amazonaws.com
+        ;;
+      local)
+        URL=http://localhost:3000
+        ;;
+    esac
+    shift;
     shift;
     get $@
     ;;
   delete)
+    case $1 in
+      aws)
+        URL=http://ec2-54-157-201-117.compute-1.amazonaws.com
+        ;;
+      local)
+        URL=http://localhost:3000
+        ;;
+    esac
+    shift;
     shift;
     delete $@
     ;;

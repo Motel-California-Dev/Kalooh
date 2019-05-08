@@ -9,7 +9,7 @@ export class UserProvider extends Component {
     lastName: "",
     email: "",
     username: "",
-    password: ""
+    picture: ""
   };
 
   componentDidUpdate() {
@@ -21,23 +21,8 @@ export class UserProvider extends Component {
       <UserContext.Provider
         value={{
           user: this.state,
-          setUser: (id, firstName, lastName, email, username, password) =>
-            this.setState({
-              id,
-              firstName,
-              lastName,
-              email,
-              username,
-              password
-            }),
-          updatePassword: password =>
-            this.setState({
-              password
-            }),
-          updateUsername: username =>
-            this.setState({
-              username
-            })
+          setUser: (user) =>
+            this.setState(user)
         }}
       >
         {this.props.children}
@@ -47,3 +32,4 @@ export class UserProvider extends Component {
 }
 
 export const UserConsumer = UserContext.Consumer;
+

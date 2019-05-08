@@ -12,7 +12,10 @@ import SettingsList from "react-native-settings-list";
 
 import { SecureStore } from "expo";
 
-export default class SettingsScreen extends React.Component {
+import connect from '../../context/connect';
+import { UserConsumer } from '../../context/User';
+
+class SettingsScreen extends React.Component {
   constructor() {
     super();
     this.onNotificationValueChange = this.onNotificationValueChange.bind(this);
@@ -30,6 +33,8 @@ export default class SettingsScreen extends React.Component {
   }
 
   render() {
+    const { username, firstName, lastName, picture } = this.props.user;
+    console.log(this.props.user);
     return (
       <SafeAreaView style={{ backgroundColor: "#EFEFF4", flex: 1 }}>
         <Text style={styles.title}>Account Settings</Text>
@@ -47,14 +52,14 @@ export default class SettingsScreen extends React.Component {
                 style={{ width: 75, height: 75, borderRadius: 37.5 }}
               >
                 <Image
-                  source={require("../../../assets/default-profile.png")}
+                  source={picture ? { uri: picture } : require("../../../assets/default-profile.png")}
                   style={{ width: 75, height: 75, borderRadius: 37.5 }}
                 />
               </TouchableHighlight>
             </View>
             <View style={{ flex: 3 }}>
-              <Text style={{ fontSize: 18 }}>Username goes here</Text>
-              <Text>Name goes here</Text>
+              <Text style={{ fontSize: 18 }}>{this.props.user.username}</Text>
+              <Text>{this.props.user.firstName} {this.props.user.lastName}</Text>
             </View>
           </View>
           <SettingsList borderColor="#c8c7cc" defaultItemSize={50}>
@@ -104,6 +109,8 @@ export default class SettingsScreen extends React.Component {
     );
   }
 }
+
+export default connect(UserConsumer)(SettingsScreen);
 
 const styles = StyleSheet.create({
   container: {

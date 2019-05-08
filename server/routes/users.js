@@ -1,7 +1,7 @@
 const router = require('express-promise-router')();
 
 const passport = require('../auth/passport');
-const UserController = require('../controllers/users.js');
+const { FollowersController, UserController } = require('../controllers');
 
 router.route('/')
   .get(passport.authenticate('jwt', { session: false }), UserController.list)
@@ -11,6 +11,9 @@ router.route('/')
 router.route('/:id')
   .get(passport.authenticate('jwt', { session: false }), UserController.find)
   .patch(passport.authenticate('jwt', { session: false }), UserController.update);
+
+router.route('/:id/followers')
+  .get(FollowersController.list);
 
 module.exports = router;
 

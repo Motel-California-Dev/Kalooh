@@ -24,7 +24,7 @@ exports.create = (req, res) => {
 
 exports.list = (req, res) => {
   console.log("Get!");
-  const query = "SELECT * FROM comment WHERE post_id=$1;";
+  const query = "SELECT c.*, u.username, u.picture FROM comment AS c INNER JOIN users AS u ON c.user_id = u.id WHERE post_id=$1;";
   const params = [ req.params.postId ];
   console.log(params);
   db.query(query, params)

@@ -19,7 +19,7 @@ exports.updatePassword = (req, res) => {
 exports.updateUser = (req, res) => {
   console.log("Update!");
   const { id, username, newUser } = req.body;
-  const query = "UPDATE users SET user_name = $3 WHERE ID = $1 AND password = $2;";
+  const query = "UPDATE users SET username = $3 WHERE ID = $1 AND password = $2;";
   const params = [id, username, newUser]; 
   db.query(query, params)
     .then(data => {

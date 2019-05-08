@@ -2,8 +2,10 @@ import React from 'react';
 import { StyleSheet, View, Text, FlatList, TouchableHighlight, ScrollView, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getNote, getComments, addComment } from '../../controllers/PostController';
+import connect from '../../context/connect';
+import { UserConsumer } from '../../context/User';
 
-export default class ViewNoteScreen extends React.Component {
+class ViewNoteScreen extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -15,6 +17,7 @@ export default class ViewNoteScreen extends React.Component {
 
 	async componentDidMount(){
 		this.setState( {comments: await getComments(this.state.note.id)});
+    console.log(this.state.note);
 	}
 
 	_goBack = () => {
@@ -22,7 +25,7 @@ export default class ViewNoteScreen extends React.Component {
 	};
 
 	_addComment = async (comment) => {
-		await addComment(this.state.note.id, 5, comment);
+		await addComment(this.state.note.id, this.props.user.id, comment);
 		this.setState( {comment: '', comments: await getComments(this.state.note.id)});
 	};
 
@@ -30,7 +33,7 @@ export default class ViewNoteScreen extends React.Component {
 		return (
 			<View style={styles.commentContainer} key={comment.id}>
 				<Ionicons name="ios-contact" size={48} color="#000000"/>
-				<Text style={styles.comment}>{comment.userId}: {comment.text}</Text>
+				<Text style={styles.comment}>{comment.username}: {comment.text}</Text>
 			</View>
 		);
 	};
@@ -56,7 +59,9 @@ export default class ViewNoteScreen extends React.Component {
 					{
 						this.state.comments &&
 						<View style={styles.icons}>
-							<Ionicons name="ios-heart-empty" size={35} color="#000000"/>
+              <Text style={styles.commentNumber}>
+                <Ionicons name="ios-heart-empty" size={35} color="#000000"/> {this.state.note.likes}
+              </Text>
 							<Text style={styles.commentNumber}>
 								<Ionicons name="ios-chatbubbles" size={35} color="#000000"/> {this.state.comments.length}
 							</Text>
@@ -94,6 +99,8 @@ export default class ViewNoteScreen extends React.Component {
 		);
 	}
 }
+
+export default connect(UserConsumer)(ViewNoteScreen);
 
 const styles = StyleSheet.create({
 	title: {

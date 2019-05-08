@@ -5,9 +5,9 @@ const CryptUtil = require('../../util').crypt;
 const config = require('../../config');
 
 module.exports = passport => {
-  passport.use(new LocalStrategy(config.passport.local, (userName, password, done) => {
-    const query = 'SELECT id, user_name, email, password FROM users WHERE user_name = $1';
-    const params = [ userName ];
+  passport.use(new LocalStrategy(config.passport.local, (username, password, done) => {
+    const query = 'SELECT id, username, email, password, first_name, last_name, picture FROM users WHERE username = $1';
+    const params = [ username ];
 
     db.one(query, params)
       .then(async user => {

@@ -19,34 +19,39 @@ import { Icon } from "react-native-elements";
 import { login, loginGoogle } from "../../controllers/UserController";
 import GlobalStyles from "../../components/GlobalStyles";
 import { UserConsumer } from "../../context/User";
+import connect from '../../context/connect';
 
 const { baseURL, GOOGLE_CLIENT_ID, GOOGLE_SCOPE } = Constants.manifest.extra;
 
-export default class LoginScreen extends React.Component {
+class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "test1",
-      password: "testpw",
+      username: "",
+      password: "",
       hidePassword: true,
       isLoading: false,
       isLoadingUserContext: true
     };
   }
 
-  componentDidMount() {
-    SecureStore.getItemAsync("token").then(async token => {
-      let res = await login({
-        username: this.username,
-        password: this.password,
-        token
-      });
+  async componentDidMount() {
+    try {
+      const token = await SecureStore.getItemAsync("token")
+      if (!token) {
+        throw new Error('Token not found');
+      }
+      
+      let res = await login({token});
       if (res) {
         console.log(res); // User info { "username" "id" }
         console.log("token is already stored. logging in");
+        this.props.setUser(res);
         this.props.navigation.navigate("Main"); //Navigates to the Main App
       }
-    });
+    } catch (err) {
+      console.log(JSON.stringify(err));
+    }
   }
 
   componentDidUpdate() {
@@ -62,14 +67,16 @@ export default class LoginScreen extends React.Component {
     this.setState({ isLoading: true });
     let { username, password } = this.state;
     try {
+      console.log(username, password);
       const res = await login({
         username,
         password
       });
+      console.log(res);
       console.log(JSON.stringify(res));
       console.log("token stored" + res.token);
       await SecureStore.setItemAsync("token", res.token);
-
+      this.props.setUser(res);
       authValidate = true;
     } catch (err) {
       console.log(`Error while logging in: ${err}`);
@@ -146,7 +153,7 @@ export default class LoginScreen extends React.Component {
                     />
                   </View>
                   <UserConsumer>
-                    {userContext => (
+                    {({ setUser }) => (
                       <View style={styles.formContainer}>
                         <View style={styles.inputContainer}>
                           <TextInput
@@ -160,9 +167,8 @@ export default class LoginScreen extends React.Component {
                             style={styles.input}
                             onChangeText={username => {
                               this.setState({ username });
-                              userContext.updateUsername(username);
                             }}
-                            value={userContext.username}
+                            value={this.state.username}
                           />
                           <View
                             style={[{ flexDirection: "row" }, styles.input]}
@@ -181,9 +187,8 @@ export default class LoginScreen extends React.Component {
                               }}
                               onChangeText={password => {
                                 this.setState({ password });
-                                userContext.updatePassword(password);
                               }}
-                              value={userContext.password}
+                              value={this.state.password}
                             />
                             <TouchableOpacity
                               onPress={() => this._toggleHiddenPassword()}
@@ -252,6 +257,8 @@ export default class LoginScreen extends React.Component {
     );
   }
 }
+
+export default connect(UserConsumer)(LoginScreen);
 
 const styles = StyleSheet.create({
   container: {

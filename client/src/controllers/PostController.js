@@ -52,10 +52,10 @@ export async function getComments(postId){
 }
 
 export async function addComment(postId, userId, text){
-  await axios.post('posts/' + postId + '/comments', {
-    postId: postId,
-    userId: userId,
-    text: text,
+  await axios.post(`posts/${postId}/comments`, {
+    userId,
+    postId,
+    text
   })
     .then(res => {
       console.log('Comment successfully added:\n' + JSON.stringify(res));

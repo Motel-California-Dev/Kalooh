@@ -4,10 +4,12 @@ import { Constants, MapView, Location, Permissions, SecureStore } from "expo";
 import { Ionicons } from "@expo/vector-icons";
 import { getNotes, getNote, getComments } from "../../controllers/PostController";
 import axios from "../../../config/axios";
+import { UserConsumer } from '../../context/User';
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       mapRegion: null,
       hasLocationPermissions: false,
@@ -28,6 +30,7 @@ export default class HomeScreen extends React.Component {
       lati: this.state.mapRegion.latitude,
       long: this.state.mapRegion.longitude
     });
+    
     this.setState({ posts: notes });
   }
 
@@ -36,26 +39,32 @@ export default class HomeScreen extends React.Component {
   };
 
   _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== "granted") {
-      this.setState({
-        locationResult: "Permission to access location was denied"
-      });
-    } else {
-      this.setState({ hasLocationPermissions: "true" });
-    }
-
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ locationResult: JSON.stringify(location) });
-
-    this.setState({
-      mapRegion: {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
+    try {
+      if (!this.state.hasLocationPermissions) {
+        let { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if (status !== "granted") {
+          this.setState({
+            locationResult: "Permission to access location was denied"
+          });
+        } else {
+          this.setState({ hasLocationPermissions: true });
+        }
       }
-    });
+
+      let location = await Location.getCurrentPositionAsync({});
+      this.setState({ locationResult: JSON.stringify(location) });
+
+      await this.setState({
+        mapRegion: {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+        }
+      });
+    } catch (err) {
+      console.log(`Error while setting location: ${err}`);
+    }
   };
 
   _handleCreateNotePress = () => {
@@ -124,6 +133,8 @@ export default class HomeScreen extends React.Component {
     );
   }
 }
+
+export default connect(UserConsumer)(HomeScreen);
 
 const styles = StyleSheet.create({
   container: {

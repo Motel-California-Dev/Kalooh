@@ -18,7 +18,8 @@ exports.create = (req, res) => {
 
 exports.list = (req, res) => {
   console.log("Get!");
-  const { lati, long, radius } = req.query;
+  const { lati, long } = req.query;
+  let radius = req.query.radius;
 
   if (!radius) {
     radius = 25;

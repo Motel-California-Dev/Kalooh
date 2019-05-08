@@ -22,7 +22,7 @@ const config = {
     },
     passport: {
       local: {
-        usernameField: 'userName',
+        usernameField: 'username',
         passwordField: 'password'
       },
       jwt: {

@@ -5,8 +5,7 @@ import FollowersScreen from "../followers/FollowersScreen";
 /* Navigator between Friend and Followers */
 export default (PeopleNavigator = createMaterialTopTabNavigator(
   {
-    Friends: FriendsScreen,
-    Followers: FollowersScreen
+    Followers: FriendsScreen,
   },
   {
     tabBarOptions: {
