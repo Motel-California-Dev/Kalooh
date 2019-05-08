@@ -3,7 +3,7 @@ const db = require('../db');
 exports.create = (req, res) => {
   console.log("Post!");
   const { userId, createdAt, title, message, lati, long } = req.body;
-  const query = "INSERT INTO post (user_id, created_at, title, message, lati, long) VALUES ($1, CURRENT_TIMESTAMP, $2, $3, $4, $5);";
+  const query = "INSERT INTO post (user_id, created_at, title, message, lati, long, likes) VALUES ($1, CURRENT_TIMESTAMP, $2, $3, $4, $5, 0);";
   const params = [userId, title, message, lati, long]; 
   db.query(query, params)
     .then(data => {

@@ -22,7 +22,7 @@ connect() {
       psql --host=kalooh-db.clmdf2zvhmlk.us-east-1.rds.amazonaws.com --port=5432 --dbname=kalooh --username=motelcalifornia --password
       ;;
     server)
-      ssh -i ~/.aws/keypairs/kalooh-server.pem ec2-user@ec2-18-215-245-62.compute-1.amazonaws.com
+      ssh -i ~/.aws/keypairs/kalooh-server.pem ec2-user@ec2-54-157-201-117.compute-1.amazonaws.com
       ;;
   esac
 }

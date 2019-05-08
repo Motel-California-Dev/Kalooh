@@ -32,24 +32,26 @@ CREATE TABLE friend (
 );
 
 CREATE TABLE post (
-  id      	  SERIAL,
-	user_id	    int NOT NULL,
+  	id      	SERIAL,
+	user_id	    	int NOT NULL,
 	created_at	TIMESTAMP NOT NULL,
-  title 		  VARCHAR(255) NOT NULL,
-	message 	  VARCHAR(255) NOT NULL,
-  lati 		    FLOAT,
-  long  	    FLOAT,
+  	title 		VARCHAR(255) NOT NULL,
+	message 	VARCHAR(255) NOT NULL,
+  	lati 		FLOAT,
+  	long  	    	FLOAT,
+	likes		INT,
 	CONSTRAINT post_pk PRIMARY KEY (ID),
 	CONSTRAINT post_fk_user FOREIGN KEY (user_id)
 	  REFERENCES users(ID)
   );
   
 CREATE TABLE comment (
-  id 		        SERIAL,
-  post_id 	    int NOT NULL,
-	user_id	      int NOT NULL,
-	created_at	  TIMESTAMP NOT NULL,
-	text		      VARCHAR(255) NOT NULL,
+  	id 		SERIAL,
+  	post_id 	int NOT NULL,
+	user_id	      	int NOT NULL,
+	created_at	TIMESTAMP NOT NULL,
+	text		VARCHAR(255) NOT NULL,
+	likes		INT,
 	CONSTRAINT comment_pk PRIMARY KEY (id),
 	CONSTRAINT comment_fk_user FOREIGN KEY (user_id)
 	  REFERENCES users(id),
@@ -57,39 +59,14 @@ CREATE TABLE comment (
 	  REFERENCES post(id)
   );
 
-INSERT INTO users (user_name, first_name, last_name, email, password, created_at)
-  VALUES
-  ('Test1','Nathan','Rice', 'n8@cambium5.com','nathan', CURRENT_TIMESTAMP),
-  ('Test2','Eric','Do','ericdo62497@gmail.com','eric', CURRENT_TIMESTAMP),
-  ('Test3','Kyle','Mazza','kylemazza@gmail.com','kyle', CURRENT_TIMESTAMP),
-  ('Test4','Kian','Badie','kianbadie@gmail.com','kian', CURRENT_TIMESTAMP),
-  ('Test5','Christian','Wance','christian.wance@gmail.com','weKnow', CURRENT_TIMESTAMP);
+CREATE TYPE tag AS ENUM ('Food', 'Sale',  'Free' ,'Personal', 'Social', 'Other', 'Event', 'Music', 'Shopping');
 
-INSERT INTO post (user_id, created_at, title, message, lati, long)
-  VALUES
-  (5,TIMESTAMP '2019-02-19 12:00:00','FIRST!','First Post of any kind!!',33.7817,-118.1135),
-  (3,TIMESTAMP '2019-02-19 12:05:00','Wow Nate','Could you not Nathan...',33.7820,-118.1130),
-  (2,TIMESTAMP '2019-02-19 14:15:00','Free fries at outpost','Whisper "give me all your money" and they will give you free fries.',33.7814,-118.1140);
+CREATE TABLE comment (
+  	post_id 	int NOT NULL,
+	post_tag	tag Not NULL,
+	CONSTRAINT comment_pk PRIMARY KEY (post_id,post_tag),
+	CONSTRAINT comment_fk_user FOREIGN KEY (post_id)
+	  REFERENCES post(id)
+  );
 
-INSERT INTO comment (user_id, post_id, created_at, text)
-  VALUES
-  (1, 2,TIMESTAMP '2019-02-19 12:10:00','What do you want Kyle? >:('),
-  (3, 3,TIMESTAMP '2019-02-19 12:11:00','You know what you did!!'),
-  (4, 3,TIMESTAMP '2019-02-19 12:12:00','Woah guys, I feel like I caused this... :(');
-
-INSERT INTO follow (leader, follower)
-  VALUES
-  (2,1),
-  (2,3),
-  (3,2),
-  (4,1),
-  (4,5),
-  (5,4);
-  
-INSERT INTO friend (leader, friender)
-  VALUES
-  (2,3),
-  (3,2),
-  (4,5),
-  (5,4);
   

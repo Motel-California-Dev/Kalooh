@@ -109,12 +109,18 @@ export default class ChangePasswordScreen extends React.Component {
                       onPress={async () => {
                         if (this.state.newPassword != this.state.newPassword2) {
                           Alert.alert("Error: Passwords did not match.");
+                        } else if (this.state.newPassword.length == 0) {
+                          Alert.alert("Error: Please enter a new password");
+                        } else if (this.state.newPassword.length < 8) {
+                          Alert.alert("Error: Password is too short.");
                         } else {
                           try {
                             const res = await updatePassword({
                               id: userContext.id,
                               password: this.state.newPassword
                             });
+                            console.log(userContext.id);
+                            console.log(this.state.newPassword);
                             console.log(res);
                             Alert.alert("Password changed!");
                           } catch (err) {

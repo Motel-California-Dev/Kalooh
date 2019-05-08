@@ -33,6 +33,26 @@ export async function login({ username, password, token }) {
   }
 }
 
+export async function loginGoogle({ code, redirectUrl }) {
+  console.log("Received code, trying to use it now...");
+  console.log(code);
+  console.log(redirectUrl);
+  try {
+    const data = await axios.get("auth/google/callback", {
+      params: {
+        code,
+        redirectUrl
+      }
+    });
+    console.log(data);
+
+    return data;
+  } catch (err) {
+    console.log("ERROR");
+    console.log(`Error: ${JSON.stringify(err)}`);
+  }
+}
+
 export async function updatePassword({ id, password }) {
   const userInfo = { id, password };
   try {

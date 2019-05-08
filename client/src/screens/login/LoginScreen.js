@@ -14,11 +14,13 @@ import {
   View,
   Alert
 } from "react-native";
+import { Linking, WebBrowser, AuthSession, SecureStore, Constants } from "expo";
 import { Icon } from "react-native-elements";
-import { login } from "../../controllers/UserController";
+import { login, loginGoogle } from "../../controllers/UserController";
 import GlobalStyles from "../../components/GlobalStyles";
 import { UserConsumer } from "../../context/User";
-import { SecureStore } from "expo";
+
+const { baseURL, GOOGLE_CLIENT_ID, GOOGLE_SCOPE } = Constants.manifest.extra;
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -75,6 +77,44 @@ export default class LoginScreen extends React.Component {
     }
     this.setState({ isLoading: false });
     authValidate && this.props.navigation.navigate("Main");
+  };
+
+  _handleRedirect = event => {
+    console.log("redirect!");
+    WebBrowser.dismissBrowser();
+    let data = Linking.parse(event.url);
+    console.log(data);
+  };
+
+  _loginGoogle = async () => {
+    let authValidate = false;
+    this.setState({ isLoading: true });
+    try {
+      console.log("Trying...");
+      const redirectUrl = Linking.makeUrl();
+      console.log(redirectUrl);
+      Linking.addEventListener("url", this._handleRedirect);
+      const res = await WebBrowser.openBrowserAsync(
+        `http://10.0.2.2.nip.io:3000/auth/google?redirect_uri=${redirectUrl}`
+      );
+      Linking.removeEventListener("url", this._handleRedirect);
+      console.log(res);
+      //authUrl: `http://10.0.2.2:3000/auth/google?redirect_uri=${redirectUrl}`,
+      //returnUrl: redirectUrl
+      /*authUrl: `https://accounts.google.com/o/oauth2/v2/auth?` +
+          `&client_id=${GOOGLE_CLIENT_ID}` +
+          `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
+          `&response_type=code` +
+          `&access_type=offline` +
+          `&prompt=consent` +
+          `&scope=${encodeURIComponent(GOOGLE_SCOPE)}`*/
+      console.log(JSON.stringify(res));
+
+      console.log("Now trying to login with the received data...");
+    } catch (e) {
+      console.log("ERROR");
+      console.log(JSON.stringify(e));
+    }
   };
 
   render() {
@@ -187,7 +227,10 @@ export default class LoginScreen extends React.Component {
                               />
                             </View>
                           </TouchableOpacity>
-                          <TouchableOpacity style={styles.google}>
+                          <TouchableOpacity
+                            style={styles.google}
+                            onPress={this._loginGoogle}
+                          >
                             <View style={styles.otherButtonText}>
                               <Icon
                                 name="google"

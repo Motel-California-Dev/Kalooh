@@ -13,8 +13,14 @@ router.route('/login')
       passport.authenticate('local', { session: false })(req, res, next), 
     AuthController.returnToken);
 
+let redirect;
 router.route('/google')
-  .get(passport.authenticate('google', {
+  .get((req, res, next) => {
+    console.log(req.query);
+    redirect = req.query.redirect_uri;
+    console.log(redirect);
+    next();
+  }, passport.authenticate('google', {
     scope: [
       'email',
       'profile'
@@ -23,10 +29,21 @@ router.route('/google')
   }));
 
 router.route('/google/callback')
-  .get(passport.authenticate('google', {
-    failureRedirect: '/',
-    session: false
-  }), UserController.upsert);
+  .get((req, res, next) => {
+    console.log('does it still exist');
+    console.log(redirect);
+    next();
+  },passport.authenticate('google', {
+    successRedirect: '/auth/google/redirect',
+      failureRedirect: '/',
+      session: false
+    }));
+
+router.route('/google/redirect')
+  .get((req, res, next) => {
+    console.log('yeetredirect');
+    return res.redirect(redirect);
+  });
 
 router.route('/facebook')
   .get(passport.authenticate('facebook', { 
