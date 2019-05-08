@@ -69,8 +69,18 @@ class HomeScreen extends React.Component {
 
   _handleCreateNotePress = () => {
     this.props.navigation.navigate("CreateNoteScreen", {
-      mapRegion: this.state.mapRegion
+      mapRegion: this.state.mapRegion,
+      _createNoteGoBack: this._createNoteGoBack,
     });
+  };
+
+  _createNoteGoBack = async () => {
+    let notes = await getNotes({
+      lati: this.state.mapRegion.latitude,
+      long: this.state.mapRegion.longitude
+    });
+    this.setState({ posts: notes });
+    this.props.navigation.navigate('HomeScreen');
   };
 
   _handleDisplayNote = async key => {
@@ -95,8 +105,10 @@ class HomeScreen extends React.Component {
             region={this.state.mapRegion}
             onRegionChangeComplete={this._handleMapRegionChangeComplete}
             showsUserLocation={true}
+            showsMyLocationButton={false}
+            toolbarEnabled={false}
           >
-            {this.state.posts.map(post => (
+            {this.state.posts && this.state.posts.map(post => (
               <MapView.Marker
                 key={post.id}
                 coordinate={{
@@ -105,7 +117,7 @@ class HomeScreen extends React.Component {
                 }}
                 title={post.title}
                 description={post.message}
-                onPress={() => this._handleDisplayNote(post.id)}
+                onCalloutPress={() => this._handleDisplayNote(post.id)}
               />
             ))}
           </MapView>

@@ -13,7 +13,7 @@ export async function getNotes({lati, long}){
         return res.data;
       })
       .catch(err => {
-        console.log(`${JSON.stringify(err)}`);
+        console.log(`Error retrieving notes:\n${JSON.stringify(err)}`);
       });
 }
 
@@ -34,7 +34,7 @@ export async function postNote(post){
       console.log(JSON.stringify(res));
     })
     .catch(err => {
-      console.log(JSON.stringify(err));
+      console.log(`Error posting note:\n${JSON.stringify(err)}`);
     }
   );
 }
