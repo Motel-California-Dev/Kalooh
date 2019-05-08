@@ -117,12 +117,14 @@ export default class SearchScreen extends React.Component {
   };
 
   _renderItem = ({ item }) => (
-    <PostCard post={item} onPressItem={this._onPressItem} />
+    <PostCard post={item} onPressItem={() => this._onPressItem(item)} />
   );
 
-  _onPressItem = () => {
+  _onPressItem = (note) => {
     //Navigate to View Note & pass in note props
-    Alert.alert("Navigate to View Note Screen & pass in note props");
+    this.props.navigation.navigate('ViewNoteScreen', {
+      note
+    });
   };
 
   _onRefresh = () => {
