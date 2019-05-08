@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, TouchableHighlight, Modal, FlatList } from "react-native";
 import { Constants, MapView, Location, Permissions, SecureStore } from "expo";
 import { Ionicons } from "@expo/vector-icons";
-import { getNotes, getNote } from "../../controllers/PostController";
+import { getNotes, getNote, getComments } from "../../controllers/PostController";
 import axios from "../../../config/axios";
 
 export default class HomeScreen extends React.Component {
@@ -14,7 +14,6 @@ export default class HomeScreen extends React.Component {
       location: null,
       locationResult: null,
       posts: [],
-      currentNote: null,
     };
   }
 
@@ -67,8 +66,9 @@ export default class HomeScreen extends React.Component {
 
   _handleDisplayNote = async key => {
     let note = await getNote(key);
-    this.setState({ currentNote: note });
-    console.log(note);
+    this.props.navigation.navigate('ViewNoteScreen', {
+      note
+    });
   };
 
   render() {
@@ -117,51 +117,9 @@ export default class HomeScreen extends React.Component {
             style={styles.locationButton}
             onPress={this._getLocationAsync}
           >
-            <Ionicons name="ios-locate" size={32} color="#629FE7" />
+            <Ionicons name="ios-navigate" size={32} color="#629FE7" />
           </TouchableHighlight>
         </View>
-
-        {
-          this.state.currentNote && 
-          <Modal
-          animationType='slide'
-          transparent={true}
-          onRequestClose={() => {
-              console.log('modal closed');
-          }}
-        >
-          <View style={styles.viewNoteModal}>
-            <View style={{marginTop: 10, marginLeft: 15}}>
-              <TouchableHighlight
-                onPress={() => {
-                  this.setState({ currentNote: null })
-                }}
-                >
-                <Ionicons name="ios-arrow-down" size={32} color="#ffffff" />
-              </TouchableHighlight>
-            </View>
-            <View style={styles.noteDataContainer}>
-              <View style={styles.noteDataTextContainer}>
-                <Text style={styles.noteDataTitle}>Title: {this.state.currentNote.title}</Text>
-              </View>
-
-              <View style={styles.viewNoteDivider}/>
-
-              <View style={styles.noteDataTextContainer}>
-                <Text>{this.state.currentNote.message}</Text>
-              </View>
-
-              <View style={styles.viewNoteDivider}/>
-
-              <Text>Likes: Implement</Text>
-              <FlatList
-                data={[{key: 'hello1'}, {key: 'hello2'}]}
-                renderItem={( {item} ) => (<Text>{item.key}</Text>)}
-              />
-            </View>
-          </View>
-        </Modal>
-        }
       </View>
     );
   }
@@ -205,28 +163,4 @@ const styles = StyleSheet.create({
     width: 64,
     borderRadius: 100
   },
-  viewNoteModal: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  noteDataContainer: {
-    marginTop: '10%',
-    flex: 1,
-    backgroundColor: "#ffffff",
-    borderRadius: 10,
-  },
-  noteDataTitle: {
-    fontSize: 18,
-    fontWeight: '500', 
-  },
-  noteDataTextContainer: {
-    marginTop: 10,
-    marginLeft: 15,
-    marginRight: 15,
-    marginBottom: 10,
-  }, 
-  viewNoteDivider: {
-    borderBottomColor: 'rgba(210, 210, 210, 1.0)',
-    borderBottomWidth: 1,
-  }
 });
