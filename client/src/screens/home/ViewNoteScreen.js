@@ -41,6 +41,8 @@ export default class ViewNoteScreen extends React.Component {
 				<View style={styles.backButtonContainer}>
 					<TouchableHighlight
 						onPress={this._goBack}
+						underlayColor='transparent'
+
 					>
 						<Text style={styles.backButton}><Ionicons name="ios-arrow-back" size={18} color="#000000"/> Go Back
 						</Text>
