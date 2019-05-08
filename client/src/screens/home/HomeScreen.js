@@ -97,6 +97,7 @@ export default class HomeScreen extends React.Component {
             onRegionChangeComplete={this._handleMapRegionChangeComplete}
             showsUserLocation={true}
             showsMyLocationButton={false}
+            toolbarEnabled={false}
           >
             {this.state.posts && this.state.posts.map(post => (
               <MapView.Marker

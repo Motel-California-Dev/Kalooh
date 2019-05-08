@@ -56,7 +56,9 @@ export default class ViewNoteScreen extends React.Component {
 					{
 						this.state.comments &&
 						<View style={styles.icons}>
-							<Ionicons name="ios-heart-empty" size={35} color="#000000"/>
+							<Text style={styles.commentNumber}>
+								<Ionicons name="ios-heart-empty" size={35} color="#000000"/> {this.state.note.likes}
+							</Text>
 							<Text style={styles.commentNumber}>
 								<Ionicons name="ios-chatbubbles" size={35} color="#000000"/> {this.state.comments.length}
 							</Text>
@@ -98,7 +100,7 @@ export default class ViewNoteScreen extends React.Component {
 const styles = StyleSheet.create({
 	title: {
 		fontSize: 28,
-		fontWeight: '400',
+		fontWeight: '500',
 		marginBottom: 2,
 	},
 	description: {
@@ -114,7 +116,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		margin: 2,
 		marginLeft: 8,
-		marginRight: 40,
+		marginRight: 50,
 	},
 	comment: {
 		fontSize: 22,
@@ -148,21 +150,28 @@ const styles = StyleSheet.create({
 	},
 	addComment: {
 		flexDirection: 'row',
+		backgroundColor: '#d2dff4',
+		padding: 10,
 	},
 	commentPrompt: {
-		borderColor: '#91afe0',
-		borderWidth: 8,
 		paddingLeft: 10,
+		paddingTop: 5,
+		paddingBottom: 5,
 		flex: 1,
+		fontSize: 22,
+		backgroundColor: '#ffffff',
+		marginRight: 7,
 	},
 	commentButton: {
 		backgroundColor: '#629FE7',
 		paddingLeft: 10,
 		paddingRight: 10,
 		justifyContent: 'center',
+		borderRadius: 5,
 	},
 	commentButtonText: {
 		color: 'white',
 		fontWeight: '300',
+		fontSize: 22,
 	}
 });
