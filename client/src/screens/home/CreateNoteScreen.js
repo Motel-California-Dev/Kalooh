@@ -21,10 +21,10 @@ export default class CreateNoteScreen extends React.Component {
   }
 
   _backButton = () => {
-    this.props.navigation.navigate("HomeScreen");
+    this.props.navigation.goBack();
   };
 
-  _postOnPress = () => {
+  _postOnPress = async () => {
     let post = {
       title: this.state.titleText,
       userId: 1,
@@ -34,8 +34,8 @@ export default class CreateNoteScreen extends React.Component {
       lati: this.state.mapRegion.latitude
     };
     if (this.state.titleText.length > 0) {
-      postNote(post);
-      this.props.navigation.navigate("HomeScreen");
+      await postNote(post);
+      this.props.navigation.state.params._createNoteGoBack();
     }
   };
 

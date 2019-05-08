@@ -22,7 +22,7 @@ export default class ViewNoteScreen extends React.Component {
 	};
 
 	_addComment = async (comment) => {
-		await addComment(this.state.note.id, 5, comment);
+		await addComment(this.state.note.id, 1, comment);
 		this.setState( {comment: '', comments: await getComments(this.state.note.id)});
 	};
 

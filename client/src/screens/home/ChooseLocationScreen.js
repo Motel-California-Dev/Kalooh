@@ -108,7 +108,7 @@ export default class HomeScreen extends React.Component {
               style={styles.locationButton}
               onPress={this._getLocationAsync}
             >
-              <Ionicons name="ios-locate" size={32} color="#629FE7" />
+              <Ionicons name="ios-navigate" size={32} color="#629FE7" />
             </TouchableOpacity>
           </View>
         </View>
