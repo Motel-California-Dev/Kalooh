@@ -5,7 +5,8 @@ if [[ -z $1 ]]; then
   DATA='{"userName":"test1","password":"testpw"}'
 elif [[ $1 == "token" ]]; then
   URL=localhost:3000 
-  DATA="'{"token": '"$2"'}'"
+  TOKEN=$(curl $URL/auth/login -H "Content-Type: application/json" -d '{"userName": "test1", "password": "testpw"}' | jq -r ".token" | xargs echo -n)
+  DATA="'{"token": '"$TOKEN"'}'"
 else
   URL=localhost:3000
 fi

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+create() {
+  echo "Create"
+  curl -X POST localhost:3000/posts -H "Content-Type: application/json" -d '{"userId": 1, "title": "command line post", "message": "'$1'", "lati": 33.8878, "long": -118.7411}'
+}
+
+list() {
+  echo "List"
+  curl "localhost:3000/posts?lati=38.000&long=-118.000&radius=200000"
+}
+
+get() {
+  echo "Get"
+  curl localhost:3000/posts/$1
+}
+
+delete() {
+  echo "Delete"
+  curl -X DELETE localhost:3000/posts/$1
+}
+
+case $1 in
+  create)
+    shift;
+    create $@
+    ;;
+  list)
+    list
+    ;;
+  get)
+    shift;
+    get $@
+    ;;
+  delete)
+    shift;
+    delete $@
+    ;;
+esac
+

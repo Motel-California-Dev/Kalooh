@@ -11,7 +11,10 @@ build-ecr() {
 }
 
 redeploy() {
-  aws ecs --profile kalooh update-service --cluster kalooh-cluster --service kalooh-server-service --force-new-deployment
+  aws ecs --profile kalooh update-service --cluster kalooh-cluster --service kalooh-server-service --desired-count 0
+  sleep 30
+  
+  aws ecs --profile kalooh update-service --cluster kalooh-cluster --service kalooh-server-service --desired-count 1
 }
 
 connect() {

@@ -4,12 +4,12 @@ const CommentController = require('../controllers/comments.js');
 
 router.route('/')
   .get(CommentController.list)
-  .post(CommentController.create)
-  .patch(CommentController.update)
-  .delete(CommentController.delete);
+  .post(CommentController.create);
 
 router.route('/:id')
-  .get(CommentController.find);
+  .get(CommentController.find)
+  .patch(CommentController.update)
+  .delete(CommentController.delete);
 
 module.exports = router;
 

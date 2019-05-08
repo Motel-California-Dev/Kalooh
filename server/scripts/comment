@@ -1,0 +1,30 @@
+#!/bin/bash
+
+create() {
+  curl -X POST localhost:3000/posts/$1/comments -H "Content-Type: application/json" -d '{"userId": 1, "text": "$2"}'
+}
+
+get() {
+  curl localhost:3000/posts/$1/comments
+}
+
+update() {
+  echo "Update"
+  curl -X PATCH localhost:3000/posts/$1/comments/$2 -H "Content-Type: application/json" -d '{"userId": 1, "text": "howdy"}'
+}
+
+case $1 in
+  create)
+    shift;
+    create $@
+    ;;
+  get)
+    shift;
+    get $@
+    ;;
+  update)
+    shift;
+    update $@
+    ;;
+esac
+

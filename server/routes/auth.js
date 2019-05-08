@@ -9,7 +9,7 @@ router.route('/')
 router.route('/login')
   .post((req, res, next) => 
     req.body.token ?
-      passport.authenticate('jwt', { sesssion: false })(req, res, next) :
+      passport.authenticate('jwt', { session: false })(req, res, next) :
       passport.authenticate('local', { session: false })(req, res, next), 
     AuthController.returnToken);
 
