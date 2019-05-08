@@ -18,10 +18,15 @@ exports.create = (req, res) => {
 
 exports.list = (req, res) => {
   console.log("Get!");
-  const { lati, long } = req.query;
-  const query = "SELECT * FROM ( SELECT *, ( 6371 * ACOS( COS( RADIANS( $1 ) ) * COS( RADIANS( lati ) ) * COS( RADIANS( long ) - RADIANS( $2 ) ) + SIN( RADIANS( $1) ) * SIN( RADIANS( lati ) ) ) ) AS distance FROM post) AS dt WHERE distance < 25.0;";
+  const { lati, long, radius } = req.query;
 
-  const params = [ lati, long ]
+  if (!radius) {
+    radius = 25;
+  }
+
+  const query = "SELECT * FROM ( SELECT *, ( 6371 * ACOS( COS( RADIANS( $1 ) ) * COS( RADIANS( lati ) ) * COS( RADIANS( long ) - RADIANS( $2 ) ) + SIN( RADIANS( $1) ) * SIN( RADIANS( lati ) ) ) ) AS distance FROM post) AS dt WHERE distance < $3;";
+
+  const params = [ lati, long, radius ]
   db.query(query, params)
     .then(data => {
       console.log(data);
@@ -50,7 +55,8 @@ exports.find = (req, res) => {
 
 exports.update = (req, res) => {
   console.log("Update!");
-  const { message, id } = req.body;
+  const { message } = req.body;
+  const { id } = req.params;
   const query = "UPDATE post SET message = $1 WHERE id = $2;";
   const params = [ message, id ]; 
   db.query(query, params)
@@ -65,9 +71,9 @@ exports.update = (req, res) => {
 };
 exports.delete = (req, res) => {
   console.log("Delete!");
-  const { title, ID } = req.body;
-  const query = "DELETE FROM post WHERE title = $1 AND id = $2;";
-  const params = [ title, ID ]; 
+  const id = req.params.id;
+  const query = 'DELETE FROM post WHERE id = $1';
+  const params = [ id ];
   db.query(query, params)
     .then(data => {
       console.log(data);

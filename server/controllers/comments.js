@@ -1,8 +1,14 @@
+const config = require('../config');
+const pgp = require('pg-promise')(config.db.pgpOptions);
+const snakeCase = require('snake-case');
+
 const db = require('../db');
+const Utils = require('../util');
 
 exports.create = (req, res) => {
   console.log("Post!");
-  const { postId, userId, text } = req.body;
+  const { userId, text } = req.body;
+  const { postId } = req.params;
   const query = "INSERT INTO comment (post_id, user_id, created_at, text, likes) VALUES ($1, $2, CURRENT_TIMESTAMP, $3, 0);";
   const params = [postId, userId, text]; 
   db.query(query, params)
@@ -49,9 +55,13 @@ exports.find = (req, res) => {
 
 exports.update = (req, res) => {
   console.log("Update!");
-  const { text, postid, username } = req.body;
-  const query = "UPDATE comment SET text = $1 WHERE post_id = $2 AND user_id = $3;";
-  const params = [ text, postid, userid ]; 
+  const { id } = req.params;
+
+  const snakeCasedObject = Utils.db.snakifyColumns(req.body);
+  const cs = new pgp.helpers.ColumnSet(Object.keys(snakeCasedObject), { table: 'comments' });
+  const query = pgp.helpers.update(snakeCasedObject, cs) + ' WHERE id = $1';
+
+  const params = [ id ];
   db.query(query, params)
     .then(data => {
       console.log(data);

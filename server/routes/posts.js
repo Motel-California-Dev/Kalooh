@@ -5,11 +5,11 @@ const PostController = require('../controllers/posts.js');
 router.route('/')
   .get(PostController.list)
   .post(PostController.create)
-  .patch(PostController.update)
-  .delete(PostController.delete);
 
 router.route('/:id')
-  .get(PostController.find);
+  .get(PostController.find)
+  .patch(PostController.update)
+  .delete(PostController.delete);
 
 module.exports = router;
 
