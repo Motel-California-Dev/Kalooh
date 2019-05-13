@@ -8,12 +8,11 @@ export async function signUp({
   password
 }) {
   const credentials = {
-    userName: username,
+    username,
     firstName,
     lastName,
     email,
-    password,
-    token
+    password
   };
   try {
     const { data } = await axios.post("/users", credentials);

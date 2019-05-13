@@ -14,32 +14,44 @@ import {
 } from "react-native";
 import GlobalStyles from "../../components/GlobalStyles";
 
+import { signUp } from '../../controllers/UserController';
+
 export default class SignUpScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: "",
-      nameFirst: "",
-      nameLast: "",
+      firstName: "",
+      lastName: "",
       email: "",
-      password1: "",
-      password2: "",
+      password: "",
+      passwordConfirm: "",
       confirmPassword: false
     };
   }
-  _signUpOnClick = () => {
+  _signUpOnClick = async () => {
     if (
       this.state.username == "" ||
-      this.state.nameFirst == "" ||
-      this.state.nameLast == "" ||
+      this.state.firstName == "" ||
+      this.state.lastName == "" ||
       this.state.email == "" ||
-      this.state.password1 == ""
+      this.state.password == ""
     ) {
       Alert.alert("Create account failed. Missing fields.");
-    } else if (this.state.password1 != this.state.password2) {
+    } else if (this.state.password !== this.state.passwordConfirm) {
       Alert.alert("Your password did not match. Try again.");
     } else {
-      Alert.alert("Nice! An email confirmation has been sent.");
+      const { username, firstName, lastName, email, password } = this.state;
+      console.log(this.state);
+      try {
+        const user = { username, firstName, lastName, email, password };
+        console.log(user);
+        await signUp(user);
+        Alert.alert('Account successfully created');
+      } catch (err) {
+        Alert.alert('Account creation failed due to server error');
+        console.log(JSON.stringify(err));
+      }
     }
   };
   render() {
@@ -61,12 +73,13 @@ export default class SignUpScreen extends React.Component {
                     placeholder="username"
                     placeholderTextColor="rgba(255,255,255,0.7)"
                     returnKeyType="next"
-                    onSubmitEditing={() => this.nameFirstInput.focus()}
+                    onSubmitEditing={() => this.firstNameInput.focus()}
                     keyboardType="default"
                     autoCapitalize="none"
                     autoCorrect={false}
                     style={styles.input}
                     onChangeText={username => this.setState({ username })}
+                    blurOnSubmit={false}
                   />
                   <View style={{ flexDirection: "row" }}>
                     <View style={{ flex: 1 }}>
@@ -74,13 +87,13 @@ export default class SignUpScreen extends React.Component {
                         placeholder="first name"
                         placeholderTextColor="rgba(255,255,255,0.7)"
                         returnKeyType="next"
-                        ref={input => (this.nameFirstInput = input)}
-                        onSubmitEditing={() => this.nameLastInput.focus()}
+                        ref={input => (this.firstNameInput = input)}
+                        onSubmitEditing={() => this.lastNameInput.focus()}
                         keyboardType="default"
                         autoCapitalize="none"
                         autoCorrect={false}
                         style={[styles.input, { marginRight: 5 }]}
-                        onChangeText={nameFirst => this.setState({ nameFirst })}
+                        onChangeText={firstName => this.setState({ firstName })}
                       />
                     </View>
                     <View style={{ flex: 1 }}>
@@ -88,13 +101,13 @@ export default class SignUpScreen extends React.Component {
                         placeholder="last name"
                         placeholderTextColor="rgba(255,255,255,0.7)"
                         returnKeyType="next"
-                        ref={input => (this.nameLastInput = input)}
+                        ref={input => (this.lastNameInput = input)}
                         onSubmitEditing={() => this.emailInput.focus()}
                         keyboardType="default"
                         autoCapitalize="none"
                         autoCorrect={false}
                         style={[styles.input, { marginLeft: 5 }]}
-                        onChangeText={nameLast => this.setState({ nameLast })}
+                        onChangeText={lastName => this.setState({ lastName })}
                       />
                     </View>
                   </View>
@@ -119,7 +132,7 @@ export default class SignUpScreen extends React.Component {
                     onSubmitEditing={() => this.passwordInput2.focus()}
                     secureTextEntry
                     style={styles.input}
-                    onChangeText={password1 => this.setState({ password1 })}
+                    onChangeText={password => this.setState({ password })}
                   />
                   <TextInput
                     placeholder="confirm password"
@@ -128,7 +141,7 @@ export default class SignUpScreen extends React.Component {
                     secureTextEntry
                     style={styles.input}
                     ref={input => (this.passwordInput2 = input)}
-                    onChangeText={password2 => this.setState({ password2 })}
+                    onChangeText={passwordConfirm => this.setState({ passwordConfirm })}
                   />
                   <TouchableOpacity
                     style={styles.signUpButton}
